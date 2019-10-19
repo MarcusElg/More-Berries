@@ -1,0 +1,18 @@
+{
+    "type": "crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "moreberries:yellow_berries"
+        },
+        {
+            "item": "moreberries:juicer"
+        },
+        {
+            "item": "minecraft:glass_bottle"
+        }
+    ],
+    "result": {
+        "item": "moreberries:yellow_berry_juice",
+        "count": 1
+    }
+}

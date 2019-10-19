@@ -1,0 +1,11 @@
+{
+    "variants": {
+        "bites=0": { "model": "moreberries:block/orange_berry_cake_slice_0" },
+        "bites=1": { "model": "moreberries:block/orange_berry_cake_slice_1" },
+        "bites=2": { "model": "moreberries:block/orange_berry_cake_slice_2" },
+        "bites=3": { "model": "moreberries:block/orange_berry_cake_slice_3" },
+        "bites=4": { "model": "moreberries:block/orange_berry_cake_slice_4" },
+        "bites=5": { "model": "moreberries:block/orange_berry_cake_slice_5" },
+        "bites=6": { "model": "moreberries:block/orange_berry_cake_slice_6" }
+    }
+}

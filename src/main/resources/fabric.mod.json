@@ -1,0 +1,25 @@
+{
+	"schemaVersion": 1,
+	"id": "moreberries",
+	"version": "1.2.3",
+	"name": "More Berries",
+	"description": "Adds more berries, that can be used for cakes and more!",
+	"authors":[
+		"MCrafterzz"
+	],
+	"entrypoints": {
+		"main": [
+			"moreberries.MoreBerries"
+		],
+		"client": [
+			"moreberries.MoreBerriesClient"
+		]
+	},
+	"mixins": [
+		"mixins.moreberries.common.json"
+	],
+	"depends": {
+    	"fabricloader": ">=0.4.0",
+    	"fabric": "*"
+  }
+}

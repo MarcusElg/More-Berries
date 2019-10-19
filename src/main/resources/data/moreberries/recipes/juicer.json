@@ -1,0 +1,19 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "#",
+        "_"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:stone_button"
+        },
+        "_": {
+            "item": "minecraft:stone_slab"
+        }
+    },
+    "result": {
+        "item": "moreberries:juicer",
+        "count": 1
+    }
+}
