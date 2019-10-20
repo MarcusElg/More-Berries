@@ -2,13 +2,11 @@ package moreberries;
 
 import java.util.ArrayList;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.SweetBerryBushBlock;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.FoodComponents;
@@ -86,13 +84,6 @@ public class MoreBerries implements ModInitializer {
 		registerGeneration(Biomes.BIRCH_FOREST_HILLS, yellowBerryBush, "yellow2");
 		registerGeneration(Biomes.TALL_BIRCH_FOREST, yellowBerryBush, "yellow3");
 		registerGeneration(Biomes.TALL_BIRCH_HILLS, yellowBerryBush, "yellow4");
-		
-		BlockRenderLayerMap.INSTANCE.putBlock(MoreBerries.blueBerryBush, RenderLayer.getCutout());
-		BlockRenderLayerMap.INSTANCE.putBlock(MoreBerries.blackBerryBush, RenderLayer.getCutoutMipped());
-		BlockRenderLayerMap.INSTANCE.putBlock(MoreBerries.greenBerryBush, RenderLayer.getTranslucentNoCrumbling());
-		BlockRenderLayerMap.INSTANCE.putBlock(MoreBerries.yellowBerryBush, RenderLayer.getTranslucent());
-		BlockRenderLayerMap.INSTANCE.putBlock(MoreBerries.orangeBerryBush, RenderLayer.getSolid());
-		BlockRenderLayerMap.INSTANCE.putBlock(MoreBerries.purpleBerryBush, RenderLayer.getTranslucent());
 	}
 
 	private Block registerBlock(String name) {
