@@ -19,8 +19,8 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.gen.GenerationStep;
+import net.minecraft.world.gen.decorator.ChanceDecoratorConfig;
 import net.minecraft.world.gen.decorator.Decorator;
-import net.minecraft.world.gen.decorator.LakeDecoratorConfig;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.FeatureConfig;
@@ -89,8 +89,9 @@ public class MoreBerries implements ModInitializer {
 	private Block registerBlock(String name) {
 		Item berryItem = new Item(new Item.Settings()
 				.food(new FoodComponent.Builder().hunger(2).saturationModifier(0.1f).build()).group(itemGroup));
-		Item juiceItem = new ItemJuice(new Item.Settings()
-				.food(new FoodComponent.Builder().hunger(3).saturationModifier(0.2F).build()).group(itemGroup));
+		Item juiceItem = null;
+		juiceItem = new ItemJuice(new Item.Settings()
+				.food(new FoodComponent.Builder().hunger(3).saturationModifier(0.2F).build()).recipeRemainder(juiceItem).group(itemGroup));
 		Item pieItem = new Item(new Item.Settings().food(FoodComponents.PUMPKIN_PIE).group(itemGroup));
 
 		Block bush = new BlockBerryBush(berryItem);
@@ -116,10 +117,10 @@ public class MoreBerries implements ModInitializer {
 	}
 
 	private void registerGeneration(Biome biome, Block block, String name) {
-		Feature<DefaultFeatureConfig> feature = new BerryFeature(DefaultFeatureConfig::deserialize,
+		Feature<DefaultFeatureConfig> feature = new BerryFeature(DefaultFeatureConfig.CODEC,
 				(BlockState) block.getDefaultState().with(SweetBerryBushBlock.AGE, 3));
 		Registry.register(Registry.FEATURE, new Identifier("moreberries", name + "_berry_generation"), feature);
-		biome.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, feature.method_23397(FeatureConfig.DEFAULT)
-				.method_23388(Decorator.CHANCE_HEIGHTMAP_DOUBLE.method_23475(new LakeDecoratorConfig(1))));
+		biome.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, feature.configure(FeatureConfig.DEFAULT)
+				.createDecoratedFeature(Decorator.CHANCE_HEIGHTMAP_DOUBLE.configure(new ChanceDecoratorConfig(1))));
 	}
 }

@@ -3,12 +3,7 @@ package moreberries;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.block.FabricBlockSettings;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.Material;
-import net.minecraft.block.SweetBerryBushBlock;
-import net.minecraft.entity.EntityContext;
+import net.minecraft.block.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -59,7 +54,7 @@ public class BlockBerryBush extends SweetBerryBushBlock {
 	}
 
 	public VoxelShape getOutlineShape(BlockState blockState_1, BlockView blockView_1, BlockPos blockPos_1,
-			EntityContext entityContext_1) {
+			ShapeContext entityContext_1) {
 		if ((Integer) blockState_1.get(AGE) == 0) {
 			return SMALL_SHAPE;
 		} else {

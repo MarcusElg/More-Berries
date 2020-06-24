@@ -1,6 +1,6 @@
 package moreberries;
 
-import net.minecraft.advancement.criterion.Criterions;
+import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -28,7 +28,7 @@ public class ItemJuice extends Item {
 			player.incrementStat(Stats.USED.getOrCreateStat(itemStack_1.getItem()));
 			
 			if (player instanceof ServerPlayerEntity) {
-				Criterions.CONSUME_ITEM.handle((ServerPlayerEntity) player, itemStack_1);
+				Criteria.CONSUME_ITEM.trigger((ServerPlayerEntity) player, itemStack_1);
 			}
 			
 			player.giveItemStack(new ItemStack(Items.GLASS_BOTTLE));
