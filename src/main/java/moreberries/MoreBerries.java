@@ -1,6 +1,11 @@
 package moreberries;
 
 import java.util.ArrayList;
+
+import com.google.common.collect.ImmutableSet;
+import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
+import me.sargunvohra.mcmods.autoconfig1u.serializer.JanksonConfigSerializer;
+import moreberries.config.MoreBerriesConfig;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.block.Block;
@@ -24,6 +29,9 @@ import net.minecraft.world.gen.decorator.Decorator;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.FeatureConfig;
+import net.minecraft.world.gen.feature.RandomPatchFeatureConfig;
+import net.minecraft.world.gen.placer.SimpleBlockPlacer;
+import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
 
 public class MoreBerries implements ModInitializer {
 
@@ -40,6 +48,8 @@ public class MoreBerries implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		AutoConfig.register(MoreBerriesConfig.class, JanksonConfigSerializer::new);
+
 		itemGroup = FabricItemGroupBuilder.create(new Identifier("moreberries", "berries")).appendItems(stacks -> {
 			stacks.add(new ItemStack(Items.SWEET_BERRIES));
 
@@ -47,6 +57,8 @@ public class MoreBerries implements ModInitializer {
 				stacks.add(itemStacks.get(i));
 			}
 		}).icon(() -> new ItemStack(blueBerryBush)).build();
+
+		MoreBerriesConfig config = AutoConfig.getConfigHolder(MoreBerriesConfig.class).getConfig();
 
 		blueBerryBush = registerBlock("blue");
 		yellowBerryBush = registerBlock("yellow");
@@ -69,21 +81,42 @@ public class MoreBerries implements ModInitializer {
 		Registry.register(Registry.ITEM, new Identifier("moreberries", "sweet_berry_pie"), item);
 		itemStacks.add(new ItemStack(item));
 
-		registerGeneration(Biomes.FOREST, blueBerryBush, "blue");
-		registerGeneration(Biomes.JUNGLE, greenBerryBush, "green");
-		registerGeneration(Biomes.JUNGLE_EDGE, greenBerryBush, "green2");
-		registerGeneration(Biomes.JUNGLE_HILLS, greenBerryBush, "green3");
-		registerGeneration(Biomes.MODIFIED_JUNGLE, greenBerryBush, "green4");
-		registerGeneration(Biomes.MODIFIED_JUNGLE_EDGE, greenBerryBush, "green5");
-		registerGeneration(Biomes.SWAMP, purpleBerryBush, "purple");
-		registerGeneration(Biomes.SWAMP_HILLS, purpleBerryBush, "purple2");
-		registerGeneration(Biomes.PLAINS, blackBerryBush, "black");
-		registerGeneration(Biomes.WOODED_BADLANDS_PLATEAU, orangeBerryBush, "orange");
-		registerGeneration(Biomes.MODIFIED_WOODED_BADLANDS_PLATEAU, orangeBerryBush, "orange2");
-		registerGeneration(Biomes.BIRCH_FOREST, yellowBerryBush, "yellow");
-		registerGeneration(Biomes.BIRCH_FOREST_HILLS, yellowBerryBush, "yellow2");
-		registerGeneration(Biomes.TALL_BIRCH_FOREST, yellowBerryBush, "yellow3");
-		registerGeneration(Biomes.TALL_BIRCH_HILLS, yellowBerryBush, "yellow4");
+		// Generation
+		String[] biomes = config.blackBerrySpawnBiomes.split(",");
+		for(int i = 0; i < biomes.length; i++) {
+			String[] biome = biomes[i].split(":");
+			registerGeneration(Registry.BIOME.get(new Identifier(biome[0], biome[1])), blackBerryBush, config.blackBerrySpawnChance);
+		}
+
+		biomes = config.blueBerrySpawnBiomes.split(",");
+		for(int i = 0; i < biomes.length; i++) {
+			String[] biome = biomes[i].split(":");
+			registerGeneration(Registry.BIOME.get(new Identifier(biome[0], biome[1])), blueBerryBush, config.blueBerrySpawnChance);
+		}
+
+		biomes = config.greenBerrySpawnBiomes.split(",");
+		for(int i = 0; i < biomes.length; i++) {
+			String[] biome = biomes[i].split(":");
+			registerGeneration(Registry.BIOME.get(new Identifier(biome[0], biome[1])), greenBerryBush, config.greenBerrySpawnChance);
+		}
+
+		biomes = config.orangeBerrySpawnBiomes.split(",");
+		for(int i = 0; i < biomes.length; i++) {
+			String[] biome = biomes[i].split(":");
+			registerGeneration(Registry.BIOME.get(new Identifier(biome[0], biome[1])), orangeBerryBush, config.orangeBerrySpawnChance);
+		}
+
+		biomes = config.purpleBerrySpawnBiomes.split(",");
+		for(int i = 0; i < biomes.length; i++) {
+			String[] biome = biomes[i].split(":");
+			registerGeneration(Registry.BIOME.get(new Identifier(biome[0], biome[1])), purpleBerryBush, config.purpleBerrySpawnChance);
+		}
+
+		biomes = config.yellowBerrySpawnBiomes.split(",");
+		for(int i = 0; i < biomes.length; i++) {
+			String[] biome = biomes[i].split(":");
+			registerGeneration(Registry.BIOME.get(new Identifier(biome[0], biome[1])), yellowBerryBush, config.yellowBerrySpawnChance);
+		}
 	}
 
 	private Block registerBlock(String name) {
@@ -116,11 +149,10 @@ public class MoreBerries implements ModInitializer {
 		return bush;
 	}
 
-	private void registerGeneration(Biome biome, Block block, String name) {
-		Feature<DefaultFeatureConfig> feature = new BerryFeature(DefaultFeatureConfig.CODEC,
-				(BlockState) block.getDefaultState().with(SweetBerryBushBlock.AGE, 3));
-		Registry.register(Registry.FEATURE, new Identifier("moreberries", name + "_berry_generation"), feature);
-		biome.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, feature.configure(FeatureConfig.DEFAULT)
-				.createDecoratedFeature(Decorator.CHANCE_HEIGHTMAP_DOUBLE.configure(new ChanceDecoratorConfig(1))));
+	private void registerGeneration(Biome biome, Block block, int chance) {
+		BlockState blockState = block.getDefaultState().with(SweetBerryBushBlock.AGE, 3);
+		RandomPatchFeatureConfig config = (new RandomPatchFeatureConfig.Builder(new SimpleBlockStateProvider(blockState), SimpleBlockPlacer.field_24871)).tries(64).whitelist(ImmutableSet.of(Blocks.GRASS_BLOCK)).cannotProject().build();
+		biome.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.RANDOM_PATCH.configure(config)
+				.createDecoratedFeature(Decorator.CHANCE_HEIGHTMAP_DOUBLE.configure(new ChanceDecoratorConfig(chance))));
 	}
 }
