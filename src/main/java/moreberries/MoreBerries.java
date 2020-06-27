@@ -22,13 +22,10 @@ import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.decorator.ChanceDecoratorConfig;
 import net.minecraft.world.gen.decorator.Decorator;
-import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.FeatureConfig;
 import net.minecraft.world.gen.feature.RandomPatchFeatureConfig;
 import net.minecraft.world.gen.placer.SimpleBlockPlacer;
 import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
@@ -84,38 +81,32 @@ public class MoreBerries implements ModInitializer {
 		// Generation
 		String[] biomes = config.blackBerrySpawnBiomes.split(",");
 		for(int i = 0; i < biomes.length; i++) {
-			String[] biome = biomes[i].split(":");
-			registerGeneration(Registry.BIOME.get(new Identifier(biome[0], biome[1])), blackBerryBush, config.blackBerrySpawnChance);
+			registerGeneration(Registry.BIOME.get(new Identifier(biomes[i])), blackBerryBush, config.blackBerrySpawnChance);
 		}
 
 		biomes = config.blueBerrySpawnBiomes.split(",");
 		for(int i = 0; i < biomes.length; i++) {
-			String[] biome = biomes[i].split(":");
-			registerGeneration(Registry.BIOME.get(new Identifier(biome[0], biome[1])), blueBerryBush, config.blueBerrySpawnChance);
+			registerGeneration(Registry.BIOME.get(new Identifier(biomes[i])), blueBerryBush, config.blueBerrySpawnChance);
 		}
 
 		biomes = config.greenBerrySpawnBiomes.split(",");
 		for(int i = 0; i < biomes.length; i++) {
-			String[] biome = biomes[i].split(":");
-			registerGeneration(Registry.BIOME.get(new Identifier(biome[0], biome[1])), greenBerryBush, config.greenBerrySpawnChance);
+			registerGeneration(Registry.BIOME.get(new Identifier(biomes[i])), greenBerryBush, config.greenBerrySpawnChance);
 		}
 
 		biomes = config.orangeBerrySpawnBiomes.split(",");
 		for(int i = 0; i < biomes.length; i++) {
-			String[] biome = biomes[i].split(":");
-			registerGeneration(Registry.BIOME.get(new Identifier(biome[0], biome[1])), orangeBerryBush, config.orangeBerrySpawnChance);
+			registerGeneration(Registry.BIOME.get(new Identifier(biomes[i])), orangeBerryBush, config.orangeBerrySpawnChance);
 		}
 
 		biomes = config.purpleBerrySpawnBiomes.split(",");
 		for(int i = 0; i < biomes.length; i++) {
-			String[] biome = biomes[i].split(":");
-			registerGeneration(Registry.BIOME.get(new Identifier(biome[0], biome[1])), purpleBerryBush, config.purpleBerrySpawnChance);
+			registerGeneration(Registry.BIOME.get(new Identifier(biomes[i])), purpleBerryBush, config.purpleBerrySpawnChance);
 		}
 
 		biomes = config.yellowBerrySpawnBiomes.split(",");
 		for(int i = 0; i < biomes.length; i++) {
-			String[] biome = biomes[i].split(":");
-			registerGeneration(Registry.BIOME.get(new Identifier(biome[0], biome[1])), yellowBerryBush, config.yellowBerrySpawnChance);
+			registerGeneration(Registry.BIOME.get(new Identifier(biomes[i])), yellowBerryBush, config.yellowBerrySpawnChance);
 		}
 	}
 
@@ -151,7 +142,7 @@ public class MoreBerries implements ModInitializer {
 
 	private void registerGeneration(Biome biome, Block block, int chance) {
 		BlockState blockState = block.getDefaultState().with(SweetBerryBushBlock.AGE, 3);
-		RandomPatchFeatureConfig config = (new RandomPatchFeatureConfig.Builder(new SimpleBlockStateProvider(blockState), SimpleBlockPlacer.field_24871)).tries(64).whitelist(ImmutableSet.of(Blocks.GRASS_BLOCK)).cannotProject().build();
+		RandomPatchFeatureConfig config = (new RandomPatchFeatureConfig.Builder(new SimpleBlockStateProvider(blockState), SimpleBlockPlacer.field_24871)).tries(32).whitelist(ImmutableSet.of(Blocks.GRASS_BLOCK)).build();
 		biome.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.RANDOM_PATCH.configure(config)
 				.createDecoratedFeature(Decorator.CHANCE_HEIGHTMAP_DOUBLE.configure(new ChanceDecoratorConfig(chance))));
 	}

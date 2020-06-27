@@ -6,12 +6,12 @@ import me.sargunvohra.mcmods.autoconfig1u.annotation.Config;
 @Config(name = "moreberries")
 public class MoreBerriesConfig implements ConfigData {
 
-    public int blackBerrySpawnChance = 32;
-    public int blueBerrySpawnChance = 32;
-    public int greenBerrySpawnChance = 32;
-    public int orangeBerrySpawnChance = 32;
-    public int purpleBerrySpawnChance = 32;
-    public int yellowBerrySpawnChance = 32;
+    public int blackBerrySpawnChance = 16;
+    public int blueBerrySpawnChance = 16;
+    public int greenBerrySpawnChance = 16;
+    public int orangeBerrySpawnChance = 16;
+    public int purpleBerrySpawnChance = 16;
+    public int yellowBerrySpawnChance = 16;
 
     public String blackBerrySpawnBiomes = "minecraft:plains";
     public String blueBerrySpawnBiomes = "minecraft:forest,minecraft:wooded_hills";
