@@ -1,0 +1,42 @@
+{
+	"itemGroup.moreberries.berries":"更多莓",
+
+	"item.moreberries.black_berries":"黑莓",
+	"item.moreberries.blue_berries":"蓝莓",
+	"item.moreberries.green_berries":"绿莓",
+	"item.moreberries.orange_berries":"橙莓",
+	"item.moreberries.purple_berries":"紫莓",
+	"item.moreberries.yellow_berries":"黄莓",
+	
+	"item.moreberries.black_berry_juice":"黑莓汁",
+	"item.moreberries.blue_berry_juice":"蓝莓汁",
+	"item.moreberries.green_berry_juice":"绿莓汁",
+	"item.moreberries.yellow_berry_juice":"黄莓汁",
+	"item.moreberries.orange_berry_juice":"橙莓汁",
+	"item.moreberries.purple_berry_juice":"紫莓汁",
+	"item.moreberries.sweet_berry_juice":"甜莓汁",
+	
+	"item.moreberries.black_berry_pie":"黑莓派",
+	"item.moreberries.blue_berry_pie":"蓝莓派",
+	"item.moreberries.green_berry_pie":"绿莓派",
+	"item.moreberries.yellow_berry_pie":"黄莓派",
+	"item.moreberries.orange_berry_pie":"橙莓派",
+	"item.moreberries.purple_berry_pie":"紫莓派",
+	"item.moreberries.sweet_berry_pie":"甜莓派",
+	
+	"block.moreberries.black_berry_bush":"黑莓灌木",
+	"block.moreberries.blue_berry_bush":"蓝莓灌木",
+	"block.moreberries.green_berry_bush":"绿莓灌木",
+	"block.moreberries.orange_berry_bush":"橙莓灌木",
+	"block.moreberries.purple_berry_bush":"紫莓灌木",
+	"block.moreberries.yellow_berry_bush":"黄莓灌木",
+	
+	"block.moreberries.black_berry_cake":"黑莓蛋糕",
+	"block.moreberries.blue_berry_cake":"蓝莓蛋糕",
+	"block.moreberries.green_berry_cake":"绿莓蛋糕",
+	"block.moreberries.orange_berry_cake":"橙莓蛋糕",
+	"block.moreberries.purple_berry_cake":"紫莓蛋糕",
+	"block.moreberries.yellow_berry_cake":"黄莓蛋糕",
+	
+	"item.moreberries.juicer":"榨汁机"
+}
