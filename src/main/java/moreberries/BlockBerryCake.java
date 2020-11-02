@@ -1,7 +1,6 @@
 package moreberries;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.CakeBlock;
 
 public class BlockBerryCake extends CakeBlock {

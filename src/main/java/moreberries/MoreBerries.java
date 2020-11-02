@@ -1,34 +1,31 @@
 package moreberries;
 
-import java.util.ArrayList;
-
 import com.google.common.collect.ImmutableSet;
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
 import me.sargunvohra.mcmods.autoconfig1u.serializer.JanksonConfigSerializer;
 import moreberries.config.MoreBerriesConfig;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
+import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
+import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.SweetBerryBushBlock;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.FoodComponent;
-import net.minecraft.item.FoodComponents;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.gen.GenerationStep;
-import net.minecraft.world.gen.decorator.ChanceDecoratorConfig;
-import net.minecraft.world.gen.decorator.Decorator;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.RandomPatchFeatureConfig;
 import net.minecraft.world.gen.placer.SimpleBlockPlacer;
 import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
+
+import java.util.ArrayList;
+import java.util.function.Predicate;
 
 public class MoreBerries implements ModInitializer {
 
@@ -79,34 +76,23 @@ public class MoreBerries implements ModInitializer {
 		itemStacks.add(new ItemStack(item));
 
 		// Generation
-		String[] biomes = config.blackBerrySpawnBiomes.split(",");
-		for(int i = 0; i < biomes.length; i++) {
-			registerGeneration(Registry.BIOME.get(new Identifier(biomes[i])), blackBerryBush, config.blackBerrySpawnChance);
-		}
+		registerGeneration(config.blackBerrySpawnBiomes, blackBerryBush, config.blackBerrySpawnChance, "blackberry");
+		registerGeneration(config.greenBerrySpawnBiomes, greenBerryBush, config.greenBerrySpawnChance, "greenberry");
+		registerGeneration(config.blueBerrySpawnBiomes, blueBerryBush, config.blueBerrySpawnChance, "blueberry");
+		registerGeneration(config.orangeBerrySpawnBiomes, orangeBerryBush, config.orangeBerrySpawnChance, "orangeberry");
+		registerGeneration(config.purpleBerrySpawnBiomes, purpleBerryBush, config.purpleBerrySpawnChance, "purpleberry");
+		registerGeneration(config.yellowBerrySpawnBiomes, yellowBerryBush, config.yellowBerrySpawnChance, "yellowberry");
+	}
 
-		biomes = config.blueBerrySpawnBiomes.split(",");
-		for(int i = 0; i < biomes.length; i++) {
-			registerGeneration(Registry.BIOME.get(new Identifier(biomes[i])), blueBerryBush, config.blueBerrySpawnChance);
-		}
+	private void registerGeneration (String spawnBiomes, Block bushBlock, int spawnChance, String name) {
+		String[] biomes = spawnBiomes.split(",");
+		BlockState blockState = bushBlock.getDefaultState().with(SweetBerryBushBlock.AGE, 3);
+		RandomPatchFeatureConfig featureConfig = (new RandomPatchFeatureConfig.Builder(new SimpleBlockStateProvider(blockState), SimpleBlockPlacer.INSTANCE)).tries(32).spreadX(2).spreadY(3).spreadZ(2).whitelist(ImmutableSet.of(Blocks.GRASS_BLOCK)).build();
+		Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier("moreberries", name + "_generation"), Feature.RANDOM_PATCH.configure(featureConfig).applyChance(spawnChance * 2));
 
-		biomes = config.greenBerrySpawnBiomes.split(",");
 		for(int i = 0; i < biomes.length; i++) {
-			registerGeneration(Registry.BIOME.get(new Identifier(biomes[i])), greenBerryBush, config.greenBerrySpawnChance);
-		}
-
-		biomes = config.orangeBerrySpawnBiomes.split(",");
-		for(int i = 0; i < biomes.length; i++) {
-			registerGeneration(Registry.BIOME.get(new Identifier(biomes[i])), orangeBerryBush, config.orangeBerrySpawnChance);
-		}
-
-		biomes = config.purpleBerrySpawnBiomes.split(",");
-		for(int i = 0; i < biomes.length; i++) {
-			registerGeneration(Registry.BIOME.get(new Identifier(biomes[i])), purpleBerryBush, config.purpleBerrySpawnChance);
-		}
-
-		biomes = config.yellowBerrySpawnBiomes.split(",");
-		for(int i = 0; i < biomes.length; i++) {
-			registerGeneration(Registry.BIOME.get(new Identifier(biomes[i])), yellowBerryBush, config.yellowBerrySpawnChance);
+			Predicate<BiomeSelectionContext> biomeSelector = BiomeSelectors.includeByKey(RegistryKey.of(Registry.BIOME_KEY, new Identifier(biomes[i])));
+			BiomeModifications.addFeature(biomeSelector, GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.CONFIGURED_FEATURE_WORLDGEN, new Identifier("moreberries", name + "_generation")));
 		}
 	}
 
@@ -138,12 +124,5 @@ public class MoreBerries implements ModInitializer {
 		itemStacks.add(new ItemStack(cakeItem));
 
 		return bush;
-	}
-
-	private void registerGeneration(Biome biome, Block block, int chance) {
-		BlockState blockState = block.getDefaultState().with(SweetBerryBushBlock.AGE, 3);
-		RandomPatchFeatureConfig config = (new RandomPatchFeatureConfig.Builder(new SimpleBlockStateProvider(blockState), SimpleBlockPlacer.field_24871)).tries(32).whitelist(ImmutableSet.of(Blocks.GRASS_BLOCK)).build();
-		biome.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.RANDOM_PATCH.configure(config)
-				.createDecoratedFeature(Decorator.CHANCE_HEIGHTMAP_DOUBLE.configure(new ChanceDecoratorConfig(chance))));
 	}
 }
