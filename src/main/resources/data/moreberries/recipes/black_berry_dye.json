@@ -1,0 +1,12 @@
+{
+    "type": "crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "moreberries:black_berries"
+        }
+    ],
+    "result": {
+        "item": "minecraft:black_dye",
+        "count": 1
+    }
+}

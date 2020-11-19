@@ -1,0 +1,12 @@
+{
+    "type": "crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "moreberries:blue_berries"
+        }
+    ],
+    "result": {
+        "item": "minecraft:blue_dye",
+        "count": 1
+    }
+}
