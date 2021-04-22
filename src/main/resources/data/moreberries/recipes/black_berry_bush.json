@@ -1,0 +1,15 @@
+{
+  "type": "crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "moreberries:black_berries"
+    },
+    {
+      "item": "minecraft:oak_leaves"
+    }
+  ],
+  "result": {
+    "item": "moreberries:black_berry_bush",
+    "count": 1
+  }
+}

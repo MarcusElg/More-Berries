@@ -1,7 +1,7 @@
 package moreberries.config;
 
-import me.sargunvohra.mcmods.autoconfig1u.ConfigData;
-import me.sargunvohra.mcmods.autoconfig1u.annotation.Config;
+import me.shedaniel.autoconfig.ConfigData;
+import me.shedaniel.autoconfig.annotation.Config;
 
 @Config(name = "moreberries")
 public class MoreBerriesConfig implements ConfigData {
@@ -19,6 +19,8 @@ public class MoreBerriesConfig implements ConfigData {
     public String orangeBerrySpawnBiomes = "minecraft:badlands,minecraft:wooded_badlands_plateau,minecraft:badlands_plateau,minecraft:eroded_badlands,minecraft:modified_wooded_badlands_plateau,minecraft:modified_badlands_plateau";
     public String purpleBerrySpawnBiomes = "minecraft:swamp,minecraft:swamp_hills";
     public String yellowBerrySpawnBiomes = "minecraft:birch_forest,minecraft:birch_forest_hills,minecraft:tall_birch_forest,minecraft:tall_birch_hills";
+
+    public boolean craftableBerryBushes = false;
 
     @Override
     public void validatePostLoad() throws ValidationException {

@@ -1,8 +1,8 @@
 package moreberries;
 
 import com.google.common.collect.ImmutableSet;
-import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
-import me.sargunvohra.mcmods.autoconfig1u.serializer.JanksonConfigSerializer;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import moreberries.config.MoreBerriesConfig;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
@@ -40,6 +40,8 @@ public class MoreBerries implements ModInitializer {
 
 	public ArrayList<ItemStack> itemStacks = new ArrayList<ItemStack>();
 
+	public static MoreBerriesConfig config;
+
 	@Override
 	public void onInitialize() {
 		AutoConfig.register(MoreBerriesConfig.class, JanksonConfigSerializer::new);
@@ -52,7 +54,7 @@ public class MoreBerries implements ModInitializer {
 			}
 		}).icon(() -> new ItemStack(blueBerryBush)).build();
 
-		MoreBerriesConfig config = AutoConfig.getConfigHolder(MoreBerriesConfig.class).getConfig();
+		config = AutoConfig.getConfigHolder(MoreBerriesConfig.class).getConfig();
 
 		blueBerryBush = registerBlock("blue");
 		yellowBerryBush = registerBlock("yellow");

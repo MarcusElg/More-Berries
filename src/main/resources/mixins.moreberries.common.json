@@ -3,7 +3,8 @@
   "package": "moreberries.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "item.ItemMixin"
+    "item.ItemMixin",
+    "RecipeConfigMixin"
   ],
   "injectors": {
     "defaultRequire": 1
