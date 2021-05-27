@@ -19,7 +19,7 @@
 		"mixins.moreberries.common.json"
 	],
 	"depends": {
-    	"fabricloader": ">=0.4.0",
+    	"fabricloader": ">=0.11.3",
     	"fabric": "*"
   }
 }

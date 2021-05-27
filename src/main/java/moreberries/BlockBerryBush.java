@@ -43,7 +43,7 @@ public class BlockBerryBush extends SweetBerryBushBlock {
 		} else if (int_1 > 1) {
 			int int_2 = 1 + world_1.random.nextInt(2);
 			dropStack(world_1, blockPos_1, new ItemStack(item, int_2 + (boolean_1 ? 1 : 0)));
-			world_1.playSound((PlayerEntity) null, blockPos_1, SoundEvents.ITEM_SWEET_BERRIES_PICK_FROM_BUSH,
+			world_1.playSound((PlayerEntity) null, blockPos_1, SoundEvents.BLOCK_SWEET_BERRY_BUSH_PICK_BERRIES,
 					SoundCategory.BLOCKS, 1.0F, 0.8F + world_1.random.nextFloat() * 0.4F);
 			world_1.setBlockState(blockPos_1, (BlockState) blockState_1.with(AGE, 1), 2);
 			return ActionResult.SUCCESS;

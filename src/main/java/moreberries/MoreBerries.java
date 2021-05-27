@@ -94,7 +94,7 @@ public class MoreBerries implements ModInitializer {
 
 		for(int i = 0; i < biomes.length; i++) {
 			Predicate<BiomeSelectionContext> biomeSelector = BiomeSelectors.includeByKey(RegistryKey.of(Registry.BIOME_KEY, new Identifier(biomes[i])));
-			BiomeModifications.addFeature(biomeSelector, GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.CONFIGURED_FEATURE_WORLDGEN, new Identifier("moreberries", name + "_generation")));
+			BiomeModifications.addFeature(biomeSelector, GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.CONFIGURED_FEATURE_KEY, new Identifier("moreberries", name + "_generation")));
 		}
 	}
 
