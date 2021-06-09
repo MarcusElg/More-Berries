@@ -9,10 +9,7 @@ import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.SweetBerryBushBlock;
+import net.minecraft.block.*;
 import net.minecraft.item.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.BuiltinRegistries;
@@ -25,6 +22,7 @@ import net.minecraft.world.gen.placer.SimpleBlockPlacer;
 import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.function.Predicate;
 
 public class MoreBerries implements ModInitializer {
@@ -41,6 +39,9 @@ public class MoreBerries implements ModInitializer {
 	public ArrayList<ItemStack> itemStacks = new ArrayList<ItemStack>();
 
 	public static MoreBerriesConfig config;
+
+	// Candle = Candle Cake Block
+	public static HashMap<Block, CandleCakeBlock> VANILLA_CANDLES_TO_CANDLE_CAKES = new HashMap<>();
 
 	@Override
 	public void onInitialize() {
@@ -84,6 +85,25 @@ public class MoreBerries implements ModInitializer {
 		registerGeneration(config.orangeBerrySpawnBiomes, orangeBerryBush, config.orangeBerrySpawnChance, "orangeberry");
 		registerGeneration(config.purpleBerrySpawnBiomes, purpleBerryBush, config.purpleBerrySpawnChance, "purpleberry");
 		registerGeneration(config.yellowBerrySpawnBiomes, yellowBerryBush, config.yellowBerrySpawnChance, "yellowberry");
+
+		// Add vanilla candles to cake map
+		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.CANDLE, (CandleCakeBlock) Blocks.CANDLE_CAKE);
+		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.BLACK_CANDLE, (CandleCakeBlock) Blocks.BLACK_CANDLE_CAKE);
+		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.BLUE_CANDLE, (CandleCakeBlock) Blocks.BLUE_CANDLE_CAKE);
+		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.CYAN_CANDLE, (CandleCakeBlock) Blocks.CYAN_CANDLE_CAKE);
+		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.BROWN_CANDLE, (CandleCakeBlock) Blocks.BROWN_CANDLE_CAKE);
+		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.GRAY_CANDLE, (CandleCakeBlock) Blocks.GRAY_CANDLE_CAKE);
+		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.GREEN_CANDLE, (CandleCakeBlock) Blocks.GREEN_CANDLE_CAKE);
+		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.LIGHT_BLUE_CANDLE, (CandleCakeBlock) Blocks.LIGHT_BLUE_CANDLE_CAKE);
+		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.LIME_CANDLE, (CandleCakeBlock) Blocks.LIME_CANDLE_CAKE);
+		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.PURPLE_CANDLE, (CandleCakeBlock) Blocks.PURPLE_CANDLE_CAKE);
+		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.LIGHT_GRAY_CANDLE, (CandleCakeBlock) Blocks.LIGHT_GRAY_CANDLE_CAKE);
+		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.YELLOW_CANDLE, (CandleCakeBlock) Blocks.YELLOW_CANDLE_CAKE);
+		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.ORANGE_CANDLE, (CandleCakeBlock) Blocks.ORANGE_CANDLE_CAKE);
+		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.RED_CANDLE, (CandleCakeBlock) Blocks.RED_CANDLE_CAKE);
+		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.WHITE_CANDLE, (CandleCakeBlock) Blocks.WHITE_CANDLE_CAKE);
+		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.PINK_CANDLE, (CandleCakeBlock) Blocks.PINK_CANDLE_CAKE);
+		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.MAGENTA_CANDLE, (CandleCakeBlock) Blocks.MAGENTA_CANDLE_CAKE);
 	}
 
 	private void registerGeneration (String spawnBiomes, Block bushBlock, int spawnChance, String name) {
@@ -99,6 +119,7 @@ public class MoreBerries implements ModInitializer {
 	}
 
 	private Block registerBlock(String name) {
+		// Create
 		Item berryItem = new Item(new Item.Settings()
 				.food(new FoodComponent.Builder().hunger(2).saturationModifier(0.1f).build()).group(itemGroup));
 		Item juiceItem = null;
@@ -108,9 +129,10 @@ public class MoreBerries implements ModInitializer {
 
 		Block bush = new BlockBerryBush(berryItem);
 		BlockItem bushItem = new BlockItem(bush, new Item.Settings().group(itemGroup));
-		Block cake = new BlockBerryCake(Block.Settings.copy(Blocks.CAKE));
-		BlockItem cakeItem = new BlockItem(cake, new Item.Settings().group(itemGroup));		
-		
+		BlockBerryCake cake = new BlockBerryCake(Block.Settings.copy(Blocks.CAKE));
+		BlockItem cakeItem = new BlockItem(cake, new Item.Settings().group(itemGroup));
+
+		// Register
 		Registry.register(Registry.ITEM, new Identifier("moreberries", name + "_berries"), berryItem);
 		Registry.register(Registry.ITEM, new Identifier("moreberries", name + "_berry_juice"), juiceItem);
 		Registry.register(Registry.ITEM, new Identifier("moreberries", name + "_berry_pie"), pieItem);
@@ -125,6 +147,37 @@ public class MoreBerries implements ModInitializer {
 		itemStacks.add(new ItemStack(bushItem));
 		itemStacks.add(new ItemStack(cakeItem));
 
+		// Candle cakes
+		registerCandleCakes(name, cake);
+
 		return bush;
+	}
+
+	// Register all 17 candle cakes for a specific berry
+	private void registerCandleCakes (String berry, BlockBerryCake cakeBlock) {
+		registerCandleCake(Blocks.CANDLE, cakeBlock, "", berry);
+		registerCandleCake(Blocks.BLACK_CANDLE, cakeBlock, "black_", berry);
+		registerCandleCake(Blocks.BLUE_CANDLE, cakeBlock, "blue_", berry);
+		registerCandleCake(Blocks.BROWN_CANDLE, cakeBlock, "brown_", berry);
+		registerCandleCake(Blocks.CYAN_CANDLE, cakeBlock, "cyan_", berry);
+		registerCandleCake(Blocks.GRAY_CANDLE, cakeBlock, "gray_", berry);
+		registerCandleCake(Blocks.GREEN_CANDLE, cakeBlock, "green_", berry);
+		registerCandleCake(Blocks.LIME_CANDLE, cakeBlock, "lime_", berry);
+		registerCandleCake(Blocks.MAGENTA_CANDLE, cakeBlock, "magenta_", berry);
+		registerCandleCake(Blocks.ORANGE_CANDLE, cakeBlock, "orange_", berry);
+		registerCandleCake(Blocks.PINK_CANDLE, cakeBlock, "pink_", berry);
+		registerCandleCake(Blocks.PURPLE_CANDLE, cakeBlock, "purple_", berry);
+		registerCandleCake(Blocks.RED_CANDLE, cakeBlock, "red_", berry);
+		registerCandleCake(Blocks.WHITE_CANDLE, cakeBlock, "white_", berry);
+		registerCandleCake(Blocks.YELLOW_CANDLE, cakeBlock, "yellow_", berry);
+		registerCandleCake(Blocks.LIGHT_BLUE_CANDLE, cakeBlock, "light_blue_", berry);
+		registerCandleCake(Blocks.LIGHT_GRAY_CANDLE, cakeBlock, "light_gray_", berry);
+	}
+
+	// Register a single candle cake
+	private void registerCandleCake (Block candle, BlockBerryCake cake, String colour, String berry) {
+		Block candleCake = new BlockCandleBerryCake(candle, cake, AbstractBlock.Settings.copy(Blocks.CANDLE_CAKE));
+		Identifier identifier = new Identifier("moreberries", colour + "candle_" + berry + "_berry_cake");
+		Registry.register(Registry.BLOCK, identifier, candleCake);
 	}
 }

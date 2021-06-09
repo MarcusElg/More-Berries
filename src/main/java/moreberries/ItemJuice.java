@@ -13,29 +13,29 @@ import net.minecraft.world.World;
 
 public class ItemJuice extends Item {
 
-	public ItemJuice(Settings item$Settings_1) {
-		super(item$Settings_1);
+	public ItemJuice(Settings item$Settings) {
+		super(item$Settings);
 	}
 	
-	public UseAction getUseAction(ItemStack itemStack_1) {
+	public UseAction getUseAction(ItemStack itemStack) {
         return UseAction.DRINK;
     }
 
-	public ItemStack finishUsing(ItemStack itemStack_1, World world_1, LivingEntity livingEntity_1) {
-		if (livingEntity_1 instanceof PlayerEntity) {
-			PlayerEntity player = (PlayerEntity) livingEntity_1;
-			player.getHungerManager().eat(itemStack_1.getItem(), itemStack_1);
-			player.incrementStat(Stats.USED.getOrCreateStat(itemStack_1.getItem()));
+	public ItemStack finishUsing(ItemStack itemStack, World world, LivingEntity livingEntity) {
+		if (livingEntity instanceof PlayerEntity) {
+			PlayerEntity player = (PlayerEntity) livingEntity;
+			player.getHungerManager().eat(itemStack.getItem(), itemStack);
+			player.incrementStat(Stats.USED.getOrCreateStat(itemStack.getItem()));
 			
 			if (player instanceof ServerPlayerEntity) {
-				Criteria.CONSUME_ITEM.trigger((ServerPlayerEntity) player, itemStack_1);
+				Criteria.CONSUME_ITEM.trigger((ServerPlayerEntity) player, itemStack);
 			}
 			
 			player.giveItemStack(new ItemStack(Items.GLASS_BOTTLE));
 		}
 		
-		itemStack_1.decrement(1);
-		return itemStack_1;
+		itemStack.decrement(1);
+		return itemStack;
 	}
 
 }

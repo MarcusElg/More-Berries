@@ -1,0 +1,10 @@
+{
+          "variants": {
+            "lit=false": {
+              "model": "moreberries:block/pink_candle_purple_berry_cake"
+            },
+            "lit=true": {
+              "model": "moreberries:block/pink_candle_purple_berry_cake_lit"
+            }
+          }
+        }

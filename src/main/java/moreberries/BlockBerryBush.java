@@ -30,44 +30,44 @@ public class BlockBerryBush extends SweetBerryBushBlock {
 	}
 
 	@Environment(EnvType.CLIENT)
-	public ItemStack getPickStack(BlockView blockView_1, BlockPos blockPos_1, BlockState blockState_1) {
+	public ItemStack getPickStack(BlockView blockView, BlockPos blockPos, BlockState blockState) {
 		return new ItemStack(this);
 	}
 
-	public ActionResult onUse(BlockState blockState_1, World world_1, BlockPos blockPos_1, PlayerEntity playerEntity_1,
-			Hand hand_1, BlockHitResult blockHitResult_1) {
-		int int_1 = (Integer) blockState_1.get(AGE);
+	public ActionResult onUse(BlockState blockState, World world, BlockPos blockPos, PlayerEntity playerEntity,
+			Hand hand, BlockHitResult blockHitResult) {
+		int int_1 = (Integer) blockState.get(AGE);
 		boolean boolean_1 = int_1 == 3;
-		if (!boolean_1 && playerEntity_1.getStackInHand(hand_1).getItem() == Items.BONE_MEAL) {
+		if (!boolean_1 && playerEntity.getStackInHand(hand).getItem() == Items.BONE_MEAL) {
 			return ActionResult.PASS;
 		} else if (int_1 > 1) {
-			int int_2 = 1 + world_1.random.nextInt(2);
-			dropStack(world_1, blockPos_1, new ItemStack(item, int_2 + (boolean_1 ? 1 : 0)));
-			world_1.playSound((PlayerEntity) null, blockPos_1, SoundEvents.BLOCK_SWEET_BERRY_BUSH_PICK_BERRIES,
-					SoundCategory.BLOCKS, 1.0F, 0.8F + world_1.random.nextFloat() * 0.4F);
-			world_1.setBlockState(blockPos_1, (BlockState) blockState_1.with(AGE, 1), 2);
+			int int_2 = 1 + world.random.nextInt(2);
+			dropStack(world, blockPos, new ItemStack(item, int_2 + (boolean_1 ? 1 : 0)));
+			world.playSound((PlayerEntity) null, blockPos, SoundEvents.BLOCK_SWEET_BERRY_BUSH_PICK_BERRIES,
+					SoundCategory.BLOCKS, 1.0F, 0.8F + world.random.nextFloat() * 0.4F);
+			world.setBlockState(blockPos, (BlockState) blockState.with(AGE, 1), 2);
 			return ActionResult.SUCCESS;
 		} else {
-			return super.onUse(blockState_1, world_1, blockPos_1, playerEntity_1, hand_1, blockHitResult_1);
+			return super.onUse(blockState, world, blockPos, playerEntity, hand, blockHitResult);
 		}
 	}
 
-	public VoxelShape getOutlineShape(BlockState blockState_1, BlockView blockView_1, BlockPos blockPos_1,
-			ShapeContext entityContext_1) {
-		if ((Integer) blockState_1.get(AGE) == 0) {
+	public VoxelShape getOutlineShape(BlockState blockState, BlockView blockView, BlockPos blockPos,
+			ShapeContext entityContext) {
+		if ((Integer) blockState.get(AGE) == 0) {
 			return SMALL_SHAPE;
 		} else {
 			return LARGE_SHAPE;
 		}
 	}
 
-	protected boolean canPlantOnTop(BlockState blockState_1, BlockView blockView_1, BlockPos blockPos_1) {
-		Block block_1 = blockState_1.getBlock();
-		return block_1 == Blocks.GRASS_BLOCK || block_1 == Blocks.DIRT || block_1 == Blocks.COARSE_DIRT
-				|| block_1 == Blocks.PODZOL || block_1 == MoreBerries.blueBerryBush
-				|| block_1 == MoreBerries.blackBerryBush || block_1 == MoreBerries.yellowBerryBush
-				|| block_1 == MoreBerries.orangeBerryBush || block_1 == MoreBerries.purpleBerryBush
-				|| block_1 == MoreBerries.greenBerryBush;
+	protected boolean canPlantOnTop(BlockState blockState, BlockView blockView, BlockPos blockPos) {
+		Block block = blockState.getBlock();
+		return block == Blocks.GRASS_BLOCK || block == Blocks.DIRT || block == Blocks.COARSE_DIRT || block == Blocks.ROOTED_DIRT
+				|| block == Blocks.PODZOL || block == MoreBerries.blueBerryBush
+				|| block == MoreBerries.blackBerryBush || block == MoreBerries.yellowBerryBush
+				|| block == MoreBerries.orangeBerryBush || block == MoreBerries.purpleBerryBush
+				|| block == MoreBerries.greenBerryBush;
 	}
 
 }
