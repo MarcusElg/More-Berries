@@ -1,5 +1,6 @@
 {
     "type": "crafting_shapeless",
+    "group": "dye_from_berries",
     "ingredients": [
         {
             "item": "moreberries:black_berries"

@@ -1,5 +1,6 @@
 {
   "type": "crafting_shapeless",
+  "group": "berry_bush",
   "ingredients": [
     {
       "item": "moreberries:blue_berries"

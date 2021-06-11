@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "moreberries:black_berry_cake"
+    ]
+  },
+  "criteria": {
+    "has_berries": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "moreberries:black_berries"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "moreberries:black_berry_cake"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_berries",
+      "has_the_recipe"
+    ]
+  ]
+}

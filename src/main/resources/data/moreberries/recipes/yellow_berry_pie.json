@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shapeless",
+  "group": "berry_pie",
   "ingredients": [
     {
       "item": "moreberries:yellow_berries"

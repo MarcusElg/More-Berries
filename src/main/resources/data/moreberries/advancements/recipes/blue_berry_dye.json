@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "moreberries:blue_berry_dye"
+    ]
+  },
+  "criteria": {
+    "has_berries": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "moreberries:blue_berries"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "moreberries:blue_berry_dye"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_berries",
+      "has_the_recipe"
+    ]
+  ]
+}
