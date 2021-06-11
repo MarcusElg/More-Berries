@@ -40,5 +40,7 @@
 
 	"item.moreberries.juicer":"Juicer",
 
-	"block.minecraft.cake": "Sweet Berry Cake"
+	"block.minecraft.cake": "Sweet Berry Cake",
+
+	"moreberries/modifiedsweetberrybushmodel": "Modified Sweet Berry Bush Model"
 }

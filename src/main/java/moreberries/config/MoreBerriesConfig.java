@@ -21,6 +21,7 @@ public class MoreBerriesConfig implements ConfigData {
     public String yellowBerrySpawnBiomes = "minecraft:birch_forest,minecraft:birch_forest_hills,minecraft:tall_birch_forest,minecraft:tall_birch_hills";
 
     public boolean craftableBerryBushes = false;
+    public boolean replaceSweetBerryBushModel = true;
 
     @Override
     public void validatePostLoad() throws ValidationException {

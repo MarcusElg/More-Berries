@@ -9,8 +9,15 @@ import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
+import net.fabricmc.fabric.impl.resource.loader.ModResourcePackCreator;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.*;
 import net.minecraft.item.*;
+import net.minecraft.resource.ResourcePack;
+import net.minecraft.resource.ResourcePackManager;
+import net.minecraft.resource.ResourcePackProvider;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
@@ -104,6 +111,15 @@ public class MoreBerries implements ModInitializer {
 		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.WHITE_CANDLE, (CandleCakeBlock) Blocks.WHITE_CANDLE_CAKE);
 		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.PINK_CANDLE, (CandleCakeBlock) Blocks.PINK_CANDLE_CAKE);
 		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.MAGENTA_CANDLE, (CandleCakeBlock) Blocks.MAGENTA_CANDLE_CAKE);
+
+		// Optional resource packs
+		if (config.replaceSweetBerryBushModel) {
+			ResourceManagerHelper.registerBuiltinResourcePack(new Identifier("moreberries", "modifiedsweetberrybushmodel"), FabricLoader.getInstance().getModContainer("moreberries").get(), ResourcePackActivationType.ALWAYS_ENABLED);
+		}
+
+		if (config.craftableBerryBushes) {
+			ResourceManagerHelper.registerBuiltinResourcePack(new Identifier("moreberries", "berrybushrecipes"), FabricLoader.getInstance().getModContainer("moreberries").get(), ResourcePackActivationType.ALWAYS_ENABLED);
+		}
 	}
 
 	private void registerGeneration (String spawnBiomes, Block bushBlock, int spawnChance, String name) {
