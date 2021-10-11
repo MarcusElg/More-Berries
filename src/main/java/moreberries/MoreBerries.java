@@ -93,7 +93,19 @@ public class MoreBerries implements ModInitializer {
 		registerGeneration(config.purpleBerrySpawnBiomes, purpleBerryBush, config.purpleBerrySpawnChance, "purpleberry");
 		registerGeneration(config.yellowBerrySpawnBiomes, yellowBerryBush, config.yellowBerrySpawnChance, "yellowberry");
 
-		// Add vanilla candles to cake map
+		addVanillaCandlesToCakeMap();
+
+		// Optional resource packs
+		if (config.replaceSweetBerryBushModel) {
+			ResourceManagerHelper.registerBuiltinResourcePack(new Identifier("moreberries", "modifiedsweetberrybushmodel"), FabricLoader.getInstance().getModContainer("moreberries").get(), ResourcePackActivationType.ALWAYS_ENABLED);
+		}
+
+		if (config.craftableBerryBushes) {
+			ResourceManagerHelper.registerBuiltinResourcePack(new Identifier("moreberries", "berrybushrecipes"), FabricLoader.getInstance().getModContainer("moreberries").get(), ResourcePackActivationType.ALWAYS_ENABLED);
+		}
+	}
+
+	private void addVanillaCandlesToCakeMap() {
 		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.CANDLE, (CandleCakeBlock) Blocks.CANDLE_CAKE);
 		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.BLACK_CANDLE, (CandleCakeBlock) Blocks.BLACK_CANDLE_CAKE);
 		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.BLUE_CANDLE, (CandleCakeBlock) Blocks.BLUE_CANDLE_CAKE);
@@ -111,15 +123,6 @@ public class MoreBerries implements ModInitializer {
 		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.WHITE_CANDLE, (CandleCakeBlock) Blocks.WHITE_CANDLE_CAKE);
 		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.PINK_CANDLE, (CandleCakeBlock) Blocks.PINK_CANDLE_CAKE);
 		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.MAGENTA_CANDLE, (CandleCakeBlock) Blocks.MAGENTA_CANDLE_CAKE);
-
-		// Optional resource packs
-		if (config.replaceSweetBerryBushModel) {
-			ResourceManagerHelper.registerBuiltinResourcePack(new Identifier("moreberries", "modifiedsweetberrybushmodel"), FabricLoader.getInstance().getModContainer("moreberries").get(), ResourcePackActivationType.ALWAYS_ENABLED);
-		}
-
-		if (config.craftableBerryBushes) {
-			ResourceManagerHelper.registerBuiltinResourcePack(new Identifier("moreberries", "berrybushrecipes"), FabricLoader.getInstance().getModContainer("moreberries").get(), ResourcePackActivationType.ALWAYS_ENABLED);
-		}
 	}
 
 	private void registerGeneration (String spawnBiomes, Block bushBlock, int spawnChance, String name) {
@@ -135,7 +138,7 @@ public class MoreBerries implements ModInitializer {
 	}
 
 	private Block registerBlock(String name) {
-		// Create
+		// Create items
 		Item berryItem = new Item(new Item.Settings()
 				.food(new FoodComponent.Builder().hunger(2).saturationModifier(0.1f).build()).group(itemGroup));
 		Item juiceItem = null;
@@ -143,15 +146,18 @@ public class MoreBerries implements ModInitializer {
 				.food(new FoodComponent.Builder().hunger(3).saturationModifier(0.2F).build()).recipeRemainder(juiceItem).group(itemGroup));
 		Item pieItem = new Item(new Item.Settings().food(FoodComponents.PUMPKIN_PIE).group(itemGroup));
 
+		// Create blocks
 		Block bush = new BlockBerryBush(berryItem);
 		BlockItem bushItem = new BlockItem(bush, new Item.Settings().group(itemGroup));
 		BlockBerryCake cake = new BlockBerryCake(Block.Settings.copy(Blocks.CAKE));
 		BlockItem cakeItem = new BlockItem(cake, new Item.Settings().group(itemGroup));
 
-		// Register
+		// Register items
 		Registry.register(Registry.ITEM, new Identifier("moreberries", name + "_berries"), berryItem);
 		Registry.register(Registry.ITEM, new Identifier("moreberries", name + "_berry_juice"), juiceItem);
 		Registry.register(Registry.ITEM, new Identifier("moreberries", name + "_berry_pie"), pieItem);
+
+		// Register blocks
 		Registry.register(Registry.BLOCK, new Identifier("moreberries", name + "_berry_bush"), bush);
 		Registry.register(Registry.ITEM, new Identifier("moreberries", name + "_berry_bush"), bushItem);
 		Registry.register(Registry.BLOCK, new Identifier("moreberries", name + "_berry_cake"), cake);
