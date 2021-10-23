@@ -22,6 +22,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.RandomPatchFeatureConfig;
@@ -29,6 +30,7 @@ import net.minecraft.world.gen.placer.SimpleBlockPlacer;
 import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.function.Predicate;
 
@@ -131,10 +133,30 @@ public class MoreBerries implements ModInitializer {
 		RandomPatchFeatureConfig featureConfig = (new RandomPatchFeatureConfig.Builder(new SimpleBlockStateProvider(blockState), SimpleBlockPlacer.INSTANCE)).tries(32).spreadX(2).spreadY(3).spreadZ(2).whitelist(ImmutableSet.of(Blocks.GRASS_BLOCK)).build();
 		Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier("moreberries", name + "_generation"), Feature.RANDOM_PATCH.configure(featureConfig).applyChance(spawnChance * 2));
 
-		for(int i = 0; i < biomes.length; i++) {
-			Predicate<BiomeSelectionContext> biomeSelector = BiomeSelectors.includeByKey(RegistryKey.of(Registry.BIOME_KEY, new Identifier(biomes[i])));
-			BiomeModifications.addFeature(biomeSelector, GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.CONFIGURED_FEATURE_KEY, new Identifier("moreberries", name + "_generation")));
+		ArrayList<RegistryKey<Biome>> biomeKeys = new ArrayList<RegistryKey<Biome>>();
+		ArrayList<Biome.Category> categories = new ArrayList<Biome.Category>();
+
+		for (String biome : biomes){
+			// Category
+			if (biome.charAt(0) == '#') {
+				categories.add(Biome.Category.byName(biome.substring(1)));
+			} else {
+				// Biome
+				biomeKeys.add(RegistryKey.of(Registry.BIOME_KEY, new Identifier(biome)));
+			}
 		}
+
+		registerBiomeGeneration(biomeKeys, categories, name);
+	}
+
+	private void registerBiomeGeneration(ArrayList<RegistryKey<Biome>> biomeKeys, ArrayList<Biome.Category> categories, String name) {
+		Predicate<BiomeSelectionContext> biomeSelector = BiomeSelectors.includeByKey(biomeKeys);
+
+		if (!categories.isEmpty()) {
+			biomeSelector = biomeSelector.or(BiomeSelectors.categories(categories.stream().toArray(Biome.Category[]::new)));
+		}
+
+		BiomeModifications.addFeature(biomeSelector, GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.CONFIGURED_FEATURE_KEY, new Identifier("moreberries", name + "_generation")));
 	}
 
 	private Block registerBlock(String name) {
