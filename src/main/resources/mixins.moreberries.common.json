@@ -3,8 +3,8 @@
   "package": "moreberries.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
-    "item.ItemMixin",
-    "block.CakeMixin"
+    "block.CakeMixin",
+    "item.ItemMixin"
   ],
   "injectors": {
     "defaultRequire": 1
