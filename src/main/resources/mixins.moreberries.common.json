@@ -4,7 +4,8 @@
   "compatibilityLevel": "JAVA_16",
   "mixins": [
     "block.CakeMixin",
-    "item.ItemMixin"
+    "item.ItemMixin",
+    "ai.PathNodeTypeMixin"
   ],
   "injectors": {
     "defaultRequire": 1
