@@ -15,15 +15,16 @@ import net.minecraft.block.*;
 import net.minecraft.item.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.blockpredicate.BlockPredicate;
-import net.minecraft.world.gen.decorator.*;
 import net.minecraft.world.gen.feature.*;
+import net.minecraft.world.gen.placementmodifier.PlacementModifier;
+import net.minecraft.world.gen.placementmodifier.RarityFilterPlacementModifier;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 
 import java.util.ArrayList;
@@ -128,16 +129,20 @@ public class MoreBerries implements ModInitializer {
 		String[] biomes = spawnBiomes.split(",");
 
 		// Configure feature
-		ConfiguredFeature<RandomPatchFeatureConfig, ?> featureConfig = Feature.RANDOM_PATCH.configure(new RandomPatchFeatureConfig(32, 2, 3,() -> Feature.SIMPLE_BLOCK.configure(new SimpleBlockFeatureConfig(
-				BlockStateProvider.of(bushBlock.getDefaultState().with(SweetBerryBushBlock.AGE, 3)))).withBlockPredicateFilter(BlockPredicate.allOf(BlockPredicate.IS_AIR, BlockPredicate.wouldSurvive(blackBerryBush.getDefaultState(), BlockPos.ORIGIN), BlockPredicate.not(BlockPredicate.matchingBlocks(List.of(blackBerryBush, blueBerryBush, orangeBerryBush, greenBerryBush, purpleBerryBush, yellowBerryBush), new BlockPos(0, -1, 0)))))));
+		BlockPredicate blockPredicate = BlockPredicate.allOf(BlockPredicate.IS_AIR, BlockPredicate.wouldSurvive(blackBerryBush.getDefaultState(), BlockPos.ORIGIN), BlockPredicate.not(BlockPredicate.matchingBlocks(List.of(blackBerryBush, blueBerryBush, orangeBerryBush, greenBerryBush, purpleBerryBush, yellowBerryBush), new BlockPos(0, -1, 0))));
+		BlockStateProvider berryBushProvider = BlockStateProvider.of(bushBlock.getDefaultState().with(SweetBerryBushBlock.AGE, 3));
+		RegistryEntry<PlacedFeature> placedFeatureEntry = PlacedFeatures.createEntry(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(
+				berryBushProvider), blockPredicate);
+		RandomPatchFeatureConfig randomPatchConfig = new RandomPatchFeatureConfig(32, 2, 3, placedFeatureEntry);
+		ConfiguredFeature<RandomPatchFeatureConfig, ?> featureConfig = new ConfiguredFeature<>(Feature.RANDOM_PATCH, randomPatchConfig);
 
 		// Place feature
 		List<PlacementModifier> placementModifiers = List.of(RarityFilterPlacementModifier.of(spawnChance), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP);
-		PlacedFeature placedFeature = featureConfig.withPlacement(placementModifiers);
+		RegistryEntry<PlacedFeature> placedFeature = PlacedFeatures.createEntry(Feature.RANDOM_PATCH, randomPatchConfig, placementModifiers.stream().toArray(PlacementModifier[]::new));
 
 		// Register feature
 		Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier("moreberries", name + "_generation"), featureConfig);
-		Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier("moreberries", name + "_generation"), placedFeature);
+		Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier("moreberries", name + "_generation"), placedFeature.getKeyOrValue().right().get());
 
 		// Add to existing biome generation
 		ArrayList<RegistryKey<Biome>> biomeKeys = new ArrayList<>();
@@ -153,7 +158,7 @@ public class MoreBerries implements ModInitializer {
 			}
 		}
 
-		registerBiomeGeneration(biomeKeys, categories, placedFeature);
+		registerBiomeGeneration(biomeKeys, categories, placedFeature.getKeyOrValue().right().get());
 	}
 
 	private void registerBiomeGeneration(ArrayList<RegistryKey<Biome>> biomeKeys, ArrayList<Biome.Category> categories, PlacedFeature feature) {
