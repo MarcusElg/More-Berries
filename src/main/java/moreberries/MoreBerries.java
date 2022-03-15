@@ -168,8 +168,6 @@ public class MoreBerries implements ModInitializer {
 			biomeSelector = biomeSelector.or(BiomeSelectors.categories(categories.stream().toArray(Biome.Category[]::new)));
 		}
 
-		System.out.println(categories.stream().toArray(Biome.Category[]::new));
-
 		BiomeModifications.addFeature(biomeSelector, GenerationStep.Feature.VEGETAL_DECORATION, BuiltinRegistries.PLACED_FEATURE.getKey(feature).get());
 	}
 
