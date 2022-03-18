@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
@@ -176,7 +177,7 @@ public class MoreBerries implements ModInitializer {
 		Item berryItem = new Item(new Item.Settings()
 				.food(new FoodComponent.Builder().hunger(2).saturationModifier(0.1f).build()).group(itemGroup));
 		Item juiceItem = null;
-		juiceItem = new ItemJuice(new Item.Settings()
+		juiceItem = new ItemJuice(new Item.Settings().maxCount(16)
 				.food(new FoodComponent.Builder().hunger(3).saturationModifier(0.2F).build()).recipeRemainder(juiceItem).group(itemGroup));
 		Item pieItem = new Item(new Item.Settings().food(FoodComponents.PUMPKIN_PIE).group(itemGroup));
 
@@ -205,6 +206,9 @@ public class MoreBerries implements ModInitializer {
 
 		// Candle cakes
 		registerCandleCakes(name, cake);
+
+		// Compost berries
+		CompostingChanceRegistry.INSTANCE.add(berryItem, 0.3f);
 
 		return bush;
 	}
