@@ -1,0 +1,44 @@
+{
+  "itemGroup.moreberries.berries":"Bär",
+
+  "item.moreberries.black_berries":"Svartbär",
+  "item.moreberries.blue_berries":"Blåbär",
+  "item.moreberries.green_berries":"Grönbär",
+  "item.moreberries.orange_berries":"Orangebär",
+  "item.moreberries.purple_berries":"Lilabär",
+  "item.moreberries.yellow_berries":"Gulbär",
+
+  "item.moreberries.black_berry_juice":"Svartbärsjuice",
+  "item.moreberries.blue_berry_juice":"Blåbärsjuice",
+  "item.moreberries.green_berry_juice":"Grönbärsjuice",
+  "item.moreberries.yellow_berry_juice":"Gulbärsjuice",
+  "item.moreberries.orange_berry_juice":"Orangebärsjuice",
+  "item.moreberries.purple_berry_juice":"Lilabärsjuice",
+  "item.moreberries.sweet_berry_juice":"Sötbärsjuice",
+
+  "item.moreberries.black_berry_pie":"Svartbärspaj",
+  "item.moreberries.blue_berry_pie":"Blåbärspaj",
+  "item.moreberries.green_berry_pie":"Grönbärspaj",
+  "item.moreberries.yellow_berry_pie":"Gulbärspaj",
+  "item.moreberries.orange_berry_pie":"Orangebärspaj",
+  "item.moreberries.purple_berry_pie":"Lilabärspaj",
+  "item.moreberries.sweet_berry_pie":"Sötbärspaj",
+
+  "block.moreberries.black_berry_bush":"Svartbärsbuske",
+  "block.moreberries.blue_berry_bush":"Blåbärsbuske",
+  "block.moreberries.green_berry_bush":"Grönbärsbuske",
+  "block.moreberries.orange_berry_bush":"Orangebärsbuske",
+  "block.moreberries.purple_berry_bush":"Lilabärsbuske",
+  "block.moreberries.yellow_berry_bush":"Gulbärsbuske",
+
+  "block.moreberries.black_berry_cake":"Svartbärstårta",
+  "block.moreberries.blue_berry_cake":"Blåbärstårta",
+  "block.moreberries.green_berry_cake":"Grönbärstårta",
+  "block.moreberries.orange_berry_cake":"Orangebärstårta",
+  "block.moreberries.purple_berry_cake":"Lilabärstårta",
+  "block.moreberries.yellow_berry_cake":"Gulbärstårta",
+
+  "item.moreberries.juicer":"Juicepress",
+
+  "block.minecraft.cake": "Sötbärstårta"
+}
