@@ -1,0 +1,44 @@
+{
+	"itemGroup.moreberries.berries":"Ягоды",
+
+	"item.moreberries.black_berries":"Чёрные ягоды",
+	"item.moreberries.blue_berries":"Голубые ягоды",
+	"item.moreberries.green_berries":"Зелёные ягоды",
+	"item.moreberries.orange_berries":"Оранживые ягоды",
+	"item.moreberries.purple_berries":"Фиолетовые ягоды",
+	"item.moreberries.yellow_berries":"желтые ягоды",
+	
+	"item.moreberries.black_berry_juice":"Сок из чёрных ягод",
+	"item.moreberries.blue_berry_juice":"Сок голубых ягод",
+	"item.moreberries.green_berry_juice":"Сок из зелёных ягод",
+	"item.moreberries.yellow_berry_juice":"Сок из жёлтых ягод",
+	"item.moreberries.orange_berry_juice":"Сок из оранживых ягод",
+	"item.moreberries.purple_berry_juice":"Сок из фиолетовых ягод",
+	"item.moreberries.sweet_berry_juice":"Сок из чёрных ягоддами",
+	
+	"item.moreberries.black_berry_pie":"Чёрный ягодный пирог",
+	"item.moreberries.blue_berry_pie":"Голубой ягодный пирог",
+    "item.moreberries.green_berry_pie": "Зелёный ягодный пирог",
+	"item.moreberries.yellow_berry_pie": "Жёлтый ягодный пирог",
+	"item.moreberries.orange_berry_pie": "Оранжевый ягодный пирог",
+	"item.moreberries.purple_berry_pie": "Фиолетовый ягодный пирог",
+	"item.moreberries.sweet_berry_pie": "Сладкий ягодный пирог",
+	
+	"block.moreberries.black_berry_bush": "Куст чёрных ягод",
+	"block.moreberries.blue_berry_bush": "Куст синих ягод",
+	"block.moreberries.green_berry_bush": "Куст зёленых ягод",
+	"block.moreberries.orange_berry_bush": "Куст оранжевых ягод",
+	"block.moreberries.purple_berry_bush": "Куст фиолетовых ягод",
+	"block.moreberries.yellow_berry_bush": "Куст жёлтых ягод",
+	
+	"block.moreberries.black_berry_cake": "Торт с чёрными ягодами",
+	"block.moreberries.blue_berry_cake": "Торт с голубыми ягодами",
+	"block.moreberries.green_berry_cake": "Торт с зелеными ягодами",
+	"block.moreberries.orange_berry_cake": "Торт с оранжевыми ягодами",
+	"block.moreberries.purple_berry_cake": "Торт с фиолетовыми ягодами",
+	"block.moreberries.yellow_berry_cake": "Торт с жёлтыми ягодами",
+
+	"item.moreberries.juicer": "Соковыжималка",
+
+	"block.minecraft.cake": "Сладкий ягодный торт"
+}
