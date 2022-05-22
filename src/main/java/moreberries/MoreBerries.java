@@ -14,8 +14,11 @@ import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.*;
 import net.minecraft.item.*;
+import net.minecraft.tag.TagKey;
+import net.minecraft.tag.TagManagerLoader;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryEntry;
@@ -130,7 +133,7 @@ public class MoreBerries implements ModInitializer {
 		String[] biomes = spawnBiomes.split(",");
 
 		// Configure feature
-		BlockPredicate blockPredicate = BlockPredicate.allOf(BlockPredicate.IS_AIR, BlockPredicate.wouldSurvive(blackBerryBush.getDefaultState(), BlockPos.ORIGIN), BlockPredicate.not(BlockPredicate.matchingBlocks(List.of(blackBerryBush, blueBerryBush, orangeBerryBush, greenBerryBush, purpleBerryBush, yellowBerryBush), new BlockPos(0, -1, 0))));
+		BlockPredicate blockPredicate = BlockPredicate.allOf(BlockPredicate.IS_AIR, BlockPredicate.wouldSurvive(blackBerryBush.getDefaultState(), BlockPos.ORIGIN), BlockPredicate.not(BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), List.of(blackBerryBush, blueBerryBush, orangeBerryBush, greenBerryBush, purpleBerryBush, yellowBerryBush))));
 		BlockStateProvider berryBushProvider = BlockStateProvider.of(bushBlock.getDefaultState().with(SweetBerryBushBlock.AGE, 3));
 		RegistryEntry<PlacedFeature> placedFeatureEntry = PlacedFeatures.createEntry(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(
 				berryBushProvider), blockPredicate);
@@ -147,26 +150,28 @@ public class MoreBerries implements ModInitializer {
 
 		// Add to existing biome generation
 		ArrayList<RegistryKey<Biome>> biomeKeys = new ArrayList<>();
-		ArrayList<Biome.Category> categories = new ArrayList<>();
+		ArrayList<TagKey<Biome>> biomeTags = new ArrayList<>();
 
 		for (String biome : biomes){
 			// Category
 			if (biome.charAt(0) == '#') {
-				categories.add(Biome.Category.byName(biome.substring(1)));
+				biomeTags.add(TagKey.of(Registry.BIOME_KEY, new Identifier(biome.substring(1))));
 			} else {
 				// Biome
 				biomeKeys.add(RegistryKey.of(Registry.BIOME_KEY, new Identifier(biome)));
 			}
 		}
 
-		registerBiomeGeneration(biomeKeys, categories, placedFeature.getKeyOrValue().right().get());
+		registerBiomeGeneration(biomeKeys, biomeTags, placedFeature.getKeyOrValue().right().get());
 	}
 
-	private void registerBiomeGeneration(ArrayList<RegistryKey<Biome>> biomeKeys, ArrayList<Biome.Category> categories, PlacedFeature feature) {
+	private void registerBiomeGeneration(ArrayList<RegistryKey<Biome>> biomeKeys, ArrayList<TagKey<Biome>> biomeTags, PlacedFeature feature) {
 		Predicate<BiomeSelectionContext> biomeSelector = BiomeSelectors.includeByKey(biomeKeys);
 
-		if (!categories.isEmpty()) {
-			biomeSelector = biomeSelector.or(BiomeSelectors.categories(categories.stream().toArray(Biome.Category[]::new)));
+		if (!biomeTags.isEmpty()) {
+			for (TagKey<Biome> biomeTag : biomeTags) {
+				biomeSelector = biomeSelector.or(BiomeSelectors.tag(biomeTag));
+			}
 		}
 
 		BiomeModifications.addFeature(biomeSelector, GenerationStep.Feature.VEGETAL_DECORATION, BuiltinRegistries.PLACED_FEATURE.getKey(feature).get());
