@@ -14,11 +14,11 @@ public class MoreBerriesConfig implements ConfigData {
     public int yellowBerrySpawnChance = 16;
 
     public String blackBerrySpawnBiomes = "minecraft:plains";
-    public String blueBerrySpawnBiomes = "minecraft:forest,minecraft:wooded_hills";
-    public String greenBerrySpawnBiomes = "minecraft:jungle,minecraft:jungle_hills,minecraft:jungle_edge,minecraft:modified_jungle,minecraft:modified_jungle_edge,minecraft:bamboo_jungle,minecraft:bamboo_jungle_hills";
-    public String orangeBerrySpawnBiomes = "minecraft:badlands,minecraft:wooded_badlands_plateau,minecraft:badlands_plateau,minecraft:eroded_badlands,minecraft:modified_wooded_badlands_plateau,minecraft:modified_badlands_plateau";
-    public String purpleBerrySpawnBiomes = "minecraft:swamp,minecraft:swamp_hills";
-    public String yellowBerrySpawnBiomes = "minecraft:birch_forest,minecraft:birch_forest_hills,minecraft:tall_birch_forest,minecraft:tall_birch_hills";
+    public String blueBerrySpawnBiomes = "minecraft:forest,minecraft:flower_forest,minecraft:dark_forest,minecraft:grove";
+    public String greenBerrySpawnBiomes = "#minecraft:is_jungle";
+    public String orangeBerrySpawnBiomes = "#minecraft:is_badlands,minecraft:savanna,minecraft:savanna_plateau,minecraft:windswept_savanna";
+    public String purpleBerrySpawnBiomes = "minecraft:swamp,minecraft:mangrove_swamp";
+    public String yellowBerrySpawnBiomes = "minecraft:birch_forest, minecraft:old_growth_birch_forest";
 
     public boolean craftableBerryBushes = false;
     public boolean replaceSweetBerryBushModel = true;
