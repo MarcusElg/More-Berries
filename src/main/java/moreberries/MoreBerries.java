@@ -130,7 +130,7 @@ public class MoreBerries implements ModInitializer {
 	}
 
 	private void registerGeneration (String spawnBiomes, Block bushBlock, int spawnChance, String name) {
-		String[] biomes = spawnBiomes.split(",");
+		String[] biomes = spawnBiomes.replaceAll(" ", "").split(",");
 
 		// Configure feature
 		BlockPredicate blockPredicate = BlockPredicate.allOf(BlockPredicate.IS_AIR, BlockPredicate.wouldSurvive(blackBerryBush.getDefaultState(), BlockPos.ORIGIN), BlockPredicate.not(BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), List.of(blackBerryBush, blueBerryBush, orangeBerryBush, greenBerryBush, purpleBerryBush, yellowBerryBush))));
