@@ -101,11 +101,11 @@ public class MoreBerries implements ModInitializer {
 
 		// Optional resource packs
 		if (config.replaceSweetBerryBushModel) {
-			ResourceManagerHelper.registerBuiltinResourcePack(new Identifier("moreberries", "modifiedsweetberrybushmodel"), FabricLoader.getInstance().getModContainer("moreberries").get(), ResourcePackActivationType.ALWAYS_ENABLED);
+			ResourceManagerHelper.registerBuiltinResourcePack(new Identifier("moreberries", "modifiedsweetberrybushmodel"), FabricLoader.getInstance().getModContainer("moreberries").get(), "Modified Sweet Berry Bush Model", ResourcePackActivationType.ALWAYS_ENABLED);
 		}
 
 		if (config.craftableBerryBushes) {
-			ResourceManagerHelper.registerBuiltinResourcePack(new Identifier("moreberries", "berrybushrecipes"), FabricLoader.getInstance().getModContainer("moreberries").get(), ResourcePackActivationType.ALWAYS_ENABLED);
+			ResourceManagerHelper.registerBuiltinResourcePack(new Identifier("moreberries", "berrybushrecipes"), FabricLoader.getInstance().getModContainer("moreberries").get(), "Berry Bush Recipes", ResourcePackActivationType.ALWAYS_ENABLED);
 		}
 	}
 
