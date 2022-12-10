@@ -1,1 +1,1 @@
-{   "parent": "moreberries:block/berry_bush_stage_0","textures": {"bush": "block/oak_leaves", "berries":"moreberries:empty"}}
+{   "parent": "moreberries:block/berry_bush_stage_0","textures": {"bush": "block/oak_leaves", "berries":"moreberries:block/empty"}}

@@ -4,7 +4,7 @@
                 "candle": "minecraft:block/gray_candle_lit",
                 "bottom": "minecraft:block/cake_bottom",
                 "side": "minecraft:block/cake_side",
-                "top": "moreberries:blue_berry_cake",
+                "top": "moreberries:block/blue_berry_cake",
                 "particle": "minecraft:block/cake_side"
               }
             }

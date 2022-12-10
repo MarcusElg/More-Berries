@@ -2,7 +2,7 @@
     "textures": {
         "particle": "block/cake_side",
         "bottom": "block/cake_bottom",
-        "top": "moreberries:orange_berry_cake",
+        "top": "moreberries:block/orange_berry_cake",
         "side": "block/cake_side"
     },
     "elements": [
