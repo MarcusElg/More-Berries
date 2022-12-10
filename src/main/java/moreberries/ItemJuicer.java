@@ -7,10 +7,9 @@ public class ItemJuicer extends Item {
 
 	public ItemJuicer(Item.Settings settings) {
 		super(settings);
-		// ((ItemExtension) this).setRecipeRemainder(this);
 	}
 
 	public ItemStack getRecipeRemainder(ItemStack stack) {
-		return stack;
+		return new ItemStack(stack.getItem());
 	}
 }

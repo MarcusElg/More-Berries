@@ -13,6 +13,7 @@ import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
+import net.fabricmc.fabric.api.registry.LandPathNodeTypesRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
@@ -21,6 +22,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CandleCakeBlock;
 import net.minecraft.block.SweetBerryBushBlock;
+import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.FoodComponents;
@@ -94,6 +96,14 @@ public class MoreBerries implements ModInitializer {
 		purpleBerryBush = registerBlock("purple");
 		greenBerryBush = registerBlock("green");
 		blackBerryBush = registerBlock("black");
+
+		// Path node types (mobs should avoid berry bushes)
+		LandPathNodeTypesRegistry.register(blueBerryBush, PathNodeType.DAMAGE_OTHER, null);
+		LandPathNodeTypesRegistry.register(yellowBerryBush, PathNodeType.DAMAGE_OTHER, null);
+		LandPathNodeTypesRegistry.register(orangeBerryBush, PathNodeType.DAMAGE_OTHER, null);
+		LandPathNodeTypesRegistry.register(purpleBerryBush, PathNodeType.DAMAGE_OTHER, null);
+		LandPathNodeTypesRegistry.register(greenBerryBush, PathNodeType.DAMAGE_OTHER, null);
+		LandPathNodeTypesRegistry.register(blackBerryBush, PathNodeType.DAMAGE_OTHER, null);
 
 		// Generation
 		registerGeneration(config.blackBerrySpawnBiomes, blackBerryBush, config.blackBerrySpawnChance, "blackberry");
