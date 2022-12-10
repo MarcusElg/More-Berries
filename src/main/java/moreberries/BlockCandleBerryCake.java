@@ -29,14 +29,17 @@ public class BlockCandleBerryCake extends CandleCakeBlock {
         return new ItemStack(cake);
     }
 
-    public ActionResult onUse(BlockState blockState, World world, BlockPos blockPos, PlayerEntity playerEntity, Hand hand, BlockHitResult blockHitResult) {
+    public ActionResult onUse(BlockState blockState, World world, BlockPos blockPos, PlayerEntity playerEntity,
+            Hand hand, BlockHitResult blockHitResult) {
         ItemStack itemStack = playerEntity.getStackInHand(hand);
         if (!itemStack.isOf(Items.FLINT_AND_STEEL) && !itemStack.isOf(Items.FIRE_CHARGE)) {
-            if (isHittingCandle(blockHitResult) && playerEntity.getStackInHand(hand).isEmpty() && (Boolean)blockState.get(LIT)) {
+            if (isHittingCandle(blockHitResult) && playerEntity.getStackInHand(hand).isEmpty()
+                    && (Boolean) blockState.get(LIT)) {
                 extinguish(playerEntity, blockState, world, blockPos);
                 return ActionResult.success(world.isClient);
             } else {
-                ActionResult actionResult = ((BlockBerryCake)cake).tryEat(world, blockPos, cake.getDefaultState(), playerEntity);
+                ActionResult actionResult = BlockBerryCake.tryEat(world, blockPos, cake.getDefaultState(),
+                        playerEntity);
                 if (actionResult.isAccepted()) {
                     dropStacks(blockState, world, blockPos);
                 }
@@ -49,6 +52,6 @@ public class BlockCandleBerryCake extends CandleCakeBlock {
     }
 
     private static boolean isHittingCandle(BlockHitResult blockHitResult) {
-        return blockHitResult.getPos().y - (double)blockHitResult.getBlockPos().getY() > 0.5D;
+        return blockHitResult.getPos().y - (double) blockHitResult.getBlockPos().getY() > 0.5D;
     }
 }
