@@ -5,7 +5,7 @@
 	"name": "More Berries",
 	"description": "Adds more berries, that can be used for cakes and more!",
 	"icon": "icon.png",
-	"authors":[
+	"authors": [
 		"MCrafterzz"
 	],
 	"entrypoints": {
@@ -14,6 +14,9 @@
 		],
 		"client": [
 			"moreberries.MoreBerriesClient"
+		],
+		"fabric-datagen": [
+			"moreberries.datageneration.MoreBerriesDataGenerationEndpoint"
 		]
 	},
 	"mixins": [

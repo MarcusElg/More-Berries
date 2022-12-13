@@ -2,13 +2,13 @@ package moreberries;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.function.Predicate;
 
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import moreberries.config.MoreBerriesConfig;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
@@ -21,7 +21,6 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CandleCakeBlock;
-import net.minecraft.block.SweetBerryBushBlock;
 import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.FoodComponent;
@@ -33,23 +32,12 @@ import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.blockpredicate.BlockPredicate;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.PlacedFeature;
-import net.minecraft.world.gen.feature.PlacedFeatures;
-import net.minecraft.world.gen.feature.RandomPatchFeatureConfig;
-import net.minecraft.world.gen.feature.SimpleBlockFeatureConfig;
-import net.minecraft.world.gen.placementmodifier.PlacementModifier;
-import net.minecraft.world.gen.placementmodifier.RarityFilterPlacementModifier;
-import net.minecraft.world.gen.stateprovider.BlockStateProvider;
+import net.minecraft.world.gen.GenerationStep;
 
 public class MoreBerries implements ModInitializer {
 
@@ -72,7 +60,6 @@ public class MoreBerries implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		AutoConfig.register(MoreBerriesConfig.class, JanksonConfigSerializer::new);
-
 		config = AutoConfig.getConfigHolder(MoreBerriesConfig.class).getConfig();
 
 		// Sweet berry stuff
@@ -106,15 +93,18 @@ public class MoreBerries implements ModInitializer {
 		LandPathNodeTypesRegistry.register(blackBerryBush, PathNodeType.DAMAGE_OTHER, null);
 
 		// Generation
-		registerGeneration(config.blackBerrySpawnBiomes, blackBerryBush, config.blackBerrySpawnChance, "blackberry");
-		registerGeneration(config.greenBerrySpawnBiomes, greenBerryBush, config.greenBerrySpawnChance, "greenberry");
-		registerGeneration(config.blueBerrySpawnBiomes, blueBerryBush, config.blueBerrySpawnChance, "blueberry");
-		registerGeneration(config.orangeBerrySpawnBiomes, orangeBerryBush, config.orangeBerrySpawnChance,
-				"orangeberry");
-		registerGeneration(config.purpleBerrySpawnBiomes, purpleBerryBush, config.purpleBerrySpawnChance,
-				"purpleberry");
-		registerGeneration(config.yellowBerrySpawnBiomes, yellowBerryBush, config.yellowBerrySpawnChance,
-				"yellowberry");
+		registerBiomeGeneration(config.blackBerrySpawnBiomes, blackBerryBush,
+				"black_berry");
+		registerBiomeGeneration(config.greenBerrySpawnBiomes, greenBerryBush,
+				"green_berry");
+		registerBiomeGeneration(config.blueBerrySpawnBiomes, blueBerryBush,
+				"blue_berry");
+		registerBiomeGeneration(config.orangeBerrySpawnBiomes, orangeBerryBush,
+				"orange_berry");
+		registerBiomeGeneration(config.purpleBerrySpawnBiomes, purpleBerryBush,
+				"purple_berry");
+		registerBiomeGeneration(config.yellowBerrySpawnBiomes, yellowBerryBush,
+				"yellow_berry");
 
 		addVanillaCandlesToCakeMap();
 
@@ -161,61 +151,24 @@ public class MoreBerries implements ModInitializer {
 		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.MAGENTA_CANDLE, (CandleCakeBlock) Blocks.MAGENTA_CANDLE_CAKE);
 	}
 
-	private void registerGeneration(String spawnBiomes, Block bushBlock, int spawnChance, String name) {
+	// Adds berry bushes to vanilla biomes
+	private void registerBiomeGeneration(String spawnBiomes, Block bushBlock, String name) {
 		String[] biomes = spawnBiomes.replaceAll(" ", "").split(",");
 
-		// Configure feature
-		BlockPredicate blockPredicate = BlockPredicate.allOf(BlockPredicate.IS_AIR,
-				BlockPredicate.wouldSurvive(blackBerryBush.getDefaultState(), BlockPos.ORIGIN),
-				BlockPredicate.not(BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), List.of(blackBerryBush,
-						blueBerryBush, orangeBerryBush, greenBerryBush, purpleBerryBush, yellowBerryBush))));
-		BlockStateProvider berryBushProvider = BlockStateProvider
-				.of(bushBlock.getDefaultState().with(SweetBerryBushBlock.AGE, 3));
-		RegistryEntry<PlacedFeature> placedFeatureEntry = PlacedFeatures.createEntry(Feature.SIMPLE_BLOCK,
-				new SimpleBlockFeatureConfig(
-						berryBushProvider),
-				blockPredicate);
-		RandomPatchFeatureConfig randomPatchConfig = new RandomPatchFeatureConfig(32, 2, 3, placedFeatureEntry);
-		ConfiguredFeature<RandomPatchFeatureConfig, ?> featureConfig = new ConfiguredFeature<>(Feature.RANDOM_PATCH,
-				randomPatchConfig);
+		// Get list of spawn biomes
+		ArrayList<RegistryKey<Biome>> biomeKeys = new ArrayList<>();
+		ArrayList<TagKey<Biome>> biomeTags = new ArrayList<>();
 
-		// Place feature
-		List<PlacementModifier> placementModifiers = List.of(RarityFilterPlacementModifier.of(spawnChance),
-				PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP);
-		RegistryEntry<PlacedFeature> placedFeature = PlacedFeatures.createEntry(Feature.RANDOM_PATCH, randomPatchConfig,
-				placementModifiers.stream().toArray(PlacementModifier[]::new));
+		for (String biome : biomes) {
+			// Category
+			if (biome.charAt(0) == '#') {
+				biomeTags.add(TagKey.of(RegistryKeys.BIOME, new Identifier(biome.substring(1))));
+			} else {
+				// Biome
+				biomeKeys.add(RegistryKey.of(RegistryKeys.BIOME, new Identifier(biome)));
+			}
+		}
 
-		// Register feature
-		/*
-		 * Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new
-		 * Identifier("moreberries", name + "_generation"),
-		 * featureConfig);
-		 * Registry.register(BuiltinRegistries.PLACED_FEATURE, new
-		 * Identifier("moreberries", name + "_generation"),
-		 * placedFeature.getKeyOrValue().right().get());
-		 * 
-		 * // Add to existing biome generation
-		 * ArrayList<RegistryKey<Biome>> biomeKeys = new ArrayList<>();
-		 * ArrayList<TagKey<Biome>> biomeTags = new ArrayList<>();
-		 * 
-		 * for (String biome : biomes) {
-		 * // Category
-		 * if (biome.charAt(0) == '#') {
-		 * biomeTags.add(TagKey.of(Registries.BIOME_KEY, new
-		 * Identifier(biome.substring(1))));
-		 * } else {
-		 * // Biome
-		 * biomeKeys.add(RegistryKey.of(Registries.BIOME_KEY, new Identifier(biome)));
-		 * }
-		 * }
-		 * 
-		 * registerBiomeGeneration(biomeKeys, biomeTags,
-		 * placedFeature.getKeyOrValue().right().get());
-		 */
-	}
-
-	private void registerBiomeGeneration(ArrayList<RegistryKey<Biome>> biomeKeys, ArrayList<TagKey<Biome>> biomeTags,
-			PlacedFeature feature) {
 		Predicate<BiomeSelectionContext> biomeSelector = BiomeSelectors.includeByKey(biomeKeys);
 
 		if (!biomeTags.isEmpty()) {
@@ -224,11 +177,11 @@ public class MoreBerries implements ModInitializer {
 			}
 		}
 
-		/*
-		 * BiomeModifications.addFeature(biomeSelector,
-		 * GenerationStep.Feature.VEGETAL_DECORATION,
-		 * BuiltinRegistries.PLACED_FEATURE.getKey(feature).get());
-		 */
+		// Add to biomes
+		BiomeModifications.addFeature(biomeSelector,
+				GenerationStep.Feature.VEGETAL_DECORATION,
+				RegistryKey.of(RegistryKeys.PLACED_FEATURE,
+						new Identifier("moreberries", String.format("%s_generation", name))));
 	}
 
 	private Block registerBlock(String name) {
@@ -248,15 +201,18 @@ public class MoreBerries implements ModInitializer {
 		BlockItem cakeItem = new BlockItem(cake, new Item.Settings());
 
 		// Register items
-		Registry.register(Registries.ITEM, new Identifier("moreberries", name + "_berries"), berryItem);
-		Registry.register(Registries.ITEM, new Identifier("moreberries", name + "_berry_juice"), juiceItem);
-		Registry.register(Registries.ITEM, new Identifier("moreberries", name + "_berry_pie"), pieItem);
+		Registry.register(Registries.ITEM, new Identifier("moreberries", String.format("%s_berries", name)), berryItem);
+		Registry.register(Registries.ITEM, new Identifier("moreberries", String.format("%s_berry_juice", name)),
+				juiceItem);
+		Registry.register(Registries.ITEM, new Identifier("moreberries", String.format("%s_berry_pie", name)), pieItem);
 
 		// Register blocks
-		Registry.register(Registries.BLOCK, new Identifier("moreberries", name + "_berry_bush"), bush);
-		Registry.register(Registries.ITEM, new Identifier("moreberries", name + "_berry_bush"), bushItem);
-		Registry.register(Registries.BLOCK, new Identifier("moreberries", name + "_berry_cake"), cake);
-		Registry.register(Registries.ITEM, new Identifier("moreberries", name + "_berry_cake"), cakeItem);
+		Registry.register(Registries.BLOCK, new Identifier("moreberries", String.format("%s_berry_bush", name)), bush);
+		Registry.register(Registries.ITEM, new Identifier("moreberries", String.format("%s_berry_bush", name)),
+				bushItem);
+		Registry.register(Registries.BLOCK, new Identifier("moreberries", String.format("%s_berry_cake", name)), cake);
+		Registry.register(Registries.ITEM, new Identifier("moreberries", String.format("%s_berry_cake", name)),
+				cakeItem);
 
 		itemStacks.add(new ItemStack(berryItem));
 		itemStacks.add(new ItemStack(juiceItem));
@@ -297,7 +253,7 @@ public class MoreBerries implements ModInitializer {
 	// Register a single candle cake
 	private void registerCandleCake(Block candle, BlockBerryCake cake, String colour, String berry) {
 		Block candleCake = new BlockCandleBerryCake(candle, cake, AbstractBlock.Settings.copy(Blocks.CANDLE_CAKE));
-		Identifier identifier = new Identifier("moreberries", colour + "candle_" + berry + "_berry_cake");
+		Identifier identifier = new Identifier("moreberries", String.format("%scandle_%s_berry_cake", colour, berry));
 		Registry.register(Registries.BLOCK, identifier, candleCake);
 	}
 }
