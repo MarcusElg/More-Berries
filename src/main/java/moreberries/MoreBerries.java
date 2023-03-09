@@ -110,7 +110,7 @@ public class MoreBerries implements ModInitializer {
 
 		// Itemgroup
 		itemGroup = FabricItemGroup.builder(new Identifier("moreberries", "berries"))
-				.icon(() -> new ItemStack(blueBerryBush)).entries((enabledFeatures, entries, operatorEnabled) -> {
+				.icon(() -> new ItemStack(blueBerryBush)).entries((context, entries) -> {
 					entries.add(new ItemStack(Items.SWEET_BERRIES));
 					entries.addAll(itemStacks);
 				}).build();
