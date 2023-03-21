@@ -31,7 +31,9 @@ public class ItemJuice extends Item {
 				Criteria.CONSUME_ITEM.trigger((ServerPlayerEntity) player, itemStack);
 			}
 			
-			player.giveItemStack(new ItemStack(Items.GLASS_BOTTLE));
+			if (!player.giveItemStack(new ItemStack(Items.GLASS_BOTTLE))) {
+				player.dropStack(new ItemStack(Items.GLASS_BOTTLE)); // Inventory full, summon in world instead
+			}
 		}
 		
 		itemStack.decrement(1);
