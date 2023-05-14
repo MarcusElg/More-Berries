@@ -2,8 +2,9 @@ package moreberries.config;
 
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
+import moreberries.MoreBerries;
 
-@Config(name = "moreberries")
+@Config(name = MoreBerries.MOD_ID)
 public class MoreBerriesConfig implements ConfigData {
 
     public String blackBerrySpawnBiomes = "minecraft:plains";

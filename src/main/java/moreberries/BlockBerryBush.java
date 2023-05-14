@@ -2,7 +2,13 @@ package moreberries;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.block.*;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.MapColor;
+import net.minecraft.block.ShapeContext;
+import net.minecraft.block.SweetBerryBushBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -25,7 +31,8 @@ public class BlockBerryBush extends SweetBerryBushBlock {
 	private static final VoxelShape LARGE_SHAPE = Block.createCuboidShape(1.0D, 0.0D, 1.0D, 15.0D, 14.0D, 15.0D);
 
 	public BlockBerryBush(Item item) {
-		super(AbstractBlock.Settings.of(Material.PLANT).ticksRandomly().noCollision().sounds(BlockSoundGroup.SWEET_BERRY_BUSH).nonOpaque());
+		super(AbstractBlock.Settings.create().mapColor(MapColor.DARK_GREEN).ticksRandomly().noCollision()
+				.sounds(BlockSoundGroup.SWEET_BERRY_BUSH).nonOpaque());
 		this.item = item;
 	}
 
@@ -63,7 +70,8 @@ public class BlockBerryBush extends SweetBerryBushBlock {
 
 	protected boolean canPlantOnTop(BlockState blockState, BlockView blockView, BlockPos blockPos) {
 		Block block = blockState.getBlock();
-		return block == Blocks.GRASS_BLOCK || block == Blocks.DIRT || block == Blocks.COARSE_DIRT || block == Blocks.ROOTED_DIRT
+		return block == Blocks.GRASS_BLOCK || block == Blocks.DIRT || block == Blocks.COARSE_DIRT
+				|| block == Blocks.ROOTED_DIRT
 				|| block == Blocks.PODZOL || block == MoreBerries.blueBerryBush
 				|| block == MoreBerries.blackBerryBush || block == MoreBerries.yellowBerryBush
 				|| block == MoreBerries.orangeBerryBush || block == MoreBerries.purpleBerryBush
