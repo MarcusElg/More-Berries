@@ -1,0 +1,43 @@
+{
+	"itemGroup.moreberries.berries": "Baies",
+	"item.moreberries.black_berries": "Baies noires",
+	"item.moreberries.blue_berries": "Baies bleues",
+	"item.moreberries.green_berries": "Baies vertes",
+	"item.moreberries.orange_berries": "Baies oranges",
+	"item.moreberries.purple_berries": "Baies violettes",
+	"item.moreberries.yellow_berries": "Baies jaunes",
+
+	"item.moreberries.black_berry_juice": "Jus de baies noires",
+	"item.moreberries.blue_berry_juice": "Jus de baies bleues",
+	"item.moreberries.green_berry_juice": "Jus de baies vertes",
+	"item.moreberries.yellow_berry_juice": "Jus de baies jaunes",
+	"item.moreberries.orange_berry_juice": "Jus de baies oranges",
+	"item.moreberries.purple_berry_juice": "Jus de baies violettes",
+	"item.moreberries.sweet_berry_juice": "Jus de baies sucrées",
+
+	"item.moreberries.black_berry_pie": "Tarte aux baies noires",
+	"item.moreberries.blue_berry_pie": "Tarte aux baies bleues",
+	"item.moreberries.green_berry_pie": "Tarte aux baies vertes",
+	"item.moreberries.yellow_berry_pie": "Tarte aux baies jaunes",
+	"item.moreberries.orange_berry_pie": "Tarte aux baies oranges",
+	"item.moreberries.purple_berry_pie": "Tarte aux baies violettes",
+	"item.moreberries.sweet_berry_pie": "Tarte aux baies sucrées",
+
+	"block.moreberries.black_berry_bush": "Buisson de baies noires",
+	"block.moreberries.blue_berry_bush": "Buisson de baies bleues",
+	"block.moreberries.green_berry_bush": "Buisson de baies vertes",
+	"block.moreberries.orange_berry_bush": "Buisson de baies oranges",
+	"block.moreberries.purple_berry_bush": "Buisson de baies violettes",
+	"block.moreberries.yellow_berry_bush": "Buisson de baies jaunes",
+
+	"block.moreberries.black_berry_cake": "Gâteau aux baies noires",
+	"block.moreberries.blue_berry_cake": "Gâteau aux baies bleues",
+	"block.moreberries.green_berry_cake": "Gâteau aux baies vertes",
+	"block.moreberries.orange_berry_cake": "Gâteau aux baies oranges",
+	"block.moreberries.purple_berry_cake": "Gâteau aux baies violettes",
+	"block.moreberries.yellow_berry_cake": "Gâteau aux baies jaunes",
+
+	"item.moreberries.juicer": "Presse-fruits",
+
+	"block.minecraft.cake": "Gâteau aux baies sucrées"
+}
