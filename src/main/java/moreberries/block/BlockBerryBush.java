@@ -1,5 +1,6 @@
-package moreberries;
+package moreberries.block;
 
+import moreberries.MoreBerries;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.AbstractBlock;

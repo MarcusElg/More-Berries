@@ -6,7 +6,12 @@ import java.util.function.Predicate;
 
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
+import moreberries.block.BlockBerryBush;
+import moreberries.block.BlockBerryCake;
+import moreberries.block.BlockCandleBerryCake;
 import moreberries.config.MoreBerriesConfig;
+import moreberries.item.ItemJuice;
+import moreberries.item.ItemJuicer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;

@@ -1,4 +1,4 @@
-package moreberries;
+package moreberries.block;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

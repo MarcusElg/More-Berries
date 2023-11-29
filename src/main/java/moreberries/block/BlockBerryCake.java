@@ -1,4 +1,6 @@
-package moreberries;
+package moreberries.block;
+
+import java.util.HashMap;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -11,8 +13,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.event.GameEvent;
 
-import java.util.HashMap;
-
 public class BlockBerryCake extends CakeBlock {
 
 	public HashMap<Block, CandleCakeBlock> CANDLES_TO_CANDLE_CAKES;
@@ -23,16 +23,17 @@ public class BlockBerryCake extends CakeBlock {
 		CANDLES_TO_CANDLE_CAKES = new HashMap<>();
 	}
 
-	public static ActionResult tryEat(WorldAccess worldAccess, BlockPos blockPos, BlockState blockState, PlayerEntity playerEntity) {
+	public static ActionResult tryEat(WorldAccess worldAccess, BlockPos blockPos, BlockState blockState,
+			PlayerEntity playerEntity) {
 		if (!playerEntity.canConsume(false)) {
 			return ActionResult.PASS;
 		} else {
 			playerEntity.incrementStat(Stats.EAT_CAKE_SLICE);
 			playerEntity.getHungerManager().add(2, 0.1F);
-			int i = (Integer)blockState.get(BITES);
+			int i = (Integer) blockState.get(BITES);
 			worldAccess.emitGameEvent(playerEntity, GameEvent.EAT, blockPos);
 			if (i < 6) {
-				worldAccess.setBlockState(blockPos, (BlockState)blockState.with(BITES, i + 1), 3);
+				worldAccess.setBlockState(blockPos, (BlockState) blockState.with(BITES, i + 1), 3);
 			} else {
 				worldAccess.removeBlock(blockPos, false);
 				worldAccess.emitGameEvent(playerEntity, GameEvent.BLOCK_DESTROY, blockPos);
