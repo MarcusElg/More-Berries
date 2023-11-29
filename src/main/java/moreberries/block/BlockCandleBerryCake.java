@@ -18,7 +18,7 @@ import net.minecraft.world.World;
 public class BlockCandleBerryCake extends CandleCakeBlock {
     private BlockBerryCake cake;
 
-    protected BlockCandleBerryCake(Block candle, BlockBerryCake cake, Settings settings) {
+    public BlockCandleBerryCake(Block candle, BlockBerryCake cake, Settings settings) {
         super(candle, settings);
         cake.CANDLES_TO_CANDLE_CAKES.put(candle, this);
         this.cake = cake;
