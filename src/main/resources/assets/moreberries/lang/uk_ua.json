@@ -1,0 +1,44 @@
+{
+	"itemGroup.moreberries.berries": "Ягоди",
+
+	"item.moreberries.black_berries": "Чорні ягоди",
+	"item.moreberries.blue_berries": "Сині ягоди",
+	"item.moreberries.green_berries": "Зелені ягоди",
+	"item.moreberries.orange_berries": "Помаранчеві ягоди",
+	"item.moreberries.purple_berries": "Фіолетові ягоди",
+	"item.moreberries.yellow_berries": "Жовті ягоди",
+
+	"item.moreberries.black_berry_juice": "Сік із чорних ягід",
+	"item.moreberries.blue_berry_juice": "Сік із синіх ягід",
+	"item.moreberries.green_berry_juice": "Сік із зелених ягід",
+	"item.moreberries.yellow_berry_juice": "Сік із жовтих ягід",
+	"item.moreberries.orange_berry_juice": "Сік із помаранчевих ягід",
+	"item.moreberries.purple_berry_juice": "Сік із фіолетових ягід",
+	"item.moreberries.sweet_berry_juice": "Сік із солодких ягід",
+
+	"item.moreberries.black_berry_pie": "Пиріг із чорних ягід",
+	"item.moreberries.blue_berry_pie": "Пиріг із синіх ягід",
+	"item.moreberries.green_berry_pie": "Пиріг із зелених ягід",
+	"item.moreberries.yellow_berry_pie": "Пиріг із жовтих ягід",
+	"item.moreberries.orange_berry_pie": "Пиріг із помаранчевих ягід",
+	"item.moreberries.purple_berry_pie": "Пиріг із фіолетових ягід",
+	"item.moreberries.sweet_berry_pie": "Пиріг із солодких ягід",
+
+	"block.moreberries.black_berry_bush": "Кущ чорних ягід",
+	"block.moreberries.blue_berry_bush": "Кущ синіх ягід",
+	"block.moreberries.green_berry_bush": "Кущ зелених ягід",
+	"block.moreberries.orange_berry_bush": "Кущ помаранчевих ягід",
+	"block.moreberries.purple_berry_bush": "Кущ фіолетових ягід",
+	"block.moreberries.yellow_berry_bush": "Кущ жовтих ягід",
+	"block.moreberries.black_berry_cake": "Кущ чорних ягід",
+
+	"block.moreberries.blue_berry_cake": "Торт із синіх ягід",
+	"block.moreberries.green_berry_cake": "Торт із зелених ягід",
+	"block.moreberries.orange_berry_cake": "Торт із помаранчевих ягід",
+	"block.moreberries.purple_berry_cake": "Торт із фіолетових ягід",
+	"block.moreberries.yellow_berry_cake": "Торт із жовтих ягід",
+
+	"item.moreberries.juicer": "Соківниця",
+
+	"block.minecraft.cake": "Торт із солодких ягід"
+}
