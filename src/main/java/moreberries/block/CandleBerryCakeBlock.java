@@ -2,8 +2,8 @@ package moreberries.block;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.CandleBlock;
 import net.minecraft.block.CandleCakeBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -17,11 +17,13 @@ import net.minecraft.world.World;
 
 public class CandleBerryCakeBlock extends CandleCakeBlock {
     private BerryCakeBlock cake;
+    public CandleBlock candle;
 
-    public CandleBerryCakeBlock(Block candle, BerryCakeBlock cake, Settings settings) {
+    public CandleBerryCakeBlock(CandleBlock candle, BerryCakeBlock cake, Settings settings) {
         super(candle, settings);
         cake.CANDLES_TO_CANDLE_CAKES.put(candle, this);
         this.cake = cake;
+        this.candle = candle;
     }
 
     @Environment(EnvType.CLIENT)
