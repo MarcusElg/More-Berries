@@ -21,14 +21,8 @@ public class MoreBerriesMinecraftRecipeProvider extends FabricRecipeProvider {
         ShapedRecipeJsonBuilder.create(RecipeCategory.FOOD, Blocks.CAKE).pattern("MBM").pattern("SES")
                 .pattern("WWW").input('M', Items.MILK_BUCKET).input('S', Items.SUGAR).input('W', Items.WHEAT)
                 .input('E', Items.EGG).input('B', Items.SWEET_BERRIES)
-                .criterion(FabricRecipeProvider.hasItem(Items.MILK_BUCKET),
-                        FabricRecipeProvider.conditionsFromItem(Items.MILK_BUCKET))
-                .criterion(FabricRecipeProvider.hasItem(Items.WHEAT),
-                        FabricRecipeProvider.conditionsFromItem(Items.WHEAT))
                 .criterion(FabricRecipeProvider.hasItem(Items.EGG),
                         FabricRecipeProvider.conditionsFromItem(Items.EGG))
-                .criterion(FabricRecipeProvider.hasItem(Items.SWEET_BERRIES),
-                        FabricRecipeProvider.conditionsFromItem(Items.SWEET_BERRIES))
                 .group("cakes")
                 .offerTo(exporter);
     }
