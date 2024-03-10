@@ -22,5 +22,5 @@ bin/
 # fabric
 
 run/
-src/moreberries/generated
 gradle
+src/moreberries/generated/.cache

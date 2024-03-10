@@ -10,5 +10,7 @@ public class MoreBerriesDataGenerationEndpoint implements DataGeneratorEntrypoin
         pack.addProvider(MoreBerriesWorldgenProvider::new);
         pack.addProvider(MoreBerriesItemTagProvider::new);
         pack.addProvider(MoreBerriesBlockTagProvider::new);
+        pack.addProvider(MoreBerriesMinecraftRecipeProvider::new);
+        pack.addProvider(MoreBerriesRecipeProvider::new);
     }
 }

@@ -24,6 +24,8 @@ public class MoreBerriesItemTagProvider extends ItemTagProvider {
                 .add(MoreBerries.juices.stream().toArray(JuiceItem[]::new));
         getOrCreateTagBuilder(TagKey.of(RegistryKeys.ITEM, new Identifier("minecraft:fox_food")))
                 .add(MoreBerries.berries.stream().toArray(Item[]::new));
+
+        // Nourish
         getOrCreateTagBuilder(TagKey.of(RegistryKeys.ITEM, new Identifier("nourish:carbohydrates")))
                 .add(MoreBerries.cakes.stream().map((block) -> block.asItem()).toArray(Item[]::new))
                 .add(MoreBerries.pies.stream().toArray(Item[]::new));

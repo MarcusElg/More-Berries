@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "pies",
+  "ingredients": [
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "item": "minecraft:egg"
+    },
+    {
+      "item": "moreberries:blue_berries"
+    }
+  ],
+  "result": {
+    "item": "moreberries:blue_berry_pie"
+  }
+}

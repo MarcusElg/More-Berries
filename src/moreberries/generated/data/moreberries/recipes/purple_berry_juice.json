@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "juices",
+  "ingredients": [
+    {
+      "item": "moreberries:juicer"
+    },
+    {
+      "item": "minecraft:glass_bottle"
+    },
+    {
+      "item": "moreberries:purple_berries"
+    }
+  ],
+  "result": {
+    "item": "moreberries:purple_berry_juice"
+  }
+}

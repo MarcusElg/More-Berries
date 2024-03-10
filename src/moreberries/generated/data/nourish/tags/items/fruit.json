@@ -1,0 +1,31 @@
+{
+  "replace": false,
+  "values": [
+    "moreberries:blue_berries",
+    "moreberries:yellow_berries",
+    "moreberries:orange_berries",
+    "moreberries:purple_berries",
+    "moreberries:green_berries",
+    "moreberries:black_berries",
+    "moreberries:sweet_berry_juice",
+    "moreberries:blue_berry_juice",
+    "moreberries:yellow_berry_juice",
+    "moreberries:orange_berry_juice",
+    "moreberries:purple_berry_juice",
+    "moreberries:green_berry_juice",
+    "moreberries:black_berry_juice",
+    "moreberries:blue_berry_cake",
+    "moreberries:yellow_berry_cake",
+    "moreberries:orange_berry_cake",
+    "moreberries:purple_berry_cake",
+    "moreberries:green_berry_cake",
+    "moreberries:black_berry_cake",
+    "moreberries:sweet_berry_pie",
+    "moreberries:blue_berry_pie",
+    "moreberries:yellow_berry_pie",
+    "moreberries:orange_berry_pie",
+    "moreberries:purple_berry_pie",
+    "moreberries:green_berry_pie",
+    "moreberries:black_berry_pie"
+  ]
+}

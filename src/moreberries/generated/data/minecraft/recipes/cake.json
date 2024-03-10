@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "cakes",
+  "key": {
+    "B": {
+      "item": "minecraft:sweet_berries"
+    },
+    "E": {
+      "item": "minecraft:egg"
+    },
+    "M": {
+      "item": "minecraft:milk_bucket"
+    },
+    "S": {
+      "item": "minecraft:sugar"
+    },
+    "W": {
+      "item": "minecraft:wheat"
+    }
+  },
+  "pattern": [
+    "MBM",
+    "SES",
+    "WWW"
+  ],
+  "result": {
+    "item": "minecraft:cake"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "moreberries:blue_berries",
+    "moreberries:yellow_berries",
+    "moreberries:orange_berries",
+    "moreberries:purple_berries",
+    "moreberries:green_berries",
+    "moreberries:black_berries"
+  ]
+}
