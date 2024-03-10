@@ -48,6 +48,9 @@ public class MoreBerries implements ModInitializer {
 
 	public static final String MOD_ID = "moreberries";
 
+	public ArrayList<ItemStack> itemStacks = new ArrayList<ItemStack>();
+
+	// Blocks
 	public static BerryBushBlock blueBerryBush;
 	public static BerryBushBlock yellowBerryBush;
 	public static BerryBushBlock orangeBerryBush;
@@ -55,9 +58,6 @@ public class MoreBerries implements ModInitializer {
 	public static BerryBushBlock greenBerryBush;
 	public static BerryBushBlock blackBerryBush;
 
-	public ArrayList<ItemStack> itemStacks = new ArrayList<ItemStack>();
-
-	// Blocks
 	public static ArrayList<BerryBushBlock> bushes = new ArrayList<>();
 	public static ArrayList<BerryCakeBlock> cakes = new ArrayList<>();
 	public static ArrayList<CandleBerryCakeBlock> candleCakes = new ArrayList<>();
@@ -70,7 +70,7 @@ public class MoreBerries implements ModInitializer {
 
 	public static MoreBerriesConfig config;
 
-	// Candle = Candle Cake Block
+	// Candle -> Candle Cake Block
 	public static HashMap<Block, CandleCakeBlock> VANILLA_CANDLES_TO_CANDLE_CAKES = new HashMap<>();
 
 	@Override
@@ -95,12 +95,12 @@ public class MoreBerries implements ModInitializer {
 		pies.add(sweetBerryPie);
 
 		// Berry stuff
-		blueBerryBush = registerBlock("blue");
-		yellowBerryBush = registerBlock("yellow");
-		orangeBerryBush = registerBlock("orange");
-		purpleBerryBush = registerBlock("purple");
-		greenBerryBush = registerBlock("green");
-		blackBerryBush = registerBlock("black");
+		blueBerryBush = registerBerryType("blue");
+		yellowBerryBush = registerBerryType("yellow");
+		orangeBerryBush = registerBerryType("orange");
+		purpleBerryBush = registerBerryType("purple");
+		greenBerryBush = registerBerryType("green");
+		blackBerryBush = registerBerryType("black");
 
 		// Path node types (mobs should avoid berry bushes)
 		for (BerryBushBlock bush : bushes) {
@@ -202,7 +202,7 @@ public class MoreBerries implements ModInitializer {
 						new Identifier(MOD_ID, String.format("%s_generation", name))));
 	}
 
-	private BerryBushBlock registerBlock(String name) {
+	private BerryBushBlock registerBerryType(String name) {
 		// Create items
 		Item berryItem = new Item(new Item.Settings()
 				.food(new FoodComponent.Builder().hunger(2).saturationModifier(0.1f).build()));

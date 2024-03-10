@@ -1,5 +1,8 @@
 package moreberries;
 
+import java.util.ArrayList;
+
+import moreberries.block.BerryBushBlock;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
@@ -13,19 +16,12 @@ public class MoreBerriesClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        registerBlocks(new Block[]{
-                MoreBerries.blueBerryBush,
-                MoreBerries.blackBerryBush,
-                MoreBerries.greenBerryBush,
-                MoreBerries.yellowBerryBush,
-                MoreBerries.orangeBerryBush,
-                MoreBerries.purpleBerryBush
-        });
+        registerBlocks(MoreBerries.bushes);
 
         registerBlockColour(Blocks.SWEET_BERRY_BUSH);
     }
 
-    public void registerBlocks(Block[] blocks) {
+    public void registerBlocks(ArrayList<BerryBushBlock> blocks) {
         for (Block block : blocks) {
             registerBlockColour(block);
             BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getCutout());

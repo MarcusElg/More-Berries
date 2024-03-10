@@ -105,7 +105,7 @@ public class MoreBerriesModelProvider extends FabricModelProvider {
     private TextureMap getCandleCakeTextureMap(BerryCakeBlock cakeBlock, CandleBlock candle, boolean lit) {
         return new TextureMap().put(TextureKey.PARTICLE, TextureMap.getSubId(Blocks.CAKE, "_side"))
                 .put(TextureKey.BOTTOM, TextureMap.getSubId(Blocks.CAKE, "_bottom"))
-                .put(TextureKey.TOP, TextureMap.getId(cakeBlock))
+                .put(TextureKey.TOP, TextureMap.getSubId(cakeBlock, "_top"))
                 .put(TextureKey.SIDE, TextureMap.getSubId(Blocks.CAKE, "_side"))
                 .put(TextureKey.CANDLE, TextureMap.getSubId(candle, lit ? "_lit" : ""));
     }

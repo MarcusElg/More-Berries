@@ -5,6 +5,6 @@
     "candle": "minecraft:block/green_candle",
     "particle": "minecraft:block/cake_side",
     "side": "minecraft:block/cake_side",
-    "top": "moreberries:block/purple_berry_cake"
+    "top": "moreberries:block/purple_berry_cake_top"
   }
 }
