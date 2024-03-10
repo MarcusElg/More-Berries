@@ -25,13 +25,13 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-public class BlockBerryBush extends SweetBerryBushBlock {
+public class BerryBushBlock extends SweetBerryBushBlock {
 
 	public Item item;
 	private static final VoxelShape SMALL_SHAPE = Block.createCuboidShape(3.0D, 0.0D, 3.0D, 13.0D, 10.0D, 13.0D);
 	private static final VoxelShape LARGE_SHAPE = Block.createCuboidShape(1.0D, 0.0D, 1.0D, 15.0D, 14.0D, 15.0D);
 
-	public BlockBerryBush(Item item) {
+	public BerryBushBlock(Item item) {
 		super(AbstractBlock.Settings.create().mapColor(MapColor.DARK_GREEN).ticksRandomly().noCollision()
 				.sounds(BlockSoundGroup.SWEET_BERRY_BUSH).nonOpaque());
 		this.item = item;

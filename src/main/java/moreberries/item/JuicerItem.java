@@ -3,9 +3,9 @@ package moreberries.item;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class ItemJuicer extends Item {
+public class JuicerItem extends Item {
 
-	public ItemJuicer(Item.Settings settings) {
+	public JuicerItem(Item.Settings settings) {
 		super(settings);
 	}
 

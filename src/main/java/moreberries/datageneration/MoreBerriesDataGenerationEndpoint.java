@@ -8,5 +8,7 @@ public class MoreBerriesDataGenerationEndpoint implements DataGeneratorEntrypoin
     public void onInitializeDataGenerator(FabricDataGenerator dataGenerator) {
         FabricDataGenerator.Pack pack = dataGenerator.createPack();
         pack.addProvider(MoreBerriesWorldgenProvider::new);
+        pack.addProvider(MoreBerriesItemTagProvider::new);
+        pack.addProvider(MoreBerriesBlockTagProvider::new);
     }
 }

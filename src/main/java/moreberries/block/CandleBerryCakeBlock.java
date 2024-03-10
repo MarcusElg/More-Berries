@@ -15,10 +15,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-public class BlockCandleBerryCake extends CandleCakeBlock {
-    private BlockBerryCake cake;
+public class CandleBerryCakeBlock extends CandleCakeBlock {
+    private BerryCakeBlock cake;
 
-    public BlockCandleBerryCake(Block candle, BlockBerryCake cake, Settings settings) {
+    public CandleBerryCakeBlock(Block candle, BerryCakeBlock cake, Settings settings) {
         super(candle, settings);
         cake.CANDLES_TO_CANDLE_CAKES.put(candle, this);
         this.cake = cake;
@@ -38,7 +38,7 @@ public class BlockCandleBerryCake extends CandleCakeBlock {
                 extinguish(playerEntity, blockState, world, blockPos);
                 return ActionResult.success(world.isClient);
             } else {
-                ActionResult actionResult = BlockBerryCake.tryEat(world, blockPos, cake.getDefaultState(),
+                ActionResult actionResult = BerryCakeBlock.tryEat(world, blockPos, cake.getDefaultState(),
                         playerEntity);
                 if (actionResult.isAccepted()) {
                     dropStacks(blockState, world, blockPos);

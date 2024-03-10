@@ -11,9 +11,9 @@ import net.minecraft.stat.Stats;
 import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 
-public class ItemJuice extends Item {
+public class JuiceItem extends Item {
 
-	public ItemJuice(Settings item$Settings) {
+	public JuiceItem(Settings item$Settings) {
 		super(item$Settings);
 	}
 

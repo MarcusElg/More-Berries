@@ -13,11 +13,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.event.GameEvent;
 
-public class BlockBerryCake extends CakeBlock {
+public class BerryCakeBlock extends CakeBlock {
 
 	public HashMap<Block, CandleCakeBlock> CANDLES_TO_CANDLE_CAKES;
 
-	public BlockBerryCake(Block.Settings settings) {
+	public BerryCakeBlock(Block.Settings settings) {
 		super(settings);
 		this.setDefaultState(this.getDefaultState().with(BITES, 0));
 		CANDLES_TO_CANDLE_CAKES = new HashMap<>();

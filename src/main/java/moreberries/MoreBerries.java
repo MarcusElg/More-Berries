@@ -6,12 +6,12 @@ import java.util.function.Predicate;
 
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
-import moreberries.block.BlockBerryBush;
-import moreberries.block.BlockBerryCake;
-import moreberries.block.BlockCandleBerryCake;
+import moreberries.block.BerryBushBlock;
+import moreberries.block.BerryCakeBlock;
+import moreberries.block.CandleBerryCakeBlock;
 import moreberries.config.MoreBerriesConfig;
-import moreberries.item.ItemJuice;
-import moreberries.item.ItemJuicer;
+import moreberries.item.JuiceItem;
+import moreberries.item.JuicerItem;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
@@ -47,14 +47,25 @@ public class MoreBerries implements ModInitializer {
 
 	public static final String MOD_ID = "moreberries";
 
-	public static Block blueBerryBush;
-	public static Block yellowBerryBush;
-	public static Block orangeBerryBush;
-	public static Block purpleBerryBush;
-	public static Block greenBerryBush;
-	public static Block blackBerryBush;
+	public static BerryBushBlock blueBerryBush;
+	public static BerryBushBlock yellowBerryBush;
+	public static BerryBushBlock orangeBerryBush;
+	public static BerryBushBlock purpleBerryBush;
+	public static BerryBushBlock greenBerryBush;
+	public static BerryBushBlock blackBerryBush;
 
 	public ArrayList<ItemStack> itemStacks = new ArrayList<ItemStack>();
+
+	// Blocks
+	public static ArrayList<BerryBushBlock> bushes = new ArrayList<>();
+	public static ArrayList<BerryCakeBlock> cakes = new ArrayList<>();
+	public static ArrayList<CandleBerryCakeBlock> candleCakes = new ArrayList<>();
+
+	// Items
+	public static ArrayList<Item> berries = new ArrayList<>();
+	public static ArrayList<JuiceItem> juices = new ArrayList<>();
+	public static ArrayList<Item> pies = new ArrayList<>();
+	public static Item juicer;
 
 	public static MoreBerriesConfig config;
 
@@ -67,18 +78,20 @@ public class MoreBerries implements ModInitializer {
 		config = AutoConfig.getConfigHolder(MoreBerriesConfig.class).getConfig();
 
 		// Sweet berry stuff
-		Item juicer = new ItemJuicer(new Item.Settings());
+		juicer = new JuicerItem(new Item.Settings());
 		Registry.register(Registries.ITEM, new Identifier(MOD_ID, "juicer"), juicer);
 		itemStacks.add(new ItemStack(juicer));
 
-		Item sweetBerryJuice = new ItemJuice(new Item.Settings()
+		JuiceItem sweetBerryJuice = new JuiceItem(new Item.Settings()
 				.food(new FoodComponent.Builder().hunger(3).saturationModifier(0.1f).build()));
 		Registry.register(Registries.ITEM, new Identifier(MOD_ID, "sweet_berry_juice"), sweetBerryJuice);
 		itemStacks.add(new ItemStack(sweetBerryJuice));
+		juices.add(sweetBerryJuice);
 
 		Item sweetBerryPie = new Item(new Item.Settings().food(FoodComponents.PUMPKIN_PIE));
 		Registry.register(Registries.ITEM, new Identifier(MOD_ID, "sweet_berry_pie"), sweetBerryPie);
 		itemStacks.add(new ItemStack(sweetBerryPie));
+		pies.add(sweetBerryPie);
 
 		// Berry stuff
 		blueBerryBush = registerBlock("blue");
@@ -89,12 +102,9 @@ public class MoreBerries implements ModInitializer {
 		blackBerryBush = registerBlock("black");
 
 		// Path node types (mobs should avoid berry bushes)
-		LandPathNodeTypesRegistry.register(blueBerryBush, PathNodeType.DAMAGE_OTHER, null);
-		LandPathNodeTypesRegistry.register(yellowBerryBush, PathNodeType.DAMAGE_OTHER, null);
-		LandPathNodeTypesRegistry.register(orangeBerryBush, PathNodeType.DAMAGE_OTHER, null);
-		LandPathNodeTypesRegistry.register(purpleBerryBush, PathNodeType.DAMAGE_OTHER, null);
-		LandPathNodeTypesRegistry.register(greenBerryBush, PathNodeType.DAMAGE_OTHER, null);
-		LandPathNodeTypesRegistry.register(blackBerryBush, PathNodeType.DAMAGE_OTHER, null);
+		for (BerryBushBlock bush : bushes) {
+			LandPathNodeTypesRegistry.register(bush, PathNodeType.DAMAGE_OTHER, null);
+		}
 
 		// Generation
 		registerBiomeGeneration(config.blackBerrySpawnBiomes, blackBerryBush,
@@ -191,20 +201,18 @@ public class MoreBerries implements ModInitializer {
 						new Identifier(MOD_ID, String.format("%s_generation", name))));
 	}
 
-	private Block registerBlock(String name) {
+	private BerryBushBlock registerBlock(String name) {
 		// Create items
 		Item berryItem = new Item(new Item.Settings()
 				.food(new FoodComponent.Builder().hunger(2).saturationModifier(0.1f).build()));
-		Item juiceItem = null;
-		juiceItem = new ItemJuice(new Item.Settings().maxCount(16)
-				.food(new FoodComponent.Builder().hunger(3).saturationModifier(0.2F).build())
-				.recipeRemainder(juiceItem));
+		JuiceItem juiceItem = new JuiceItem(new Item.Settings().maxCount(16)
+				.food(new FoodComponent.Builder().hunger(3).saturationModifier(0.2F).build()));
 		Item pieItem = new Item(new Item.Settings().food(FoodComponents.PUMPKIN_PIE));
 
 		// Create blocks
-		Block bush = new BlockBerryBush(berryItem);
+		BerryBushBlock bush = new BerryBushBlock(berryItem);
 		BlockItem bushItem = new BlockItem(bush, new Item.Settings());
-		BlockBerryCake cake = new BlockBerryCake(Block.Settings.copy(Blocks.CAKE));
+		BerryCakeBlock cake = new BerryCakeBlock(Block.Settings.copy(Blocks.CAKE));
 		BlockItem cakeItem = new BlockItem(cake, new Item.Settings());
 
 		// Register items
@@ -221,6 +229,16 @@ public class MoreBerries implements ModInitializer {
 		Registry.register(Registries.ITEM, new Identifier(MOD_ID, String.format("%s_berry_cake", name)),
 				cakeItem);
 
+		// Save items
+		berries.add(berryItem);
+		juices.add(juiceItem);
+		pies.add(pieItem);
+
+		// Save blocks
+		bushes.add(bush);
+		cakes.add(cake);
+
+		// Add to creativetab
 		itemStacks.add(new ItemStack(berryItem));
 		itemStacks.add(new ItemStack(juiceItem));
 		itemStacks.add(new ItemStack(pieItem));
@@ -237,7 +255,7 @@ public class MoreBerries implements ModInitializer {
 	}
 
 	// Register all 17 candle cakes for a specific berry
-	private void registerCandleCakes(String berry, BlockBerryCake cakeBlock) {
+	private void registerCandleCakes(String berry, BerryCakeBlock cakeBlock) {
 		registerCandleCake(Blocks.CANDLE, cakeBlock, "", berry);
 		registerCandleCake(Blocks.BLACK_CANDLE, cakeBlock, "black_", berry);
 		registerCandleCake(Blocks.BLUE_CANDLE, cakeBlock, "blue_", berry);
@@ -258,9 +276,11 @@ public class MoreBerries implements ModInitializer {
 	}
 
 	// Register a single candle cake
-	private void registerCandleCake(Block candle, BlockBerryCake cake, String colour, String berry) {
-		Block candleCake = new BlockCandleBerryCake(candle, cake, AbstractBlock.Settings.copy(Blocks.CANDLE_CAKE));
+	private void registerCandleCake(Block candle, BerryCakeBlock cake, String colour, String berry) {
+		CandleBerryCakeBlock candleCake = new CandleBerryCakeBlock(candle, cake,
+				AbstractBlock.Settings.copy(Blocks.CANDLE_CAKE));
 		Identifier identifier = new Identifier(MOD_ID, String.format("%scandle_%s_berry_cake", colour, berry));
 		Registry.register(Registries.BLOCK, identifier, candleCake);
+		candleCakes.add(candleCake);
 	}
 }

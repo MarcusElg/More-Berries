@@ -1,0 +1,26 @@
+package moreberries.datageneration;
+
+import java.util.concurrent.CompletableFuture;
+
+import moreberries.MoreBerries;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider.BlockTagProvider;
+import net.minecraft.block.CandleCakeBlock;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.RegistryWrapper.WrapperLookup;
+import net.minecraft.registry.tag.TagKey;
+import net.minecraft.util.Identifier;
+
+public class MoreBerriesBlockTagProvider extends BlockTagProvider {
+
+    public MoreBerriesBlockTagProvider(FabricDataOutput output, CompletableFuture<WrapperLookup> registriesFuture) {
+        super(output, registriesFuture);
+    }
+
+    @Override
+    protected void configure(WrapperLookup arg) {
+        getOrCreateTagBuilder(TagKey.of(RegistryKeys.BLOCK, new Identifier("minecraft:candle_cakes")))
+                .add(MoreBerries.candleCakes.stream().toArray(CandleCakeBlock[]::new));
+    }
+
+}

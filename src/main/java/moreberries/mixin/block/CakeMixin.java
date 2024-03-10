@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import moreberries.MoreBerries;
-import moreberries.block.BlockBerryCake;
+import moreberries.block.BerryCakeBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CakeBlock;
@@ -45,8 +45,8 @@ public class CakeMixin {
                 world.playSound((PlayerEntity) null, blockPos, SoundEvents.BLOCK_CAKE_ADD_CANDLE, SoundCategory.BLOCKS,
                         1.0F, 1.0F);
 
-                if (blockState.getBlock() instanceof BlockBerryCake) {
-                    world.setBlockState(blockPos, ((BlockBerryCake) blockState.getBlock()).CANDLES_TO_CANDLE_CAKES
+                if (blockState.getBlock() instanceof BerryCakeBlock) {
+                    world.setBlockState(blockPos, ((BerryCakeBlock) blockState.getBlock()).CANDLES_TO_CANDLE_CAKES
                             .get(block).getDefaultState());
                 } else {
                     world.setBlockState(blockPos,
