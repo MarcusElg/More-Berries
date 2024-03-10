@@ -7,6 +7,11 @@ public class MoreBerriesDataGenerationEndpoint implements DataGeneratorEntrypoin
     @Override
     public void onInitializeDataGenerator(FabricDataGenerator dataGenerator) {
         FabricDataGenerator.Pack pack = dataGenerator.createPack();
+
+        // assets
+        pack.addProvider(MoreBerriesModelProvider::new);
+
+        // data
         pack.addProvider(MoreBerriesWorldgenProvider::new);
         pack.addProvider(MoreBerriesItemTagProvider::new);
         pack.addProvider(MoreBerriesBlockTagProvider::new);

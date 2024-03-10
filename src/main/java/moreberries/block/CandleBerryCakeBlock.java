@@ -16,7 +16,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
 public class CandleBerryCakeBlock extends CandleCakeBlock {
-    private BerryCakeBlock cake;
+    public BerryCakeBlock cake;
     public CandleBlock candle;
 
     public CandleBerryCakeBlock(CandleBlock candle, BerryCakeBlock cake, Settings settings) {

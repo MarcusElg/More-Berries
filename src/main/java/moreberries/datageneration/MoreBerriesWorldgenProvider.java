@@ -72,7 +72,7 @@ public class MoreBerriesWorldgenProvider extends FabricDynamicRegistryProvider {
                                 randomPatchConfig);
                 RegistryEntry<ConfiguredFeature<?, ?>> featureReference = entries.add(RegistryKey.of(
                                 RegistryKeys.CONFIGURED_FEATURE,
-                                new Identifier("moreberries", String.format("%s_generation", name))),
+                                new Identifier(MoreBerries.MOD_ID, String.format("%s_generation", name))),
                                 configuredFeature);
 
                 // Placed feature
@@ -82,7 +82,7 @@ public class MoreBerriesWorldgenProvider extends FabricDynamicRegistryProvider {
                                                 PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP,
                                                 BiomePlacementModifier.of()));
                 entries.add(RegistryKey.of(RegistryKeys.PLACED_FEATURE,
-                                new Identifier("moreberries", String.format("%s_generation", name))),
+                                new Identifier(MoreBerries.MOD_ID, String.format("%s_generation", name))),
                                 placedFeatureEntry);
         }
 

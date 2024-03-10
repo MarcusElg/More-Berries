@@ -25,6 +25,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.CandleBlock;
 import net.minecraft.block.CandleCakeBlock;
 import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.item.BlockItem;
@@ -256,27 +257,27 @@ public class MoreBerries implements ModInitializer {
 
 	// Register all 17 candle cakes for a specific berry
 	private void registerCandleCakes(String berry, BerryCakeBlock cakeBlock) {
-		registerCandleCake(Blocks.CANDLE, cakeBlock, "", berry);
-		registerCandleCake(Blocks.BLACK_CANDLE, cakeBlock, "black_", berry);
-		registerCandleCake(Blocks.BLUE_CANDLE, cakeBlock, "blue_", berry);
-		registerCandleCake(Blocks.BROWN_CANDLE, cakeBlock, "brown_", berry);
-		registerCandleCake(Blocks.CYAN_CANDLE, cakeBlock, "cyan_", berry);
-		registerCandleCake(Blocks.GRAY_CANDLE, cakeBlock, "gray_", berry);
-		registerCandleCake(Blocks.GREEN_CANDLE, cakeBlock, "green_", berry);
-		registerCandleCake(Blocks.LIME_CANDLE, cakeBlock, "lime_", berry);
-		registerCandleCake(Blocks.MAGENTA_CANDLE, cakeBlock, "magenta_", berry);
-		registerCandleCake(Blocks.ORANGE_CANDLE, cakeBlock, "orange_", berry);
-		registerCandleCake(Blocks.PINK_CANDLE, cakeBlock, "pink_", berry);
-		registerCandleCake(Blocks.PURPLE_CANDLE, cakeBlock, "purple_", berry);
-		registerCandleCake(Blocks.RED_CANDLE, cakeBlock, "red_", berry);
-		registerCandleCake(Blocks.WHITE_CANDLE, cakeBlock, "white_", berry);
-		registerCandleCake(Blocks.YELLOW_CANDLE, cakeBlock, "yellow_", berry);
-		registerCandleCake(Blocks.LIGHT_BLUE_CANDLE, cakeBlock, "light_blue_", berry);
-		registerCandleCake(Blocks.LIGHT_GRAY_CANDLE, cakeBlock, "light_gray_", berry);
+		registerCandleCake((CandleBlock) Blocks.CANDLE, cakeBlock, "", berry);
+		registerCandleCake((CandleBlock) Blocks.BLACK_CANDLE, cakeBlock, "black_", berry);
+		registerCandleCake((CandleBlock) Blocks.BLUE_CANDLE, cakeBlock, "blue_", berry);
+		registerCandleCake((CandleBlock) Blocks.BROWN_CANDLE, cakeBlock, "brown_", berry);
+		registerCandleCake((CandleBlock) Blocks.CYAN_CANDLE, cakeBlock, "cyan_", berry);
+		registerCandleCake((CandleBlock) Blocks.GRAY_CANDLE, cakeBlock, "gray_", berry);
+		registerCandleCake((CandleBlock) Blocks.GREEN_CANDLE, cakeBlock, "green_", berry);
+		registerCandleCake((CandleBlock) Blocks.LIME_CANDLE, cakeBlock, "lime_", berry);
+		registerCandleCake((CandleBlock) Blocks.MAGENTA_CANDLE, cakeBlock, "magenta_", berry);
+		registerCandleCake((CandleBlock) Blocks.ORANGE_CANDLE, cakeBlock, "orange_", berry);
+		registerCandleCake((CandleBlock) Blocks.PINK_CANDLE, cakeBlock, "pink_", berry);
+		registerCandleCake((CandleBlock) Blocks.PURPLE_CANDLE, cakeBlock, "purple_", berry);
+		registerCandleCake((CandleBlock) Blocks.RED_CANDLE, cakeBlock, "red_", berry);
+		registerCandleCake((CandleBlock) Blocks.WHITE_CANDLE, cakeBlock, "white_", berry);
+		registerCandleCake((CandleBlock) Blocks.YELLOW_CANDLE, cakeBlock, "yellow_", berry);
+		registerCandleCake((CandleBlock) Blocks.LIGHT_BLUE_CANDLE, cakeBlock, "light_blue_", berry);
+		registerCandleCake((CandleBlock) Blocks.LIGHT_GRAY_CANDLE, cakeBlock, "light_gray_", berry);
 	}
 
 	// Register a single candle cake
-	private void registerCandleCake(Block candle, BerryCakeBlock cake, String colour, String berry) {
+	private void registerCandleCake(CandleBlock candle, BerryCakeBlock cake, String colour, String berry) {
 		CandleBerryCakeBlock candleCake = new CandleBerryCakeBlock(candle, cake,
 				AbstractBlock.Settings.copy(Blocks.CANDLE_CAKE));
 		Identifier identifier = new Identifier(MOD_ID, String.format("%scandle_%s_berry_cake", colour, berry));
