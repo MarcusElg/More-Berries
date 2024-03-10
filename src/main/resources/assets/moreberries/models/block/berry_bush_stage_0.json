@@ -1,31 +1,150 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
+		"bush": "minecraft:block/oak_leaves",
 		"particle": "#bush"
 	},
 	"elements": [
 		{
-			"from": [3, 0, 3],
-			"to": [13, 10, 13],
+			"from": [
+				3,
+				0,
+				3
+			],
+			"to": [
+				13,
+				10,
+				13
+			],
 			"faces": {
-				"north": {"uv": [3, 3, 13, 13], "texture": "#bush", "tintindex": 0},
-				"east": {"uv": [3, 3, 13, 13], "texture": "#bush", "tintindex": 0},
-				"south": {"uv": [3, 3, 13, 13], "texture": "#bush", "tintindex": 0},
-				"west": {"uv": [3, 3, 13, 13], "texture": "#bush", "tintindex": 0},
-				"up": {"uv": [3, 3, 13, 13], "texture": "#bush", "tintindex": 0},
-				"down": {"uv": [3, 3, 13, 13], "texture": "#bush", "tintindex": 0}
+				"north": {
+					"uv": [
+						3,
+						3,
+						13,
+						13
+					],
+					"texture": "#bush",
+					"tintindex": 0
+				},
+				"east": {
+					"uv": [
+						3,
+						3,
+						13,
+						13
+					],
+					"texture": "#bush",
+					"tintindex": 0
+				},
+				"south": {
+					"uv": [
+						3,
+						3,
+						13,
+						13
+					],
+					"texture": "#bush",
+					"tintindex": 0
+				},
+				"west": {
+					"uv": [
+						3,
+						3,
+						13,
+						13
+					],
+					"texture": "#bush",
+					"tintindex": 0
+				},
+				"up": {
+					"uv": [
+						3,
+						3,
+						13,
+						13
+					],
+					"texture": "#bush",
+					"tintindex": 0
+				},
+				"down": {
+					"uv": [
+						3,
+						3,
+						13,
+						13
+					],
+					"texture": "#bush",
+					"tintindex": 0
+				}
 			}
 		},
 		{
-			"from": [3, 0, 3],
-			"to": [13, 10, 13],
+			"from": [
+				3,
+				0,
+				3
+			],
+			"to": [
+				13,
+				10,
+				13
+			],
 			"faces": {
-				"north": {"uv": [3, 3, 13, 13], "texture": "#berries"},
-				"east": {"uv": [3, 3, 13, 13], "texture": "#berries"},
-				"south": {"uv": [3, 3, 13, 13], "texture": "#berries"},
-				"west": {"uv": [3, 3, 13, 13], "texture": "#berries"},
-				"up": {"uv": [3, 3, 13, 13], "texture": "#berries"},
-				"down": {"uv": [3, 3, 13, 13], "texture": "#berries"}
+				"north": {
+					"uv": [
+						3,
+						3,
+						13,
+						13
+					],
+					"texture": "#berries"
+				},
+				"east": {
+					"uv": [
+						3,
+						3,
+						13,
+						13
+					],
+					"texture": "#berries"
+				},
+				"south": {
+					"uv": [
+						3,
+						3,
+						13,
+						13
+					],
+					"texture": "#berries"
+				},
+				"west": {
+					"uv": [
+						3,
+						3,
+						13,
+						13
+					],
+					"texture": "#berries"
+				},
+				"up": {
+					"uv": [
+						3,
+						3,
+						13,
+						13
+					],
+					"texture": "#berries"
+				},
+				"down": {
+					"uv": [
+						3,
+						3,
+						13,
+						13
+					],
+					"texture": "#berries"
+				}
 			}
 		}
 	]

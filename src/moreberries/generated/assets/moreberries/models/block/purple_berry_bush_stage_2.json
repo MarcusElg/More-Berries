@@ -1,0 +1,6 @@
+{
+  "parent": "moreberries:block/berry_bush_stage_1",
+  "textures": {
+    "berries": "moreberries:block/purple_berry_bush_stage_2"
+  }
+}

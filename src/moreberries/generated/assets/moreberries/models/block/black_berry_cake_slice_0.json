@@ -1,0 +1,6 @@
+{
+  "parent": "moreberries:block/berry_cake_slice_0",
+  "textures": {
+    "top": "moreberries:block/black_berry_cake_top"
+  }
+}

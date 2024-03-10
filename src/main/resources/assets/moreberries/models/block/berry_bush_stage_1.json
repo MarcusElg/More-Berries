@@ -1,64 +1,255 @@
 {
-	"credit": "Made with Blockbench",
-	"textures": {
-		"particle": "#bush"
-	},
-	"display": {
+    "credit": "Made with Blockbench",
+    "textures": {
+        "bush": "minecraft:block/oak_leaves",
+        "particle": "#bush"
+    },
+    "display": {
         "gui": {
-            "rotation": [ 30, 225, 0 ],
-            "translation": [ 0, 0, 0],
-            "scale":[ 0.625, 0.625, 0.625 ]
+            "rotation": [
+                30,
+                225,
+                0
+            ],
+            "translation": [
+                0,
+                0,
+                0
+            ],
+            "scale": [
+                0.625,
+                0.625,
+                0.625
+            ]
         },
         "ground": {
-            "rotation": [ 0, 0, 0 ],
-            "translation": [ 0, 3, 0],
-            "scale":[ 0.25, 0.25, 0.25 ]
+            "rotation": [
+                0,
+                0,
+                0
+            ],
+            "translation": [
+                0,
+                3,
+                0
+            ],
+            "scale": [
+                0.25,
+                0.25,
+                0.25
+            ]
         },
         "fixed": {
-            "rotation": [ 0, 0, 0 ],
-            "translation": [ 0, 0, 0],
-            "scale":[ 0.5, 0.5, 0.5 ]
+            "rotation": [
+                0,
+                0,
+                0
+            ],
+            "translation": [
+                0,
+                0,
+                0
+            ],
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
         },
         "thirdperson_righthand": {
-            "rotation": [ 75, 45, 0 ],
-            "translation": [ 0, 2.5, 0],
-            "scale": [ 0.375, 0.375, 0.375 ]
+            "rotation": [
+                75,
+                45,
+                0
+            ],
+            "translation": [
+                0,
+                2.5,
+                0
+            ],
+            "scale": [
+                0.375,
+                0.375,
+                0.375
+            ]
         },
         "firstperson_righthand": {
-            "rotation": [ 0, 45, 0 ],
-            "translation": [ 0, 0, 0 ],
-            "scale": [ 0.40, 0.40, 0.40 ]
+            "rotation": [
+                0,
+                45,
+                0
+            ],
+            "translation": [
+                0,
+                0,
+                0
+            ],
+            "scale": [
+                0.40,
+                0.40,
+                0.40
+            ]
         },
         "firstperson_lefthand": {
-            "rotation": [ 0, 225, 0 ],
-            "translation": [ 0, 0, 0 ],
-            "scale": [ 0.40, 0.40, 0.40 ]
+            "rotation": [
+                0,
+                225,
+                0
+            ],
+            "translation": [
+                0,
+                0,
+                0
+            ],
+            "scale": [
+                0.40,
+                0.40,
+                0.40
+            ]
         }
     },
-	"elements": [
-		{
-			"from": [1, 0, 1],
-			"to": [15, 14, 15],
-			"faces": {
-				"north": {"uv": [1, 1, 15, 15], "texture": "#bush", "tintindex": 0},
-				"east": {"uv": [1, 1, 15, 15], "texture": "#bush", "tintindex": 0},
-				"south": {"uv": [1, 1, 15, 15], "texture": "#bush", "tintindex": 0},
-				"west": {"uv": [1, 1, 15, 15], "texture": "#bush", "tintindex": 0},
-				"up": {"uv": [1, 1, 15, 15], "texture": "#bush", "tintindex": 0},
-				"down": {"uv": [1, 1, 15, 15], "texture": "#bush", "tintindex": 0}
-			}
-		},
-		{
-			"from": [1, 0, 1],
-			"to": [15, 14, 15],
-			"faces": {
-				"north": {"uv": [1, 1, 15, 15], "texture": "#berries"},
-				"east": {"uv": [1, 1, 15, 15], "texture": "#berries"},
-				"south": {"uv": [1, 1, 15, 15], "texture": "#berries"},
-				"west": {"uv": [1, 1, 15, 15], "texture": "#berries"},
-				"up": {"uv": [1, 1, 15, 15], "texture": "#berries"},
-				"down": {"uv": [1, 1, 15, 15], "texture": "#berries"}
-			}
-		}
-	]
+    "elements": [
+        {
+            "from": [
+                1,
+                0,
+                1
+            ],
+            "to": [
+                15,
+                14,
+                15
+            ],
+            "faces": {
+                "north": {
+                    "uv": [
+                        1,
+                        1,
+                        15,
+                        15
+                    ],
+                    "texture": "#bush",
+                    "tintindex": 0
+                },
+                "east": {
+                    "uv": [
+                        1,
+                        1,
+                        15,
+                        15
+                    ],
+                    "texture": "#bush",
+                    "tintindex": 0
+                },
+                "south": {
+                    "uv": [
+                        1,
+                        1,
+                        15,
+                        15
+                    ],
+                    "texture": "#bush",
+                    "tintindex": 0
+                },
+                "west": {
+                    "uv": [
+                        1,
+                        1,
+                        15,
+                        15
+                    ],
+                    "texture": "#bush",
+                    "tintindex": 0
+                },
+                "up": {
+                    "uv": [
+                        1,
+                        1,
+                        15,
+                        15
+                    ],
+                    "texture": "#bush",
+                    "tintindex": 0
+                },
+                "down": {
+                    "uv": [
+                        1,
+                        1,
+                        15,
+                        15
+                    ],
+                    "texture": "#bush",
+                    "tintindex": 0
+                }
+            }
+        },
+        {
+            "from": [
+                1,
+                0,
+                1
+            ],
+            "to": [
+                15,
+                14,
+                15
+            ],
+            "faces": {
+                "north": {
+                    "uv": [
+                        1,
+                        1,
+                        15,
+                        15
+                    ],
+                    "texture": "#berries"
+                },
+                "east": {
+                    "uv": [
+                        1,
+                        1,
+                        15,
+                        15
+                    ],
+                    "texture": "#berries"
+                },
+                "south": {
+                    "uv": [
+                        1,
+                        1,
+                        15,
+                        15
+                    ],
+                    "texture": "#berries"
+                },
+                "west": {
+                    "uv": [
+                        1,
+                        1,
+                        15,
+                        15
+                    ],
+                    "texture": "#berries"
+                },
+                "up": {
+                    "uv": [
+                        1,
+                        1,
+                        15,
+                        15
+                    ],
+                    "texture": "#berries"
+                },
+                "down": {
+                    "uv": [
+                        1,
+                        1,
+                        15,
+                        15
+                    ],
+                    "texture": "#berries"
+                }
+            }
+        }
+    ]
 }
