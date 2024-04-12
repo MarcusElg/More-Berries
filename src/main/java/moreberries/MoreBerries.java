@@ -27,10 +27,10 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CandleBlock;
 import net.minecraft.block.CandleCakeBlock;
+import net.minecraft.component.type.FoodComponent;
+import net.minecraft.component.type.FoodComponents;
 import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.item.BlockItem;
-import net.minecraft.item.FoodComponent;
-import net.minecraft.item.FoodComponents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -84,7 +84,7 @@ public class MoreBerries implements ModInitializer {
 		itemStacks.add(new ItemStack(juicer));
 
 		JuiceItem sweetBerryJuice = new JuiceItem(new Item.Settings()
-				.food(new FoodComponent.Builder().hunger(3).saturationModifier(0.1f).build()));
+				.food(new FoodComponent.Builder().nutrition(3).saturationModifier(0.1f).build()));
 		Registry.register(Registries.ITEM, new Identifier(MOD_ID, "sweet_berry_juice"), sweetBerryJuice);
 		itemStacks.add(new ItemStack(sweetBerryJuice));
 		juices.add(sweetBerryJuice);
@@ -121,8 +121,6 @@ public class MoreBerries implements ModInitializer {
 		registerBiomeGeneration(config.yellowBerrySpawnBiomes, yellowBerryBush,
 				"yellow_berry");
 
-		addVanillaCandlesToCakeMap();
-
 		// Itemgroup
 		Registry.register(Registries.ITEM_GROUP, new Identifier(MOD_ID, "berries"), FabricItemGroup.builder()
 				.icon(() -> new ItemStack(blueBerryBush))
@@ -147,26 +145,6 @@ public class MoreBerries implements ModInitializer {
 					FabricLoader.getInstance().getModContainer(MOD_ID).get(), Text.of("Berry Bush Recipes"),
 					ResourcePackActivationType.ALWAYS_ENABLED);
 		}
-	}
-
-	private void addVanillaCandlesToCakeMap() {
-		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.CANDLE, (CandleCakeBlock) Blocks.CANDLE_CAKE);
-		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.BLACK_CANDLE, (CandleCakeBlock) Blocks.BLACK_CANDLE_CAKE);
-		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.BLUE_CANDLE, (CandleCakeBlock) Blocks.BLUE_CANDLE_CAKE);
-		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.CYAN_CANDLE, (CandleCakeBlock) Blocks.CYAN_CANDLE_CAKE);
-		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.BROWN_CANDLE, (CandleCakeBlock) Blocks.BROWN_CANDLE_CAKE);
-		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.GRAY_CANDLE, (CandleCakeBlock) Blocks.GRAY_CANDLE_CAKE);
-		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.GREEN_CANDLE, (CandleCakeBlock) Blocks.GREEN_CANDLE_CAKE);
-		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.LIGHT_BLUE_CANDLE, (CandleCakeBlock) Blocks.LIGHT_BLUE_CANDLE_CAKE);
-		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.LIME_CANDLE, (CandleCakeBlock) Blocks.LIME_CANDLE_CAKE);
-		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.PURPLE_CANDLE, (CandleCakeBlock) Blocks.PURPLE_CANDLE_CAKE);
-		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.LIGHT_GRAY_CANDLE, (CandleCakeBlock) Blocks.LIGHT_GRAY_CANDLE_CAKE);
-		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.YELLOW_CANDLE, (CandleCakeBlock) Blocks.YELLOW_CANDLE_CAKE);
-		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.ORANGE_CANDLE, (CandleCakeBlock) Blocks.ORANGE_CANDLE_CAKE);
-		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.RED_CANDLE, (CandleCakeBlock) Blocks.RED_CANDLE_CAKE);
-		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.WHITE_CANDLE, (CandleCakeBlock) Blocks.WHITE_CANDLE_CAKE);
-		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.PINK_CANDLE, (CandleCakeBlock) Blocks.PINK_CANDLE_CAKE);
-		VANILLA_CANDLES_TO_CANDLE_CAKES.put(Blocks.MAGENTA_CANDLE, (CandleCakeBlock) Blocks.MAGENTA_CANDLE_CAKE);
 	}
 
 	// Adds berry bushes to vanilla biomes
@@ -205,9 +183,9 @@ public class MoreBerries implements ModInitializer {
 	private BerryBushBlock registerBerryType(String name) {
 		// Create items
 		Item berryItem = new Item(new Item.Settings()
-				.food(new FoodComponent.Builder().hunger(2).saturationModifier(0.1f).build()));
+				.food(new FoodComponent.Builder().nutrition(2).saturationModifier(0.1f).build()));
 		JuiceItem juiceItem = new JuiceItem(new Item.Settings().maxCount(16)
-				.food(new FoodComponent.Builder().hunger(3).saturationModifier(0.2F).build()));
+				.food(new FoodComponent.Builder().nutrition(3).saturationModifier(0.2F).build()));
 		Item pieItem = new Item(new Item.Settings().food(FoodComponents.PUMPKIN_PIE));
 
 		// Create blocks

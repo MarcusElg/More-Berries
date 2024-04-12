@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "moreberries:orange_berries"
-            ]
+            "items": "moreberries:orange_berries"
           }
         ]
       },

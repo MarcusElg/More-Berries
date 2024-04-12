@@ -2,6 +2,7 @@ package moreberries.datageneration;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import moreberries.MoreBerries;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -13,11 +14,13 @@ import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.RecipeCategory;
+import net.minecraft.registry.RegistryWrapper;
 
 public class MoreBerriesRecipeProvider extends FabricRecipeProvider {
 
-    public MoreBerriesRecipeProvider(FabricDataOutput output) {
-        super(output);
+    public MoreBerriesRecipeProvider(FabricDataOutput output,
+            CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+        super(output, registriesFuture);
     }
 
     @Override

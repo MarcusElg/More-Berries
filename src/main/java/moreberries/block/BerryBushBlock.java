@@ -19,6 +19,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ItemActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
@@ -42,21 +43,27 @@ public class BerryBushBlock extends SweetBerryBushBlock {
 		return new ItemStack(this);
 	}
 
+	@Override
+	protected ItemActionResult onUseWithItem(ItemStack itemStack, BlockState blockState, World world, BlockPos blockPos,
+			PlayerEntity playerEntity, Hand hand, BlockHitResult blockHitResult) {
+		if (blockState.get(AGE) < 3 && itemStack.isOf(Items.BONE_MEAL)) {
+			return ItemActionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
+		}
+		return super.onUseWithItem(itemStack, blockState, world, blockPos, playerEntity, hand, blockHitResult);
+	}
+
+	@Override
 	public ActionResult onUse(BlockState blockState, World world, BlockPos blockPos, PlayerEntity playerEntity,
-			Hand hand, BlockHitResult blockHitResult) {
-		int int_1 = (Integer) blockState.get(AGE);
-		boolean boolean_1 = int_1 == 3;
-		if (!boolean_1 && playerEntity.getStackInHand(hand).getItem() == Items.BONE_MEAL) {
-			return ActionResult.PASS;
-		} else if (int_1 > 1) {
-			int int_2 = 1 + world.random.nextInt(2);
-			dropStack(world, blockPos, new ItemStack(item, int_2 + (boolean_1 ? 1 : 0)));
+			BlockHitResult blockHitResult) {
+		if (blockState.get(AGE) > 1) {
+			int dropCount = 1 + world.random.nextInt(2);
+			dropStack(world, blockPos, new ItemStack(item, dropCount + (blockState.get(AGE) == 3 ? 1 : 0)));
 			world.playSound((PlayerEntity) null, blockPos, SoundEvents.BLOCK_SWEET_BERRY_BUSH_PICK_BERRIES,
 					SoundCategory.BLOCKS, 1.0F, 0.8F + world.random.nextFloat() * 0.4F);
 			world.setBlockState(blockPos, (BlockState) blockState.with(AGE, 1), 2);
 			return ActionResult.SUCCESS;
 		} else {
-			return super.onUse(blockState, world, blockPos, playerEntity, hand, blockHitResult);
+			return super.onUse(blockState, world, blockPos, playerEntity, blockHitResult);
 		}
 	}
 

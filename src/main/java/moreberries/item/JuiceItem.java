@@ -24,7 +24,7 @@ public class JuiceItem extends Item {
 	public ItemStack finishUsing(ItemStack itemStack, World world, LivingEntity livingEntity) {
 		if (livingEntity instanceof PlayerEntity) {
 			PlayerEntity player = (PlayerEntity) livingEntity;
-			player.getHungerManager().eat(itemStack.getItem(), itemStack);
+			player.getHungerManager().eat(itemStack);
 			player.incrementStat(Stats.USED.getOrCreateStat(itemStack.getItem()));
 
 			if (player instanceof ServerPlayerEntity) {
