@@ -114,7 +114,7 @@ public class CandleBerryCakeBlock extends AbstractCandleBlock {
 
     @Override
     protected boolean canPlaceAt(BlockState blockState, WorldView worldView, BlockPos blockPos) {
-        return worldView.getBlockState(blockPos.down()).isSolid();
+        return worldView.getBlockState(blockPos.down()).isSolidBlock(worldView, blockPos);
     }
 
     @Override

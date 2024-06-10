@@ -33,7 +33,7 @@ public class MoreBerriesMinecraftRecipeProvider extends FabricRecipeProvider {
 
     @Override
     protected Identifier getRecipeIdentifier(Identifier identifier) {
-        return new Identifier("minecraft", identifier.getPath());
+        return Identifier.of(identifier.getPath());
     }
 
     @Override

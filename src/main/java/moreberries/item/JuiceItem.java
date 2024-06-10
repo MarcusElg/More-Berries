@@ -1,6 +1,7 @@
 package moreberries.item;
 
 import net.minecraft.advancement.criterion.Criteria;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -24,7 +25,7 @@ public class JuiceItem extends Item {
 	public ItemStack finishUsing(ItemStack itemStack, World world, LivingEntity livingEntity) {
 		if (livingEntity instanceof PlayerEntity) {
 			PlayerEntity player = (PlayerEntity) livingEntity;
-			player.getHungerManager().eat(itemStack);
+			player.getHungerManager().eat(itemStack.getComponents().get(DataComponentTypes.FOOD));
 			player.incrementStat(Stats.USED.getOrCreateStat(itemStack.getItem()));
 
 			if (player instanceof ServerPlayerEntity) {

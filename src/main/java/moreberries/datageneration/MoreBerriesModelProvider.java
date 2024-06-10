@@ -41,14 +41,14 @@ public class MoreBerriesModelProvider extends FabricModelProvider {
             SingleProperty<Integer> variantMap = BlockStateVariantMap.create(BerryBushBlock.AGE);
             for (int i = 0; i < 4; i++) {
                 Model model = new Model(
-                        Optional.of(new Identifier(MoreBerries.MOD_ID,
+                        Optional.of(Identifier.of(MoreBerries.MOD_ID,
                                 String.format("block/berry_bush_stage_%d",
                                         i < 1 ? 0 : 1))),
                         Optional.empty(),
                         BERRIES_KEY);
                 Identifier ageIdentifier = model.upload(bush, String.format("_stage_%d", i),
                         new TextureMap().put(BERRIES_KEY,
-                                i < 2 ? new Identifier(MoreBerries.MOD_ID,
+                                i < 2 ? Identifier.of(MoreBerries.MOD_ID,
                                         "block/empty")
                                         : TextureMap.getSubId(bush, String
                                                 .format("_stage_%d",
@@ -68,7 +68,7 @@ public class MoreBerriesModelProvider extends FabricModelProvider {
             SingleProperty<Integer> variantMap = BlockStateVariantMap.create(BerryCakeBlock.BITES);
             for (int i = 0; i < 7; i++) {
                 Model model = new Model(
-                        Optional.of(new Identifier(MoreBerries.MOD_ID,
+                        Optional.of(Identifier.of(MoreBerries.MOD_ID,
                                 String.format("block/berry_cake_slice_%d", i))),
                         Optional.empty(),
                         TextureKey.TOP);

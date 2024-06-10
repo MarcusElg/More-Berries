@@ -20,23 +20,23 @@ public class MoreBerriesItemTagProvider extends ItemTagProvider {
 
     @Override
     protected void configure(WrapperLookup arg) {
-        getOrCreateTagBuilder(TagKey.of(RegistryKeys.ITEM, new Identifier("dehydration:hydrating_drinks")))
+        getOrCreateTagBuilder(TagKey.of(RegistryKeys.ITEM, Identifier.of("dehydration", "hydrating_drinks")))
                 .add(MoreBerries.juices.stream().toArray(JuiceItem[]::new));
-        getOrCreateTagBuilder(TagKey.of(RegistryKeys.ITEM, new Identifier("minecraft:fox_food")))
+        getOrCreateTagBuilder(TagKey.of(RegistryKeys.ITEM, Identifier.of("fox_food")))
                 .add(MoreBerries.berries.stream().toArray(Item[]::new));
 
         // Nourish
-        getOrCreateTagBuilder(TagKey.of(RegistryKeys.ITEM, new Identifier("nourish:carbohydrates")))
+        getOrCreateTagBuilder(TagKey.of(RegistryKeys.ITEM, Identifier.of("nourish", "carbohydrates")))
                 .add(MoreBerries.cakes.stream().map((block) -> block.asItem()).toArray(Item[]::new))
                 .add(MoreBerries.pies.stream().toArray(Item[]::new));
-        getOrCreateTagBuilder(TagKey.of(RegistryKeys.ITEM, new Identifier("nourish:fats")))
+        getOrCreateTagBuilder(TagKey.of(RegistryKeys.ITEM, Identifier.of("nourish", "fats")))
                 .add(MoreBerries.cakes.stream().map((block) -> block.asItem()).toArray(Item[]::new));
-        getOrCreateTagBuilder(TagKey.of(RegistryKeys.ITEM, new Identifier("nourish:fruit")))
+        getOrCreateTagBuilder(TagKey.of(RegistryKeys.ITEM, Identifier.of("nourish", "fruit")))
                 .add(MoreBerries.berries.stream().toArray(Item[]::new))
                 .add(MoreBerries.juices.stream().toArray(Item[]::new))
                 .add(MoreBerries.cakes.stream().map((block) -> block.asItem()).toArray(Item[]::new))
                 .add(MoreBerries.pies.stream().toArray(Item[]::new));
-        getOrCreateTagBuilder(TagKey.of(RegistryKeys.ITEM, new Identifier("nourish:sweets")))
+        getOrCreateTagBuilder(TagKey.of(RegistryKeys.ITEM, Identifier.of("nourish", "sweets")))
                 .add(MoreBerries.cakes.stream().map((block) -> block.asItem()).toArray(Item[]::new))
                 .add(MoreBerries.pies.stream().toArray(Item[]::new));
     }
