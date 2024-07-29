@@ -6,7 +6,7 @@
 	"description": "Adds more berries, that can be used for cakes and more!",
 	"icon": "icon.png",
 	"authors": [
-		"MCrafterzz"
+		"Marcus Elg"
 	],
 	"entrypoints": {
 		"main": [

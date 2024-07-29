@@ -48,7 +48,7 @@ public class MoreBerries implements ModInitializer {
 
 	public static final String MOD_ID = "moreberries";
 
-	public ArrayList<ItemStack> itemStacks = new ArrayList<ItemStack>();
+	public ArrayList<ItemStack> itemStacks = new ArrayList<>();
 
 	// Blocks
 	public static BerryBushBlock blueBerryBush;
@@ -108,18 +108,12 @@ public class MoreBerries implements ModInitializer {
 		}
 
 		// Generation
-		registerBiomeGeneration(config.blackBerrySpawnBiomes, blackBerryBush,
-				"black_berry");
-		registerBiomeGeneration(config.greenBerrySpawnBiomes, greenBerryBush,
-				"green_berry");
-		registerBiomeGeneration(config.blueBerrySpawnBiomes, blueBerryBush,
-				"blue_berry");
-		registerBiomeGeneration(config.orangeBerrySpawnBiomes, orangeBerryBush,
-				"orange_berry");
-		registerBiomeGeneration(config.purpleBerrySpawnBiomes, purpleBerryBush,
-				"purple_berry");
-		registerBiomeGeneration(config.yellowBerrySpawnBiomes, yellowBerryBush,
-				"yellow_berry");
+		registerBiomeGeneration(config.blackBerrySpawnBiomes, "black_berry");
+		registerBiomeGeneration(config.greenBerrySpawnBiomes, "green_berry");
+		registerBiomeGeneration(config.blueBerrySpawnBiomes, "blue_berry");
+		registerBiomeGeneration(config.orangeBerrySpawnBiomes, "orange_berry");
+		registerBiomeGeneration(config.purpleBerrySpawnBiomes, "purple_berry");
+		registerBiomeGeneration(config.yellowBerrySpawnBiomes, "yellow_berry");
 
 		// Itemgroup
 		Registry.register(Registries.ITEM_GROUP, Identifier.of(MOD_ID, "berries"), FabricItemGroup.builder()
@@ -148,7 +142,7 @@ public class MoreBerries implements ModInitializer {
 	}
 
 	// Adds berry bushes to vanilla biomes
-	private void registerBiomeGeneration(String spawnBiomes, Block bushBlock, String name) {
+	private void registerBiomeGeneration(String spawnBiomes, String name) {
 		String[] biomes = spawnBiomes.replaceAll(" ", "").split(",");
 
 		// Get list of spawn biomes

@@ -18,23 +18,22 @@ public class JuiceItem extends Item {
 		super(item$Settings);
 	}
 
+	@Override
 	public UseAction getUseAction(ItemStack itemStack) {
 		return UseAction.DRINK;
 	}
 
+	@Override
 	public ItemStack finishUsing(ItemStack itemStack, World world, LivingEntity livingEntity) {
-		if (livingEntity instanceof PlayerEntity) {
-			PlayerEntity player = (PlayerEntity) livingEntity;
+		if (livingEntity instanceof PlayerEntity player) {
 			player.getHungerManager().eat(itemStack.getComponents().get(DataComponentTypes.FOOD));
 			player.incrementStat(Stats.USED.getOrCreateStat(itemStack.getItem()));
 
-			if (player instanceof ServerPlayerEntity) {
-				Criteria.CONSUME_ITEM.trigger((ServerPlayerEntity) player, itemStack);
+			if (player instanceof ServerPlayerEntity serverPlayerEntity) {
+				Criteria.CONSUME_ITEM.trigger(serverPlayerEntity, itemStack);
 			}
 
-			if (!player.giveItemStack(new ItemStack(Items.GLASS_BOTTLE))) {
-				player.dropStack(new ItemStack(Items.GLASS_BOTTLE)); // Inventory full, summon in world instead
-			}
+			player.getInventory().offerOrDrop(new ItemStack(Items.GLASS_BOTTLE));
 		}
 
 		itemStack.decrement(1);

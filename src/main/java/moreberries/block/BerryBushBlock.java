@@ -67,15 +67,17 @@ public class BerryBushBlock extends SweetBerryBushBlock {
 		}
 	}
 
+	@Override
 	public VoxelShape getOutlineShape(BlockState blockState, BlockView blockView, BlockPos blockPos,
 			ShapeContext entityContext) {
-		if ((Integer) blockState.get(AGE) == 0) {
+		if (blockState.get(AGE) == 0) {
 			return SMALL_SHAPE;
 		} else {
 			return LARGE_SHAPE;
 		}
 	}
 
+	@Override
 	protected boolean canPlantOnTop(BlockState blockState, BlockView blockView, BlockPos blockPos) {
 		Block block = blockState.getBlock();
 		return block == Blocks.GRASS_BLOCK || block == Blocks.DIRT || block == Blocks.COARSE_DIRT

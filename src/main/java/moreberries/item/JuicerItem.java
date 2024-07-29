@@ -9,6 +9,7 @@ public class JuicerItem extends Item {
 		super(settings);
 	}
 
+	@Override
 	public ItemStack getRecipeRemainder(ItemStack stack) {
 		return new ItemStack(stack.getItem());
 	}

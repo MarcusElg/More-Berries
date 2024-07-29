@@ -6,7 +6,6 @@ import moreberries.MoreBerries;
 
 @Config(name = MoreBerries.MOD_ID)
 public class MoreBerriesConfig implements ConfigData {
-
     public String blackBerrySpawnBiomes = "minecraft:plains";
     public String blueBerrySpawnBiomes = "minecraft:forest,minecraft:flower_forest,minecraft:dark_forest,minecraft:grove";
     public String greenBerrySpawnBiomes = "#minecraft:is_jungle";
