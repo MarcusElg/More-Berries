@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 1,
 	"id": "moreberries",
-	"version": "${version}",
+	"version": "${mod_version}",
 	"name": "More Berries",
 	"description": "Adds more berries, that can be used for cakes and more!",
 	"icon": "icon.png",
@@ -23,7 +23,8 @@
 		"mixins.moreberries.common.json"
 	],
 	"depends": {
-		"fabricloader": ">=0.11.3",
-		"fabric": "*"
+		"fabricloader": "*",
+		"fabric": "*",
+		"cloth-config": "*"
 	}
 }
