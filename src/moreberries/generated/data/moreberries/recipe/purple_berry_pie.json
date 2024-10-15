@@ -3,15 +3,9 @@
   "category": "misc",
   "group": "pies",
   "ingredients": [
-    {
-      "item": "minecraft:sugar"
-    },
-    {
-      "item": "minecraft:egg"
-    },
-    {
-      "item": "moreberries:purple_berries"
-    }
+    "minecraft:sugar",
+    "minecraft:egg",
+    "moreberries:purple_berries"
   ],
   "result": {
     "count": 1,

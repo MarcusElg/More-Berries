@@ -3,21 +3,11 @@
   "category": "misc",
   "group": "cakes",
   "key": {
-    "B": {
-      "item": "minecraft:sweet_berries"
-    },
-    "E": {
-      "item": "minecraft:egg"
-    },
-    "M": {
-      "item": "minecraft:milk_bucket"
-    },
-    "S": {
-      "item": "minecraft:sugar"
-    },
-    "W": {
-      "item": "minecraft:wheat"
-    }
+    "B": "minecraft:sweet_berries",
+    "E": "minecraft:egg",
+    "M": "minecraft:milk_bucket",
+    "S": "minecraft:sugar",
+    "W": "minecraft:wheat"
   },
   "pattern": [
     "MBM",

@@ -24,7 +24,7 @@
 	],
 	"depends": {
 		"fabricloader": "*",
-		"fabric": "*",
+		"fabric-api": "*",
 		"cloth-config": "*"
 	}
 }

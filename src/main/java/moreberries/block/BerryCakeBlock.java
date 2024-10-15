@@ -15,7 +15,6 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.ItemActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -53,12 +52,12 @@ public class BerryCakeBlock extends CakeBlock {
 	}
 
 	@Override
-	protected ItemActionResult onUseWithItem(ItemStack itemStack, BlockState blockState, World world, BlockPos blockPos,
+	protected ActionResult onUseWithItem(ItemStack itemStack, BlockState blockState, World world, BlockPos blockPos,
 			PlayerEntity playerEntity, Hand hand, BlockHitResult blockHitResult) {
 		Item item = itemStack.getItem();
 		Block block = Block.getBlockFromItem(item);
 		if (!itemStack.isIn(ItemTags.CANDLES) || blockState.get(BITES) != 0 || !(block instanceof CandleBlock)) {
-			return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+			return ActionResult.PASS_TO_DEFAULT_BLOCK_ACTION;
 		}
 
 		if (!playerEntity.isCreative()) {
@@ -72,7 +71,7 @@ public class BerryCakeBlock extends CakeBlock {
 		world.emitGameEvent(playerEntity, GameEvent.BLOCK_CHANGE, blockPos);
 		playerEntity.incrementStat(Stats.USED.getOrCreateStat(item));
 
-		return ItemActionResult.SUCCESS;
+		return ActionResult.SUCCESS;
 	}
 
 }

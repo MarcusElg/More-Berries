@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "#": {
-      "item": "minecraft:stone_button"
-    },
-    "_": {
-      "item": "minecraft:stone_slab"
-    }
+    "#": "minecraft:stone_button",
+    "_": "minecraft:stone_slab"
   },
   "pattern": [
     "#",

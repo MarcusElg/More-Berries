@@ -3,15 +3,9 @@
   "category": "misc",
   "group": "juices",
   "ingredients": [
-    {
-      "item": "moreberries:juicer"
-    },
-    {
-      "item": "minecraft:glass_bottle"
-    },
-    {
-      "item": "minecraft:sweet_berries"
-    }
+    "moreberries:juicer",
+    "minecraft:glass_bottle",
+    "minecraft:sweet_berries"
   ],
   "result": {
     "count": 1,

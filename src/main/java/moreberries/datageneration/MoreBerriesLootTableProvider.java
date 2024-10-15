@@ -22,6 +22,7 @@ import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
 import net.minecraft.predicate.StatePredicate;
 import net.minecraft.predicate.item.ItemPredicate;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.entry.RegistryEntry.Reference;
@@ -38,7 +39,7 @@ public class MoreBerriesLootTableProvider extends FabricBlockLootTableProvider {
 
         @Override
         public void generate() {
-                Reference<Enchantment> fortuneEnchantement = lookup.getWrapperOrThrow(RegistryKeys.ENCHANTMENT)
+                Reference<Enchantment> fortuneEnchantement = lookup.getOrThrow(RegistryKeys.ENCHANTMENT)
                                 .getOrThrow(Enchantments.FORTUNE);
 
                 // Bushes
@@ -79,7 +80,8 @@ public class MoreBerriesLootTableProvider extends FabricBlockLootTableProvider {
                                                                                         MatchToolLootCondition
                                                                                                         .builder(ItemPredicate.Builder
                                                                                                                         .create()
-                                                                                                                        .items(Items.SHEARS)))))
+                                                                                                                        .items(Registries.ITEM,
+                                                                                                                                        Items.SHEARS)))))
                                                         .apply(ExplosionDecayLootFunction.builder()));
                 }
 

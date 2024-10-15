@@ -22,17 +22,17 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.ItemActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
+import net.minecraft.world.tick.ScheduledTickView;
 
 public class CandleBerryCakeBlock extends AbstractCandleBlock {
     public static final BooleanProperty LIT = AbstractCandleBlock.LIT;
@@ -67,15 +67,15 @@ public class CandleBerryCakeBlock extends AbstractCandleBlock {
     }
 
     @Override
-    protected ItemActionResult onUseWithItem(ItemStack itemStack, BlockState blockState, World world, BlockPos blockPos,
+    protected ActionResult onUseWithItem(ItemStack itemStack, BlockState blockState, World world, BlockPos blockPos,
             PlayerEntity playerEntity, Hand hand, BlockHitResult blockHitResult) {
         if (itemStack.isOf(Items.FLINT_AND_STEEL) || itemStack.isOf(Items.FIRE_CHARGE)) {
-            return ItemActionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
+            return ActionResult.PASS_TO_DEFAULT_BLOCK_ACTION;
         }
         if (isHittingCandle(blockHitResult) && itemStack.isEmpty()
                 && blockState.get(LIT).booleanValue()) {
             extinguish(playerEntity, blockState, world, blockPos);
-            return ItemActionResult.success(world.isClient);
+            return ActionResult.SUCCESS;
         }
         return super.onUseWithItem(itemStack, blockState, world, blockPos, playerEntity, hand, blockHitResult);
     }
@@ -104,12 +104,19 @@ public class CandleBerryCakeBlock extends AbstractCandleBlock {
     }
 
     @Override
-    protected BlockState getStateForNeighborUpdate(BlockState blockState, Direction direction, BlockState blockState2,
-            WorldAccess worldAccess, BlockPos blockPos, BlockPos blockPos2) {
-        if (direction == Direction.DOWN && !blockState.canPlaceAt(worldAccess, blockPos)) {
+    protected BlockState getStateForNeighborUpdate(BlockState blockState,
+            WorldView worldView,
+            ScheduledTickView scheduledTickView,
+            BlockPos blockPos,
+            Direction direction,
+            BlockPos blockPos2,
+            BlockState blockState2,
+            Random random) {
+        if (direction == Direction.DOWN && !blockState.canPlaceAt(worldView, blockPos)) {
             return Blocks.AIR.getDefaultState();
         }
-        return super.getStateForNeighborUpdate(blockState, direction, blockState2, worldAccess, blockPos, blockPos2);
+        return super.getStateForNeighborUpdate(blockState, worldView, scheduledTickView, blockPos, direction, blockPos2,
+                blockState2, random);
     }
 
     @Override

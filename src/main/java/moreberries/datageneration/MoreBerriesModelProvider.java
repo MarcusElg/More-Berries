@@ -28,110 +28,109 @@ import net.minecraft.util.Identifier;
 
 public class MoreBerriesModelProvider extends FabricModelProvider {
 
-    public static final TextureKey BERRIES_KEY = TextureKey.of("berries");
+        public static final TextureKey BERRIES_KEY = TextureKey.of("berries");
 
-    public MoreBerriesModelProvider(FabricDataOutput output) {
-        super(output);
-    }
-
-    @Override
-    public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
-        // Bushes
-        for (BerryBushBlock bush : MoreBerries.bushes) {
-            SingleProperty<Integer> variantMap = BlockStateVariantMap.create(BerryBushBlock.AGE);
-            for (int i = 0; i < 4; i++) {
-                Model model = new Model(
-                        Optional.of(Identifier.of(MoreBerries.MOD_ID,
-                                String.format("block/berry_bush_stage_%d",
-                                        i < 1 ? 0 : 1))),
-                        Optional.empty(),
-                        BERRIES_KEY);
-                Identifier ageIdentifier = model.upload(bush, String.format("_stage_%d", i),
-                        new TextureMap().put(BERRIES_KEY,
-                                i < 2 ? Identifier.of(MoreBerries.MOD_ID,
-                                        "block/empty")
-                                        : TextureMap.getSubId(bush, String
-                                                .format("_stage_%d",
-                                                        i))),
-                        blockStateModelGenerator.modelCollector);
-                variantMap = variantMap.register(i,
-                        BlockStateVariant.create().put(VariantSettings.MODEL, ageIdentifier));
-            }
-
-            blockStateModelGenerator.blockStateCollector
-                    .accept(VariantsBlockStateSupplier.create(bush).coordinate(variantMap));
-            blockStateModelGenerator.registerParentedItemModel(bush, TextureMap.getSubId(bush, "_stage_3"));
+        public MoreBerriesModelProvider(FabricDataOutput output) {
+                super(output);
         }
 
-        // Cakes
-        for (BerryCakeBlock cake : MoreBerries.cakes) {
-            SingleProperty<Integer> variantMap = BlockStateVariantMap.create(BerryCakeBlock.BITES);
-            for (int i = 0; i < 7; i++) {
-                Model model = new Model(
-                        Optional.of(Identifier.of(MoreBerries.MOD_ID,
-                                String.format("block/berry_cake_slice_%d", i))),
-                        Optional.empty(),
-                        TextureKey.TOP);
-                Identifier sliceIdentifier = model.upload(cake, String.format("_slice_%d", i),
-                        new TextureMap().put(TextureKey.TOP,
-                                TextureMap.getSubId(cake, "_top")),
-                        blockStateModelGenerator.modelCollector);
+        @Override
+        public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
+                // Bushes
+                for (BerryBushBlock bush : MoreBerries.bushes) {
+                        SingleProperty<Integer> variantMap = BlockStateVariantMap.create(BerryBushBlock.AGE);
+                        for (int i = 0; i < 4; i++) {
+                                Model model = new Model(
+                                                Optional.of(MoreBerries.getId(String.format("block/berry_bush_stage_%d",
+                                                                i < 1 ? 0 : 1))),
+                                                Optional.empty(),
+                                                BERRIES_KEY);
+                                Identifier ageIdentifier = model.upload(bush, String.format("_stage_%d", i),
+                                                new TextureMap().put(BERRIES_KEY,
+                                                                i < 2 ? MoreBerries.getId(
+                                                                                "block/empty")
+                                                                                : TextureMap.getSubId(bush, String
+                                                                                                .format("_stage_%d",
+                                                                                                                i))),
+                                                blockStateModelGenerator.modelCollector);
+                                variantMap = variantMap.register(i,
+                                                BlockStateVariant.create().put(VariantSettings.MODEL, ageIdentifier));
+                        }
 
-                variantMap = variantMap.register(i,
-                        BlockStateVariant.create().put(VariantSettings.MODEL, sliceIdentifier));
-            }
+                        blockStateModelGenerator.blockStateCollector
+                                        .accept(VariantsBlockStateSupplier.create(bush).coordinate(variantMap));
+                        blockStateModelGenerator.registerParentedItemModel(bush, TextureMap.getSubId(bush, "_stage_3"));
+                }
 
-            blockStateModelGenerator.blockStateCollector
-                    .accept(VariantsBlockStateSupplier.create(cake).coordinate(variantMap));
-            blockStateModelGenerator.excludeFromSimpleItemModelGeneration(cake);
+                // Cakes
+                for (BerryCakeBlock cake : MoreBerries.cakes) {
+                        SingleProperty<Integer> variantMap = BlockStateVariantMap.create(BerryCakeBlock.BITES);
+                        for (int i = 0; i < 7; i++) {
+                                Model model = new Model(
+                                                Optional.of(MoreBerries.getId(
+                                                                String.format("block/berry_cake_slice_%d", i))),
+                                                Optional.empty(),
+                                                TextureKey.TOP);
+                                Identifier sliceIdentifier = model.upload(cake, String.format("_slice_%d", i),
+                                                new TextureMap().put(TextureKey.TOP,
+                                                                TextureMap.getSubId(cake, "_top")),
+                                                blockStateModelGenerator.modelCollector);
+
+                                variantMap = variantMap.register(i,
+                                                BlockStateVariant.create().put(VariantSettings.MODEL, sliceIdentifier));
+                        }
+
+                        blockStateModelGenerator.blockStateCollector
+                                        .accept(VariantsBlockStateSupplier.create(cake).coordinate(variantMap));
+                        blockStateModelGenerator.excludeFromSimpleItemModelGeneration(cake);
+                }
+
+                // Candle cakes
+                for (CandleBerryCakeBlock cake : MoreBerries.candleCakes) {
+                        Identifier unlitCandleCakeIdentifier = Models.TEMPLATE_CAKE_WITH_CANDLE.upload(cake,
+                                        getCandleCakeTextureMap(cake.cake, cake.candle, false),
+                                        blockStateModelGenerator.modelCollector);
+                        Identifier litCandleCakeIdentifier = Models.TEMPLATE_CAKE_WITH_CANDLE.upload(cake, "_lit",
+                                        getCandleCakeTextureMap(cake.cake, cake.candle, true),
+                                        blockStateModelGenerator.modelCollector);
+                        blockStateModelGenerator.blockStateCollector
+                                        .accept(VariantsBlockStateSupplier.create(cake).coordinate(
+                                                        BlockStateModelGenerator.createBooleanModelMap(Properties.LIT,
+                                                                        litCandleCakeIdentifier,
+                                                                        unlitCandleCakeIdentifier)));
+                }
         }
 
-        // Candle cakes
-        for (CandleBerryCakeBlock cake : MoreBerries.candleCakes) {
-            Identifier unlitCandleCakeIdentifier = Models.TEMPLATE_CAKE_WITH_CANDLE.upload(cake,
-                    getCandleCakeTextureMap(cake.cake, cake.candle, false),
-                    blockStateModelGenerator.modelCollector);
-            Identifier litCandleCakeIdentifier = Models.TEMPLATE_CAKE_WITH_CANDLE.upload(cake, "_lit",
-                    getCandleCakeTextureMap(cake.cake, cake.candle, true),
-                    blockStateModelGenerator.modelCollector);
-            blockStateModelGenerator.blockStateCollector
-                    .accept(VariantsBlockStateSupplier.create(cake).coordinate(
-                            BlockStateModelGenerator.createBooleanModelMap(Properties.LIT,
-                                    litCandleCakeIdentifier,
-                                    unlitCandleCakeIdentifier)));
-        }
-    }
-
-    private TextureMap getCandleCakeTextureMap(BerryCakeBlock cakeBlock, CandleBlock candle, boolean lit) {
-        return new TextureMap().put(TextureKey.PARTICLE, TextureMap.getSubId(Blocks.CAKE, "_side"))
-                .put(TextureKey.BOTTOM, TextureMap.getSubId(Blocks.CAKE, "_bottom"))
-                .put(TextureKey.TOP, TextureMap.getSubId(cakeBlock, "_top"))
-                .put(TextureKey.SIDE, TextureMap.getSubId(Blocks.CAKE, "_side"))
-                .put(TextureKey.CANDLE, TextureMap.getSubId(candle, lit ? "_lit" : ""));
-    }
-
-    @Override
-    public void generateItemModels(ItemModelGenerator itemModelGenerator) {
-        // Berries
-        for (Item berry : MoreBerries.berries) {
-            itemModelGenerator.register(berry, Models.GENERATED);
+        private TextureMap getCandleCakeTextureMap(BerryCakeBlock cakeBlock, CandleBlock candle, boolean lit) {
+                return new TextureMap().put(TextureKey.PARTICLE, TextureMap.getSubId(Blocks.CAKE, "_side"))
+                                .put(TextureKey.BOTTOM, TextureMap.getSubId(Blocks.CAKE, "_bottom"))
+                                .put(TextureKey.TOP, TextureMap.getSubId(cakeBlock, "_top"))
+                                .put(TextureKey.SIDE, TextureMap.getSubId(Blocks.CAKE, "_side"))
+                                .put(TextureKey.CANDLE, TextureMap.getSubId(candle, lit ? "_lit" : ""));
         }
 
-        // Juices
-        itemModelGenerator.register(MoreBerries.juicer, Models.GENERATED);
-        for (JuiceItem juice : MoreBerries.juices) {
-            itemModelGenerator.register(juice, Models.GENERATED);
-        }
+        @Override
+        public void generateItemModels(ItemModelGenerator itemModelGenerator) {
+                // Berries
+                for (Item berry : MoreBerries.berries) {
+                        itemModelGenerator.register(berry, Models.GENERATED);
+                }
 
-        // Pie
-        for (Item pie : MoreBerries.pies) {
-            itemModelGenerator.register(pie, Models.GENERATED);
-        }
+                // Juices
+                itemModelGenerator.register(MoreBerries.juicer, Models.GENERATED);
+                for (JuiceItem juice : MoreBerries.juices) {
+                        itemModelGenerator.register(juice, Models.GENERATED);
+                }
 
-        // Cakes
-        for (BerryCakeBlock cake : MoreBerries.cakes) {
-            itemModelGenerator.register(cake.asItem(), Models.GENERATED);
+                // Pie
+                for (Item pie : MoreBerries.pies) {
+                        itemModelGenerator.register(pie, Models.GENERATED);
+                }
+
+                // Cakes
+                for (BerryCakeBlock cake : MoreBerries.cakes) {
+                        itemModelGenerator.register(cake.asItem(), Models.GENERATED);
+                }
         }
-    }
 
 }

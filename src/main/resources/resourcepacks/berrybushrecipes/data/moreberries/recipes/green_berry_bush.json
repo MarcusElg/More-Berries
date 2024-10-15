@@ -2,12 +2,8 @@
   "type": "crafting_shapeless",
   "group": "berry_bush",
   "ingredients": [
-    {
-      "item": "moreberries:green_berries"
-    },
-    {
-      "item": "minecraft:oak_leaves"
-    }
+    "moreberries:green_berries",
+    "minecraft:oak_leaves"
   ],
   "result": {
     "item": "moreberries:green_berry_bush",

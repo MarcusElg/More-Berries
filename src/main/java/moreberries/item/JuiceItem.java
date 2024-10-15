@@ -9,18 +9,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.stat.Stats;
-import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 
 public class JuiceItem extends Item {
 
 	public JuiceItem(Settings item$Settings) {
 		super(item$Settings);
-	}
-
-	@Override
-	public UseAction getUseAction(ItemStack itemStack) {
-		return UseAction.DRINK;
 	}
 
 	@Override

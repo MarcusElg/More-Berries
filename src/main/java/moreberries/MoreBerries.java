@@ -27,6 +27,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CandleBlock;
 import net.minecraft.block.CandleCakeBlock;
+import net.minecraft.block.MapColor;
+import net.minecraft.component.type.ConsumableComponents;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.component.type.FoodComponents;
 import net.minecraft.entity.ai.pathing.PathNodeType;
@@ -39,6 +41,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.biome.Biome;
@@ -73,24 +76,31 @@ public class MoreBerries implements ModInitializer {
 	// Candle -> Candle Cake Block
 	public static HashMap<Block, CandleCakeBlock> VANILLA_CANDLES_TO_CANDLE_CAKES = new HashMap<>();
 
+	public static Identifier getId(String name) {
+		return Identifier.of(MOD_ID, name);
+	}
+
 	@Override
 	public void onInitialize() {
 		AutoConfig.register(MoreBerriesConfig.class, JanksonConfigSerializer::new);
 		config = AutoConfig.getConfigHolder(MoreBerriesConfig.class).getConfig();
 
 		// Sweet berry stuff
-		juicer = new JuicerItem(new Item.Settings());
-		Registry.register(Registries.ITEM, Identifier.of(MOD_ID, "juicer"), juicer);
+		juicer = new JuicerItem(new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, getId("juicer"))));
+		Registry.register(Registries.ITEM, getId("juicer"), juicer);
 		itemStacks.add(new ItemStack(juicer));
 
-		JuiceItem sweetBerryJuice = new JuiceItem(new Item.Settings()
-				.food(new FoodComponent.Builder().nutrition(3).saturationModifier(0.1f).build()));
-		Registry.register(Registries.ITEM, Identifier.of(MOD_ID, "sweet_berry_juice"), sweetBerryJuice);
+		JuiceItem sweetBerryJuice = new JuiceItem(
+				new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, getId("sweet_berry_juice")))
+						.food(new FoodComponent.Builder().nutrition(3).saturationModifier(0.1f).build(),
+								ConsumableComponents.DRINK));
+		Registry.register(Registries.ITEM, getId("sweet_berry_juice"), sweetBerryJuice);
 		itemStacks.add(new ItemStack(sweetBerryJuice));
 		juices.add(sweetBerryJuice);
 
-		Item sweetBerryPie = new Item(new Item.Settings().food(FoodComponents.PUMPKIN_PIE));
-		Registry.register(Registries.ITEM, Identifier.of(MOD_ID, "sweet_berry_pie"), sweetBerryPie);
+		Item sweetBerryPie = new Item(new Item.Settings().food(FoodComponents.PUMPKIN_PIE)
+				.registryKey(RegistryKey.of(RegistryKeys.ITEM, getId("sweet_berry_pie"))));
+		Registry.register(Registries.ITEM, getId("sweet_berry_pie"), sweetBerryPie);
 		itemStacks.add(new ItemStack(sweetBerryPie));
 		pies.add(sweetBerryPie);
 
@@ -116,7 +126,7 @@ public class MoreBerries implements ModInitializer {
 		registerBiomeGeneration(config.yellowBerrySpawnBiomes, "yellow_berry");
 
 		// Itemgroup
-		Registry.register(Registries.ITEM_GROUP, Identifier.of(MOD_ID, "berries"), FabricItemGroup.builder()
+		Registry.register(Registries.ITEM_GROUP, getId("berries"), FabricItemGroup.builder()
 				.icon(() -> new ItemStack(blueBerryBush))
 				.displayName(Text.translatable("itemGroup.moreberries.berries"))
 				.entries((context, entries) -> {
@@ -128,14 +138,14 @@ public class MoreBerries implements ModInitializer {
 		// Optional resource packs
 		if (config.replaceSweetBerryBushModel) {
 			ResourceManagerHelper.registerBuiltinResourcePack(
-					Identifier.of(MOD_ID, "modifiedsweetberrybushmodel"),
+					getId("modifiedsweetberrybushmodel"),
 					FabricLoader.getInstance().getModContainer(MOD_ID).get(),
 					Text.of("Modified Sweet Berry Bush Model"),
 					ResourcePackActivationType.ALWAYS_ENABLED);
 		}
 
 		if (config.craftableBerryBushes) {
-			ResourceManagerHelper.registerBuiltinResourcePack(Identifier.of(MOD_ID, "berrybushrecipes"),
+			ResourceManagerHelper.registerBuiltinResourcePack(getId("berrybushrecipes"),
 					FabricLoader.getInstance().getModContainer(MOD_ID).get(), Text.of("Berry Bush Recipes"),
 					ResourcePackActivationType.ALWAYS_ENABLED);
 		}
@@ -171,35 +181,47 @@ public class MoreBerries implements ModInitializer {
 		BiomeModifications.addFeature(biomeSelector,
 				GenerationStep.Feature.VEGETAL_DECORATION,
 				RegistryKey.of(RegistryKeys.PLACED_FEATURE,
-						Identifier.of(MOD_ID, String.format("%s_generation", name))));
+						getId(String.format("%s_generation", name))));
 	}
 
 	private BerryBushBlock registerBerryType(String name) {
 		// Create items
 		Item berryItem = new Item(new Item.Settings()
+				.registryKey(RegistryKey.of(RegistryKeys.ITEM, getId(String.format("%s_berries", name))))
 				.food(new FoodComponent.Builder().nutrition(2).saturationModifier(0.1f).build()));
-		JuiceItem juiceItem = new JuiceItem(new Item.Settings().maxCount(16)
+		JuiceItem juiceItem = new JuiceItem(new Item.Settings()
+				.registryKey(RegistryKey.of(RegistryKeys.ITEM, getId(String.format("%s_berry_juice", name))))
+				.maxCount(16)
 				.food(new FoodComponent.Builder().nutrition(3).saturationModifier(0.2F).build()));
-		Item pieItem = new Item(new Item.Settings().food(FoodComponents.PUMPKIN_PIE));
+		Item pieItem = new Item(new Item.Settings()
+				.registryKey(RegistryKey.of(RegistryKeys.ITEM, getId(String.format("%s_berry_pie", name))))
+				.food(FoodComponents.PUMPKIN_PIE));
 
 		// Create blocks
-		BerryBushBlock bush = new BerryBushBlock(berryItem);
-		BlockItem bushItem = new BlockItem(bush, new Item.Settings());
-		BerryCakeBlock cake = new BerryCakeBlock(Block.Settings.copy(Blocks.CAKE));
-		BlockItem cakeItem = new BlockItem(cake, new Item.Settings());
+		BerryBushBlock bush = new BerryBushBlock(berryItem,
+				AbstractBlock.Settings.create()
+						.registryKey(RegistryKey.of(RegistryKeys.BLOCK, getId(String.format("%s_berry_bush", name))))
+						.mapColor(MapColor.DARK_GREEN).ticksRandomly().noCollision()
+						.sounds(BlockSoundGroup.SWEET_BERRY_BUSH).nonOpaque());
+		BlockItem bushItem = new BlockItem(bush, new Item.Settings().useBlockPrefixedTranslationKey()
+				.registryKey(RegistryKey.of(RegistryKeys.ITEM, getId(String.format("%s_berry_bush", name)))));
+		BerryCakeBlock cake = new BerryCakeBlock(Block.Settings.copy(Blocks.CAKE)
+				.registryKey(RegistryKey.of(RegistryKeys.BLOCK, getId(String.format("%s_berry_cake", name)))));
+		BlockItem cakeItem = new BlockItem(cake, new Item.Settings().useBlockPrefixedTranslationKey()
+				.registryKey(RegistryKey.of(RegistryKeys.ITEM, getId(String.format("%s_berry_cake", name)))));
 
 		// Register items
-		Registry.register(Registries.ITEM, Identifier.of(MOD_ID, String.format("%s_berries", name)), berryItem);
-		Registry.register(Registries.ITEM, Identifier.of(MOD_ID, String.format("%s_berry_juice", name)),
+		Registry.register(Registries.ITEM, getId(String.format("%s_berries", name)), berryItem);
+		Registry.register(Registries.ITEM, getId(String.format("%s_berry_juice", name)),
 				juiceItem);
-		Registry.register(Registries.ITEM, Identifier.of(MOD_ID, String.format("%s_berry_pie", name)), pieItem);
+		Registry.register(Registries.ITEM, getId(String.format("%s_berry_pie", name)), pieItem);
 
 		// Register blocks
-		Registry.register(Registries.BLOCK, Identifier.of(MOD_ID, String.format("%s_berry_bush", name)), bush);
-		Registry.register(Registries.ITEM, Identifier.of(MOD_ID, String.format("%s_berry_bush", name)),
+		Registry.register(Registries.BLOCK, getId(String.format("%s_berry_bush", name)), bush);
+		Registry.register(Registries.ITEM, getId(String.format("%s_berry_bush", name)),
 				bushItem);
-		Registry.register(Registries.BLOCK, Identifier.of(MOD_ID, String.format("%s_berry_cake", name)), cake);
-		Registry.register(Registries.ITEM, Identifier.of(MOD_ID, String.format("%s_berry_cake", name)),
+		Registry.register(Registries.BLOCK, getId(String.format("%s_berry_cake", name)), cake);
+		Registry.register(Registries.ITEM, getId(String.format("%s_berry_cake", name)),
 				cakeItem);
 
 		// Save items
@@ -251,8 +273,9 @@ public class MoreBerries implements ModInitializer {
 	// Register a single candle cake
 	private void registerCandleCake(CandleBlock candle, BerryCakeBlock cake, String colour, String berry) {
 		CandleBerryCakeBlock candleCake = new CandleBerryCakeBlock(candle, cake,
-				AbstractBlock.Settings.copy(Blocks.CANDLE_CAKE));
-		Identifier identifier = Identifier.of(MOD_ID, String.format("%scandle_%s_berry_cake", colour, berry));
+				AbstractBlock.Settings.copy(Blocks.CANDLE_CAKE).registryKey(RegistryKey.of(RegistryKeys.BLOCK,
+						getId(String.format("%scandle_%s_berry_cake", colour, berry)))));
+		Identifier identifier = getId(String.format("%scandle_%s_berry_cake", colour, berry));
 		Registry.register(Registries.BLOCK, identifier, candleCake);
 		candleCakes.add(candleCake);
 	}

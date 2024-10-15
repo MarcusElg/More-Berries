@@ -7,19 +7,16 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.MapColor;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.SweetBerryBushBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.ItemActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
@@ -32,9 +29,8 @@ public class BerryBushBlock extends SweetBerryBushBlock {
 	private static final VoxelShape SMALL_SHAPE = Block.createCuboidShape(3.0D, 0.0D, 3.0D, 13.0D, 10.0D, 13.0D);
 	private static final VoxelShape LARGE_SHAPE = Block.createCuboidShape(1.0D, 0.0D, 1.0D, 15.0D, 14.0D, 15.0D);
 
-	public BerryBushBlock(Item item) {
-		super(AbstractBlock.Settings.create().mapColor(MapColor.DARK_GREEN).ticksRandomly().noCollision()
-				.sounds(BlockSoundGroup.SWEET_BERRY_BUSH).nonOpaque());
+	public BerryBushBlock(Item item, AbstractBlock.Settings settings) {
+		super(settings);
 		this.item = item;
 	}
 
@@ -44,10 +40,10 @@ public class BerryBushBlock extends SweetBerryBushBlock {
 	}
 
 	@Override
-	protected ItemActionResult onUseWithItem(ItemStack itemStack, BlockState blockState, World world, BlockPos blockPos,
+	protected ActionResult onUseWithItem(ItemStack itemStack, BlockState blockState, World world, BlockPos blockPos,
 			PlayerEntity playerEntity, Hand hand, BlockHitResult blockHitResult) {
 		if (blockState.get(AGE) < 3 && itemStack.isOf(Items.BONE_MEAL)) {
-			return ItemActionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
+			return ActionResult.PASS_TO_DEFAULT_BLOCK_ACTION;
 		}
 		return super.onUseWithItem(itemStack, blockState, world, blockPos, playerEntity, hand, blockHitResult);
 	}
