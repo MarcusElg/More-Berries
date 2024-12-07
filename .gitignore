@@ -23,4 +23,4 @@ bin/
 
 run/
 gradle
-src/moreberries/generated/.cache
+src/main/generated/.cache
