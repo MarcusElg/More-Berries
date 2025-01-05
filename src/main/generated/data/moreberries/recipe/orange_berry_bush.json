@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "berry_bushes",
+  "ingredients": [
+    "moreberries:orange_berries",
+    "minecraft:oak_leaves"
+  ],
+  "result": {
+    "count": 1,
+    "id": "moreberries:orange_berry_bush"
+  }
+}

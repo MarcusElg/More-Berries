@@ -137,6 +137,19 @@ public class MoreBerriesRecipeProvider extends FabricRecipeProvider {
                                                             .get(i)))
                             .offerTo(exporter);
                 }
+
+                // Optional berry bush recipes
+                for (int i = 0; i < MoreBerries.bushes.size(); i++) {
+                    ShapelessRecipeJsonBuilder.create(Registries.ITEM, RecipeCategory.FOOD, MoreBerries.bushes.get(i))
+                            .input(MoreBerries.berries.get(i)).input(Blocks.OAK_LEAVES).group("berry_bushes")
+                            .criterion(RecipeGenerator
+                                    .hasItem(MoreBerries.berries.get(i)),
+                                    this
+                                            .conditionsFromItem(
+                                                    MoreBerries.berries
+                                                            .get(i)))
+                            .offerTo(exporter);
+                }
             }
         };
     }
