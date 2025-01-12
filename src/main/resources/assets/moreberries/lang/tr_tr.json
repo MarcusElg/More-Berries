@@ -1,0 +1,44 @@
+{
+	"itemGroup.moreberries.berries":"Orman Meyveleri",
+
+	"item.moreberries.black_berries":"Siyah Orman Meyveleri",
+	"item.moreberries.blue_berries":"Mavi Orman Meyveleri",
+	"item.moreberries.green_berries":"Yeşil Orman Meyveleri",
+	"item.moreberries.orange_berries":"Turuncu Orman Meyveleri",
+	"item.moreberries.purple_berries":"Mor Orman Meyveleri",
+	"item.moreberries.yellow_berries":"Sarı Orman Meyveleri",
+	
+	"item.moreberries.black_berry_juice":"Siyah Orman Meyvesi Suyu",
+	"item.moreberries.blue_berry_juice":"Mavi Orman Meyvesi Suyu",
+	"item.moreberries.green_berry_juice":"Yeşil Orman Meyvesi Suyu",
+	"item.moreberries.yellow_berry_juice":"Sarı Orman Meyvesi Suyu",
+	"item.moreberries.orange_berry_juice":"Turuncu Orman Meyvesi Suyu",
+	"item.moreberries.purple_berry_juice":"Mor Orman Meyvesi Suyu",
+	"item.moreberries.sweet_berry_juice":"Tatlı Orman Meyvesi Suyu",
+	
+	"item.moreberries.black_berry_pie":"Siyah Orman Meyveli Turta",
+	"item.moreberries.blue_berry_pie":"Mavi Orman Meyveli Turta",
+	"item.moreberries.green_berry_pie":"Yeşil Orman Meyveli Turta",
+	"item.moreberries.yellow_berry_pie":"Sarı Orman Meyveli Turta",
+	"item.moreberries.orange_berry_pie":"Turuncu Orman Meyveli Turta",
+	"item.moreberries.purple_berry_pie":"Mor Orman Meyveli Turta",
+	"item.moreberries.sweet_berry_pie":"Tatlı Orman Meyveli Turta",
+	
+	"block.moreberries.black_berry_bush":"Siyah Orman Meyvesi Çalısı",
+	"block.moreberries.blue_berry_bush":"Mavi Orman Meyvesi Çalısı",
+	"block.moreberries.green_berry_bush":"Yeşil Orman Meyvesi Çalısı",
+	"block.moreberries.orange_berry_bush":"Turuncu Orman Meyvesi Çalısı",
+	"block.moreberries.purple_berry_bush":"Mor Orman Meyvesi Çalısı",
+	"block.moreberries.yellow_berry_bush":"Sarı Orman Meyvesi Çalısı",
+	
+	"block.moreberries.black_berry_cake":"Siyah Orman Meyvesi Keki",
+	"block.moreberries.blue_berry_cake":"Mavi Orman Meyvesi Keki",
+	"block.moreberries.green_berry_cake":"Yeşil Orman Meyvesi Keki",
+	"block.moreberries.orange_berry_cake":"Turuncu Orman Meyvesi Keki",
+	"block.moreberries.purple_berry_cake":"Mor Orman Meyvesi Keki",
+	"block.moreberries.yellow_berry_cake":"Sarı Orman Meyvesi Keki",
+
+	"item.moreberries.juicer":"Meyve Suyu Sıkacağı",
+
+	"block.minecraft.cake": "Tatlı Orman Meyvesi Keki"
+}
