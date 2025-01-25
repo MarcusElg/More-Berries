@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import moreberries.MoreBerries;
+import moreberries.config.CraftableBerryBushesResourceCondition;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.block.Blocks;
@@ -148,7 +149,7 @@ public class MoreBerriesRecipeProvider extends FabricRecipeProvider {
                                             .conditionsFromItem(
                                                     MoreBerries.berries
                                                             .get(i)))
-                            .offerTo(exporter);
+                            .offerTo(withConditions(exporter, new CraftableBerryBushesResourceCondition()));
                 }
             }
         };

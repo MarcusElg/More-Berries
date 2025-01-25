@@ -19,9 +19,7 @@
             "moreberries.client.datageneration.MoreBerriesDataGenerationEndpoint"
         ]
     },
-    "mixins": [
-        "mixins.moreberries.common.json"
-    ],
+    "mixins": [],
     "depends": {
         "fabricloader": "*",
         "fabric-api": "*",

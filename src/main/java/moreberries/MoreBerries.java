@@ -10,6 +10,7 @@ import moreberries.block.BerryBushBlock;
 import moreberries.block.BerryCakeBlock;
 import moreberries.block.CandleBerryCakeBlock;
 import moreberries.config.MoreBerriesConfig;
+import moreberries.config.CraftableBerryBushesResourceCondition;
 import moreberries.item.JuiceItem;
 import moreberries.item.JuicerItem;
 import net.fabricmc.api.ModInitializer;
@@ -21,6 +22,8 @@ import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 import net.fabricmc.fabric.api.registry.LandPathNodeTypesRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
+import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditionType;
+import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -75,6 +78,10 @@ public class MoreBerries implements ModInitializer {
 
     // Candle -> Candle Cake Block
     public static HashMap<Block, CandleCakeBlock> VANILLA_CANDLES_TO_CANDLE_CAKES = new HashMap<>();
+
+    // Resource conditions
+    public static final ResourceConditionType<CraftableBerryBushesResourceCondition> CRAFTABLE_BERRIES_RESOURCE_CONDITION = ResourceConditionType
+            .create(getId("craftable_berry_bushes"), CraftableBerryBushesResourceCondition.CODEC);
 
     public static Identifier getId(String name) {
         return Identifier.of(MOD_ID, name);
@@ -143,6 +150,9 @@ public class MoreBerries implements ModInitializer {
                     Text.of("Modified Sweet Berry Bush Model"),
                     ResourcePackActivationType.ALWAYS_ENABLED);
         }
+
+        // Resource conditions
+        ResourceConditions.register(CRAFTABLE_BERRIES_RESOURCE_CONDITION);
     }
 
     // Adds berry bushes to vanilla biomes

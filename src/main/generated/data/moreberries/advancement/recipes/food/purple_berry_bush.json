@@ -1,4 +1,9 @@
 {
+  "fabric:load_conditions": [
+    {
+      "condition": "moreberries:craftable_berry_bushes"
+    }
+  ],
   "parent": "minecraft:recipes/root",
   "criteria": {
     "has_purple_berries": {

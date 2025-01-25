@@ -1,4 +1,9 @@
 {
+  "fabric:load_conditions": [
+    {
+      "condition": "moreberries:craftable_berry_bushes"
+    }
+  ],
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "group": "berry_bushes",
