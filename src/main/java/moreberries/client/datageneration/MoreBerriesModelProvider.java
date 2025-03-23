@@ -12,7 +12,6 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CandleBlock;
 import net.minecraft.client.data.BlockStateModelGenerator;
-import net.minecraft.client.data.BlockStateVariant;
 import net.minecraft.client.data.BlockStateVariantMap;
 import net.minecraft.client.data.BlockStateVariantMap.SingleProperty;
 import net.minecraft.client.data.ItemModelGenerator;
@@ -20,9 +19,9 @@ import net.minecraft.client.data.Model;
 import net.minecraft.client.data.Models;
 import net.minecraft.client.data.TextureKey;
 import net.minecraft.client.data.TextureMap;
-import net.minecraft.client.data.VariantSettings;
-import net.minecraft.client.data.VariantsBlockStateSupplier;
+import net.minecraft.client.data.VariantsBlockModelDefinitionCreator;
 import net.minecraft.client.render.item.tint.GrassTintSource;
+import net.minecraft.client.render.model.json.WeightedVariant;
 import net.minecraft.item.Item;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
@@ -39,7 +38,7 @@ public class MoreBerriesModelProvider extends FabricModelProvider {
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
         // Bushes
         for (BerryBushBlock bush : MoreBerries.bushes) {
-            SingleProperty<Integer> variantMap = BlockStateVariantMap.create(BerryBushBlock.AGE);
+            SingleProperty<WeightedVariant, Integer> variantMap = BlockStateVariantMap.models(BerryBushBlock.AGE);
             for (int i = 0; i < 4; i++) {
                 Model model = new Model(
                         Optional.of(MoreBerries.getId(String.format("block/berry_bush_stage_%d",
@@ -54,19 +53,18 @@ public class MoreBerriesModelProvider extends FabricModelProvider {
                                                 .format("_stage_%d",
                                                         i))),
                         blockStateModelGenerator.modelCollector);
-                variantMap = variantMap.register(i,
-                        BlockStateVariant.create().put(VariantSettings.MODEL, ageIdentifier));
+                variantMap = variantMap.register(i, BlockStateModelGenerator.createWeightedVariant(ageIdentifier));
             }
 
             blockStateModelGenerator.blockStateCollector
-                    .accept(VariantsBlockStateSupplier.create(bush).coordinate(variantMap));
+                    .accept(VariantsBlockModelDefinitionCreator.of(bush).with(variantMap));
             blockStateModelGenerator.registerTintedItemModel(bush, TextureMap.getSubId(bush, "_stage_3"),
                     new GrassTintSource());
         }
 
         // Cakes
         for (BerryCakeBlock cake : MoreBerries.cakes) {
-            SingleProperty<Integer> variantMap = BlockStateVariantMap.create(BerryCakeBlock.BITES);
+            SingleProperty<WeightedVariant, Integer> variantMap = BlockStateVariantMap.models(BerryCakeBlock.BITES);
             for (int i = 0; i < 7; i++) {
                 Model model = new Model(
                         Optional.of(MoreBerries.getId(
@@ -78,12 +76,11 @@ public class MoreBerriesModelProvider extends FabricModelProvider {
                                 TextureMap.getSubId(cake, "_top")),
                         blockStateModelGenerator.modelCollector);
 
-                variantMap = variantMap.register(i,
-                        BlockStateVariant.create().put(VariantSettings.MODEL, sliceIdentifier));
+                variantMap = variantMap.register(i, BlockStateModelGenerator.createWeightedVariant(sliceIdentifier));
             }
 
             blockStateModelGenerator.blockStateCollector
-                    .accept(VariantsBlockStateSupplier.create(cake).coordinate(variantMap));
+                    .accept(VariantsBlockModelDefinitionCreator.of(cake).with(variantMap));
         }
 
         // Candle cakes
@@ -95,10 +92,10 @@ public class MoreBerriesModelProvider extends FabricModelProvider {
                     getCandleCakeTextureMap(cake.cake, cake.candle, true),
                     blockStateModelGenerator.modelCollector);
             blockStateModelGenerator.blockStateCollector
-                    .accept(VariantsBlockStateSupplier.create(cake).coordinate(
+                    .accept(VariantsBlockModelDefinitionCreator.of(cake).with(
                             BlockStateModelGenerator.createBooleanModelMap(Properties.LIT,
-                                    litCandleCakeIdentifier,
-                                    unlitCandleCakeIdentifier)));
+                                    BlockStateModelGenerator.createWeightedVariant(litCandleCakeIdentifier),
+                                    BlockStateModelGenerator.createWeightedVariant(unlitCandleCakeIdentifier))));
         }
     }
 
