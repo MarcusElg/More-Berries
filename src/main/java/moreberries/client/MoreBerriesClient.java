@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import moreberries.MoreBerries;
 import moreberries.block.BerryBushBlock;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.color.block.BlockColorProvider;
-import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.BlockRenderLayer;
 
 public class MoreBerriesClient implements ClientModInitializer {
 
@@ -24,7 +24,7 @@ public class MoreBerriesClient implements ClientModInitializer {
     public void registerBlocks(ArrayList<BerryBushBlock> blocks) {
         for (Block block : blocks) {
             registerBlockColour(block);
-            BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getCutout());
+            BlockRenderLayerMap.putBlock(block, BlockRenderLayer.CUTOUT);
         }
     }
 
