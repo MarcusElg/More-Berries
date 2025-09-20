@@ -1,4 +1,4 @@
-package moreberries.client.datageneration;
+package moreberries.client.data_generation;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -14,6 +14,7 @@ import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.condition.BlockStatePropertyLootCondition;
 import net.minecraft.loot.condition.MatchToolLootCondition;
+import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.function.ApplyBonusLootFunction;
 import net.minecraft.loot.function.ExplosionDecayLootFunction;
@@ -27,11 +28,11 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.entry.RegistryEntry.Reference;
 
-public class MoreBerriesLootTableProvider extends FabricBlockLootTableProvider {
+public class MoreBerriesBlockLootTableProvider extends FabricBlockLootTableProvider {
 
     RegistryWrapper.WrapperLookup lookup;
 
-    protected MoreBerriesLootTableProvider(FabricDataOutput dataOutput,
+    protected MoreBerriesBlockLootTableProvider(FabricDataOutput dataOutput,
             CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
         super(dataOutput, registriesFuture);
         this.lookup = registriesFuture.resultNow();
@@ -44,6 +45,7 @@ public class MoreBerriesLootTableProvider extends FabricBlockLootTableProvider {
 
         // Bushes
         for (int i = 0; i < MoreBerries.berries.size(); i++) {
+            // Breaking bush
             addDrop(MoreBerries.bushes.get(i),
                     LootTable.builder().pool(LootPool.builder()
                             .rolls(ConstantLootNumberProvider.create(1))

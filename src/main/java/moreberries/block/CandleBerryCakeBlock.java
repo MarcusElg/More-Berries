@@ -9,7 +9,6 @@ import net.minecraft.block.AbstractCandleBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.CakeBlock;
 import net.minecraft.block.CandleBlock;
 import net.minecraft.block.CandleCakeBlock;
 import net.minecraft.block.ShapeContext;
@@ -19,7 +18,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -35,7 +33,6 @@ import net.minecraft.world.WorldView;
 import net.minecraft.world.tick.ScheduledTickView;
 
 public class CandleBerryCakeBlock extends AbstractCandleBlock {
-    public static final BooleanProperty LIT = AbstractCandleBlock.LIT;
     protected static final VoxelShape CAKE_SHAPE = Block.createCuboidShape(1.0, 0.0, 1.0, 15.0, 8.0, 15.0);
     protected static final VoxelShape CANDLE_SHAPE = Block.createCuboidShape(7.0, 8.0, 7.0, 9.0, 14.0, 9.0);
     protected static final VoxelShape SHAPE = VoxelShapes.union(CAKE_SHAPE, CANDLE_SHAPE);
@@ -43,6 +40,7 @@ public class CandleBerryCakeBlock extends AbstractCandleBlock {
     public BerryCakeBlock cake;
     public CandleBlock candle;
 
+    @Override
     public MapCodec<CandleCakeBlock> getCodec() {
         return null;
     }
@@ -73,7 +71,7 @@ public class CandleBerryCakeBlock extends AbstractCandleBlock {
             return ActionResult.PASS_TO_DEFAULT_BLOCK_ACTION;
         }
         if (isHittingCandle(blockHitResult) && itemStack.isEmpty()
-                && blockState.get(LIT).booleanValue()) {
+                && blockState.get(LIT)) {
             extinguish(playerEntity, blockState, world, blockPos);
             return ActionResult.SUCCESS;
         }
@@ -122,11 +120,6 @@ public class CandleBerryCakeBlock extends AbstractCandleBlock {
     @Override
     protected boolean canPlaceAt(BlockState blockState, WorldView worldView, BlockPos blockPos) {
         return worldView.getBlockState(blockPos.down()).isSolidBlock(worldView, blockPos);
-    }
-
-    @Override
-    protected int getComparatorOutput(BlockState blockState, World world, BlockPos blockPos) {
-        return CakeBlock.DEFAULT_COMPARATOR_OUTPUT;
     }
 
     @Override

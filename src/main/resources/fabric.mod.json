@@ -16,7 +16,7 @@
             "moreberries.client.MoreBerriesClient"
         ],
         "fabric-datagen": [
-            "moreberries.client.datageneration.MoreBerriesDataGenerationEndpoint"
+            "moreberries.client.data_generation.MoreBerriesDataGenerator"
         ]
     },
     "mixins": [],

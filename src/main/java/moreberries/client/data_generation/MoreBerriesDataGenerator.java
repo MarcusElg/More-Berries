@@ -1,9 +1,9 @@
-package moreberries.client.datageneration;
+package moreberries.client.data_generation;
 
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 
-public class MoreBerriesDataGenerationEndpoint implements DataGeneratorEntrypoint {
+public class MoreBerriesDataGenerator implements DataGeneratorEntrypoint {
     @Override
     public void onInitializeDataGenerator(FabricDataGenerator dataGenerator) {
         FabricDataGenerator.Pack pack = dataGenerator.createPack();
@@ -16,6 +16,7 @@ public class MoreBerriesDataGenerationEndpoint implements DataGeneratorEntrypoin
         pack.addProvider(MoreBerriesBlockTagProvider::new);
         pack.addProvider(MoreBerriesMinecraftRecipeProvider::new);
         pack.addProvider(MoreBerriesRecipeProvider::new);
-        pack.addProvider(MoreBerriesLootTableProvider::new);
+        pack.addProvider(MoreBerriesBlockLootTableProvider::new);
+        pack.addProvider(MoreBerriesBlockInteractLootTableProvider::new);
     }
 }

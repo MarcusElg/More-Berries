@@ -1,4 +1,4 @@
-package moreberries.client.datageneration;
+package moreberries.client.data_generation;
 
 import java.util.Optional;
 
