@@ -7,53 +7,53 @@ import moreberries.MoreBerries;
 import moreberries.block.BerryBushBlock;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.SimpleFabricLootTableProvider;
-import net.minecraft.loot.LootPool;
-import net.minecraft.loot.LootTable;
-import net.minecraft.loot.LootTable.Builder;
-import net.minecraft.loot.condition.BlockStatePropertyLootCondition;
-import net.minecraft.loot.context.LootContextTypes;
-import net.minecraft.loot.entry.ItemEntry;
-import net.minecraft.loot.function.SetCountLootFunction;
-import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
-import net.minecraft.loot.provider.number.UniformLootNumberProvider;
-import net.minecraft.predicate.StatePredicate;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.RegistryWrapper.WrapperLookup;
+import net.minecraft.advancements.criterion.StatePropertiesPredicate;
+import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.LootTable.Builder;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
 public class MoreBerriesBlockInteractLootTableProvider extends SimpleFabricLootTableProvider {
 
     public MoreBerriesBlockInteractLootTableProvider(FabricDataOutput output,
-            CompletableFuture<WrapperLookup> registryLookup) {
-        super(output, registryLookup, LootContextTypes.BLOCK_INTERACT);
+            CompletableFuture<Provider> registryLookup) {
+        super(output, registryLookup, LootContextParamSets.BLOCK_INTERACT);
     }
 
     @Override
-    public void accept(BiConsumer<RegistryKey<LootTable>, Builder> biConsumer) {
+    public void generate(BiConsumer<ResourceKey<LootTable>, Builder> biConsumer) {
         // Bushes
         for (int i = 0; i < MoreBerries.berries.size(); i++) {
             // Harvesting bush
-            biConsumer.accept(RegistryKey.of(RegistryKeys.LOOT_TABLE,
+            biConsumer.accept(ResourceKey.create(Registries.LOOT_TABLE,
                     MoreBerries.getId("harvest/"
-                            + MoreBerries.bushes.get(i).getTranslationKey().replace("block." + MoreBerries.MOD_ID + ".",
+                            + MoreBerries.bushes.get(i).getDescriptionId().replace("block." + MoreBerries.MOD_ID + ".",
                                     ""))),
-                    LootTable.builder().pool(LootPool.builder()
-                            .rolls(ConstantLootNumberProvider.create(1))
-                            .with(ItemEntry.builder(MoreBerries.berries.get(i))
-                                    .conditionally(BlockStatePropertyLootCondition
-                                            .builder(MoreBerries.bushes.get(i))
-                                            .properties(StatePredicate.Builder.create()
-                                                    .exactMatch(BerryBushBlock.AGE,
+                    LootTable.lootTable().withPool(LootPool.lootPool()
+                            .setRolls(ConstantValue.exactly(1))
+                            .add(LootItem.lootTableItem(MoreBerries.berries.get(i))
+                                    .when(LootItemBlockStatePropertyCondition
+                                            .hasBlockStateProperties(MoreBerries.bushes.get(i))
+                                            .setProperties(StatePropertiesPredicate.Builder.properties()
+                                                    .hasProperty(BerryBushBlock.AGE,
                                                             3)))
-                                    .apply(SetCountLootFunction.builder(
-                                            ConstantLootNumberProvider.create(1)))))
-                            .pool(LootPool.builder()
-                                    .rolls(ConstantLootNumberProvider.create(1))
-                                    .with(ItemEntry.builder(
+                                    .apply(SetItemCountFunction.setCount(
+                                            ConstantValue.exactly(1)))))
+                            .withPool(LootPool.lootPool()
+                                    .setRolls(ConstantValue.exactly(1))
+                                    .add(LootItem.lootTableItem(
                                             MoreBerries.berries.get(i)).apply(
-                                                    SetCountLootFunction.builder(
-                                                            UniformLootNumberProvider
-                                                                    .create(1, 2))))));
+                                                    SetItemCountFunction.setCount(
+                                                            UniformGenerator
+                                                                    .between(1, 2))))));
         }
     }
 

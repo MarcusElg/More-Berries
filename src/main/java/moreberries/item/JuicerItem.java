@@ -1,11 +1,11 @@
 package moreberries.item;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 public class JuicerItem extends Item {
 
-	public JuicerItem(Item.Settings settings) {
+	public JuicerItem(Item.Properties settings) {
 		super(settings);
 	}
 

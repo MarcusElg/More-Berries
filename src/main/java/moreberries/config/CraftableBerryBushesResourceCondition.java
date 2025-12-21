@@ -7,7 +7,7 @@ import com.mojang.serialization.MapCodec;
 import moreberries.MoreBerries;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceCondition;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditionType;
-import net.minecraft.registry.RegistryOps.RegistryInfoGetter;
+import net.minecraft.resources.RegistryOps.RegistryInfoLookup;
 
 public record CraftableBerryBushesResourceCondition() implements ResourceCondition {
 
@@ -20,7 +20,7 @@ public record CraftableBerryBushesResourceCondition() implements ResourceConditi
     }
 
     @Override
-    public boolean test(@Nullable RegistryInfoGetter registryInfo) {
+    public boolean test(@Nullable RegistryInfoLookup registryInfo) {
         return MoreBerries.config.craftableBerryBushes;
     }
 

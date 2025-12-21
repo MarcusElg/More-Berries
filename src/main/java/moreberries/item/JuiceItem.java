@@ -1,36 +1,36 @@
 package moreberries.item;
 
-import net.minecraft.advancement.criterion.Criteria;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.stat.Stats;
-import net.minecraft.world.World;
+import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.stats.Stats;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 
 public class JuiceItem extends Item {
 
-	public JuiceItem(Settings item$Settings) {
+	public JuiceItem(Properties item$Settings) {
 		super(item$Settings);
 	}
 
 	@Override
-	public ItemStack finishUsing(ItemStack itemStack, World world, LivingEntity livingEntity) {
-		if (livingEntity instanceof PlayerEntity player) {
-			player.getHungerManager().eat(itemStack.getComponents().get(DataComponentTypes.FOOD));
-			player.incrementStat(Stats.USED.getOrCreateStat(itemStack.getItem()));
+	public ItemStack finishUsingItem(ItemStack itemStack, Level world, LivingEntity livingEntity) {
+		if (livingEntity instanceof Player player) {
+			player.getFoodData().eat(itemStack.getComponents().get(DataComponents.FOOD));
+			player.awardStat(Stats.ITEM_USED.get(itemStack.getItem()));
 
-			if (player instanceof ServerPlayerEntity serverPlayerEntity) {
-				Criteria.CONSUME_ITEM.trigger(serverPlayerEntity, itemStack);
+			if (player instanceof ServerPlayer serverPlayerEntity) {
+				CriteriaTriggers.CONSUME_ITEM.trigger(serverPlayerEntity, itemStack);
 			}
 
-			player.getInventory().offerOrDrop(new ItemStack(Items.GLASS_BOTTLE));
+			player.getInventory().placeItemBackInInventory(new ItemStack(Items.GLASS_BOTTLE));
 		}
 
-		itemStack.decrement(1);
+		itemStack.shrink(1);
 		return itemStack;
 	}
 

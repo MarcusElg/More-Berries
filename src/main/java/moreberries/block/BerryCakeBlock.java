@@ -2,76 +2,77 @@ package moreberries.block;
 
 import java.util.HashMap;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.CakeBlock;
-import net.minecraft.block.CandleBlock;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.tag.ItemTags;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.stat.Stats;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
-import net.minecraft.world.event.GameEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.CakeBlock;
+import net.minecraft.world.level.block.CandleBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.BlockHitResult;
 
 public class BerryCakeBlock extends CakeBlock {
 
-	public HashMap<Block, CandleBerryCakeBlock> CANDLES_TO_CANDLE_CAKES;
+    public HashMap<Block, CandleBerryCakeBlock> CANDLES_TO_CANDLE_CAKES;
 
-	public BerryCakeBlock(Block.Settings settings) {
-		super(settings);
-		this.setDefaultState(this.getDefaultState().with(BITES, 0));
-		CANDLES_TO_CANDLE_CAKES = new HashMap<>();
-	}
+    public BerryCakeBlock(BlockBehaviour.Properties properties) {
+        super(properties);
+        this.registerDefaultState(this.defaultBlockState().setValue(BITES, 0));
+        CANDLES_TO_CANDLE_CAKES = new HashMap<>();
+    }
 
-	public static ActionResult tryEat(WorldAccess worldAccess, BlockPos blockPos, BlockState blockState,
-			PlayerEntity playerEntity) {
-		if (!playerEntity.canConsume(false)) {
-			return ActionResult.PASS;
-		} else {
-			playerEntity.incrementStat(Stats.EAT_CAKE_SLICE);
-			playerEntity.getHungerManager().add(2, 0.1F);
-			int i = (Integer) blockState.get(BITES);
-			worldAccess.emitGameEvent(playerEntity, GameEvent.EAT, blockPos);
-			if (i < 6) {
-				worldAccess.setBlockState(blockPos, (BlockState) blockState.with(BITES, i + 1), 3);
-			} else {
-				worldAccess.removeBlock(blockPos, false);
-				worldAccess.emitGameEvent(playerEntity, GameEvent.BLOCK_DESTROY, blockPos);
-			}
+    public static InteractionResult eat(LevelAccessor worldAccess, BlockPos blockPos, BlockState blockState,
+            Player playerEntity) {
+        if (!playerEntity.canEat(false)) {
+            return InteractionResult.PASS;
+        } else {
+            playerEntity.awardStat(Stats.EAT_CAKE_SLICE);
+            playerEntity.getFoodData().eat(2, 0.1F);
+            int i = (Integer) blockState.getValue(BITES);
+            worldAccess.gameEvent(playerEntity, GameEvent.EAT, blockPos);
+            if (i < 6) {
+                worldAccess.setBlock(blockPos, (BlockState) blockState.setValue(BITES, i + 1), 3);
+            } else {
+                worldAccess.removeBlock(blockPos, false);
+                worldAccess.gameEvent(playerEntity, GameEvent.BLOCK_DESTROY, blockPos);
+            }
 
-			return ActionResult.SUCCESS;
-		}
-	}
+            return InteractionResult.SUCCESS;
+        }
+    }
 
-	@Override
-	protected ActionResult onUseWithItem(ItemStack itemStack, BlockState blockState, World world, BlockPos blockPos,
-			PlayerEntity playerEntity, Hand hand, BlockHitResult blockHitResult) {
-		Item item = itemStack.getItem();
-		Block block = Block.getBlockFromItem(item);
-		if (!itemStack.isIn(ItemTags.CANDLES) || blockState.get(BITES) != 0 || !(block instanceof CandleBlock)) {
-			return ActionResult.PASS_TO_DEFAULT_BLOCK_ACTION;
-		}
+    @Override
+    protected InteractionResult useItemOn(ItemStack itemStack, BlockState blockState, Level world, BlockPos blockPos,
+            Player playerEntity, InteractionHand hand, BlockHitResult blockHitResult) {
+        Item item = itemStack.getItem();
+        Block block = Block.byItem(item);
+        if (!itemStack.is(ItemTags.CANDLES) || blockState.getValue(BITES) != 0 || !(block instanceof CandleBlock)) {
+            return InteractionResult.TRY_WITH_EMPTY_HAND;
+        }
 
-		if (!playerEntity.isCreative()) {
-			itemStack.decrement(1);
-		}
+        if (!playerEntity.isCreative()) {
+            itemStack.shrink(1);
+        }
 
-		world.playSound((PlayerEntity) null, blockPos, SoundEvents.BLOCK_CAKE_ADD_CANDLE, SoundCategory.BLOCKS,
-				1.0F, 1.0F);
-		world.setBlockState(blockPos, ((BerryCakeBlock) blockState.getBlock()).CANDLES_TO_CANDLE_CAKES
-				.get(block).getDefaultState());
-		world.emitGameEvent(playerEntity, GameEvent.BLOCK_CHANGE, blockPos);
-		playerEntity.incrementStat(Stats.USED.getOrCreateStat(item));
+        world.playSound((Player) null, blockPos, SoundEvents.CAKE_ADD_CANDLE, SoundSource.BLOCKS,
+                1.0F, 1.0F);
+        world.setBlockAndUpdate(blockPos, ((BerryCakeBlock) blockState.getBlock()).CANDLES_TO_CANDLE_CAKES
+                .get(block).defaultBlockState());
+        world.gameEvent(playerEntity, GameEvent.BLOCK_CHANGE, blockPos);
+        playerEntity.awardStat(Stats.ITEM_USED.get(item));
 
-		return ActionResult.SUCCESS;
-	}
+        return InteractionResult.SUCCESS;
+    }
 
 }

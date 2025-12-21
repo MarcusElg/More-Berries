@@ -7,96 +7,95 @@ import moreberries.block.BerryBushBlock;
 import moreberries.block.CandleBerryCakeBlock;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.item.Items;
-import net.minecraft.loot.LootPool;
-import net.minecraft.loot.LootTable;
-import net.minecraft.loot.condition.BlockStatePropertyLootCondition;
-import net.minecraft.loot.condition.MatchToolLootCondition;
-import net.minecraft.loot.context.LootContextTypes;
-import net.minecraft.loot.entry.ItemEntry;
-import net.minecraft.loot.function.ApplyBonusLootFunction;
-import net.minecraft.loot.function.ExplosionDecayLootFunction;
-import net.minecraft.loot.function.SetCountLootFunction;
-import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
-import net.minecraft.loot.provider.number.UniformLootNumberProvider;
-import net.minecraft.predicate.StatePredicate;
-import net.minecraft.predicate.item.ItemPredicate;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.entry.RegistryEntry.Reference;
+import net.minecraft.advancements.criterion.ItemPredicate;
+import net.minecraft.advancements.criterion.StatePropertiesPredicate;
+import net.minecraft.core.Holder.Reference;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
+import net.minecraft.world.level.storage.loot.functions.ApplyExplosionDecay;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.predicates.MatchTool;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
 public class MoreBerriesBlockLootTableProvider extends FabricBlockLootTableProvider {
 
-    RegistryWrapper.WrapperLookup lookup;
+    HolderLookup.Provider lookup;
 
     protected MoreBerriesBlockLootTableProvider(FabricDataOutput dataOutput,
-            CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+            CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(dataOutput, registriesFuture);
         this.lookup = registriesFuture.resultNow();
     }
 
     @Override
     public void generate() {
-        Reference<Enchantment> fortuneEnchantement = lookup.getOrThrow(RegistryKeys.ENCHANTMENT)
+        Reference<Enchantment> fortuneEnchantement = lookup.lookupOrThrow(Registries.ENCHANTMENT)
                 .getOrThrow(Enchantments.FORTUNE);
 
         // Bushes
         for (int i = 0; i < MoreBerries.berries.size(); i++) {
             // Breaking bush
-            addDrop(MoreBerries.bushes.get(i),
-                    LootTable.builder().pool(LootPool.builder()
-                            .rolls(ConstantLootNumberProvider.create(1))
-                            .with(ItemEntry.builder(MoreBerries.berries.get(i)))
-                            .conditionally(BlockStatePropertyLootCondition
-                                    .builder(MoreBerries.bushes.get(i))
-                                    .properties(StatePredicate.Builder.create()
-                                            .exactMatch(BerryBushBlock.AGE,
+            add(MoreBerries.bushes.get(i),
+                    LootTable.lootTable().withPool(LootPool.lootPool()
+                            .setRolls(ConstantValue.exactly(1))
+                            .add(LootItem.lootTableItem(MoreBerries.berries.get(i)))
+                            .when(LootItemBlockStatePropertyCondition
+                                    .hasBlockStateProperties(MoreBerries.bushes.get(i))
+                                    .setProperties(StatePropertiesPredicate.Builder.properties()
+                                            .hasProperty(BerryBushBlock.AGE,
                                                     3)))
-                            .apply(SetCountLootFunction.builder(
-                                    UniformLootNumberProvider.create(2, 3)))
-                            .apply(ApplyBonusLootFunction
-                                    .uniformBonusCount(fortuneEnchantement)))
-                            .pool(LootPool.builder()
-                                    .rolls(ConstantLootNumberProvider.create(1))
-                                    .with(ItemEntry.builder(
+                            .apply(SetItemCountFunction.setCount(
+                                    UniformGenerator.between(2, 3)))
+                            .apply(ApplyBonusCount
+                                    .addUniformBonusCount(fortuneEnchantement)))
+                            .withPool(LootPool.lootPool()
+                                    .setRolls(ConstantValue.exactly(1))
+                                    .add(LootItem.lootTableItem(
                                             MoreBerries.berries.get(i)))
-                                    .conditionally(BlockStatePropertyLootCondition
-                                            .builder(MoreBerries.bushes
+                                    .when(LootItemBlockStatePropertyCondition
+                                            .hasBlockStateProperties(MoreBerries.bushes
                                                     .get(i))
-                                            .properties(
-                                                    StatePredicate.Builder
-                                                            .create()
-                                                            .exactMatch(BerryBushBlock.AGE,
+                                            .setProperties(
+                                                    StatePropertiesPredicate.Builder
+                                                            .properties()
+                                                            .hasProperty(BerryBushBlock.AGE,
                                                                     2)))
-                                    .apply(SetCountLootFunction.builder(
-                                            UniformLootNumberProvider
-                                                    .create(1, 2)))
-                                    .apply(ApplyBonusLootFunction.uniformBonusCount(
+                                    .apply(SetItemCountFunction.setCount(
+                                            UniformGenerator
+                                                    .between(1, 2)))
+                                    .apply(ApplyBonusCount.addUniformBonusCount(
                                             fortuneEnchantement)))
-                            .pool(LootPool.builder().with(ItemEntry
-                                    .builder(MoreBerries.bushes.get(i))
-                                    .conditionally(
-                                            MatchToolLootCondition
-                                                    .builder(ItemPredicate.Builder
-                                                            .create()
-                                                            .items(Registries.ITEM,
+                            .withPool(LootPool.lootPool().add(LootItem
+                                    .lootTableItem(MoreBerries.bushes.get(i))
+                                    .when(
+                                            MatchTool
+                                                    .toolMatches(ItemPredicate.Builder
+                                                            .item()
+                                                            .of(BuiltInRegistries.ITEM,
                                                                     Items.SHEARS)))))
-                            .apply(ExplosionDecayLootFunction.builder()));
+                            .apply(ApplyExplosionDecay.explosionDecay()));
         }
 
         // Cakes
         for (int i = 0; i < MoreBerries.berries.size(); i++) {
-            addDrop(MoreBerries.cakes.get(i), LootTable.builder());
+            add(MoreBerries.cakes.get(i), LootTable.lootTable());
         }
 
         // Berry cakes
         for (CandleBerryCakeBlock cake : MoreBerries.candleCakes) {
-            addDrop(cake, LootTable.builder()
-                    .pool(LootPool.builder().rolls(ConstantLootNumberProvider.create(1))
-                            .with(ItemEntry.builder(cake.candle))));
+            add(cake, LootTable.lootTable()
+                    .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
+                            .add(LootItem.lootTableItem(cake.candle))));
         }
     }
 

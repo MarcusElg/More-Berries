@@ -8,148 +8,148 @@ import moreberries.MoreBerries;
 import moreberries.config.CraftableBerryBushesResourceCondition;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.minecraft.block.Blocks;
-import net.minecraft.data.recipe.RecipeExporter;
-import net.minecraft.data.recipe.RecipeGenerator;
-import net.minecraft.data.recipe.ShapedRecipeJsonBuilder;
-import net.minecraft.data.recipe.ShapelessRecipeJsonBuilder;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.recipe.book.RecipeCategory;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
 
 public class MoreBerriesRecipeProvider extends FabricRecipeProvider {
 
     public MoreBerriesRecipeProvider(FabricDataOutput output,
-            CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+            CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 
     @Override
-    protected RecipeGenerator getRecipeGenerator(RegistryWrapper.WrapperLookup registries,
-            RecipeExporter exporter) {
-        return new RecipeGenerator(registries, exporter) {
+    protected RecipeProvider createRecipeProvider(HolderLookup.Provider registries,
+            RecipeOutput exporter) {
+        return new RecipeProvider(registries, exporter) {
             @Override
-            public void generate() {
+            public void buildRecipes() {
                 // Juicer
-                ShapedRecipeJsonBuilder
-                        .create(Registries.ITEM, RecipeCategory.TOOLS, MoreBerries.juicer)
+                ShapedRecipeBuilder
+                        .shaped(BuiltInRegistries.ITEM, RecipeCategory.TOOLS, MoreBerries.juicer)
                         .pattern("#")
                         .pattern("_")
-                        .input('#', Blocks.STONE_BUTTON).input('_', Blocks.STONE_SLAB)
-                        .criterion(RecipeGenerator.hasItem(Blocks.STONE_SLAB),
+                        .define('#', Blocks.STONE_BUTTON).define('_', Blocks.STONE_SLAB)
+                        .unlockedBy(RecipeProvider.getHasName(Blocks.STONE_SLAB),
                                 this
-                                        .conditionsFromItem(Blocks.STONE_SLAB))
-                        .offerTo(exporter);
+                                        .has(Blocks.STONE_SLAB))
+                        .save(output);
 
                 // Juices
-                ShapelessRecipeJsonBuilder
-                        .create(Registries.ITEM, RecipeCategory.FOOD, MoreBerries.juices.get(0))
-                        .input(MoreBerries.juicer)
-                        .input(Items.GLASS_BOTTLE).input(Items.SWEET_BERRIES).group("juices")
-                        .criterion(RecipeGenerator.hasItem(Items.SWEET_BERRIES),
-                                this.conditionsFromItem(
+                ShapelessRecipeBuilder
+                        .shapeless(BuiltInRegistries.ITEM, RecipeCategory.FOOD, MoreBerries.juices.get(0))
+                        .requires(MoreBerries.juicer)
+                        .requires(Items.GLASS_BOTTLE).requires(Items.SWEET_BERRIES).group("juices")
+                        .unlockedBy(RecipeProvider.getHasName(Items.SWEET_BERRIES),
+                                this.has(
                                         Items.SWEET_BERRIES))
-                        .offerTo(exporter);
+                        .save(output);
 
                 for (int i = 0; i < MoreBerries.berries.size(); i++) {
-                    ShapelessRecipeJsonBuilder
-                            .create(Registries.ITEM, RecipeCategory.FOOD,
+                    ShapelessRecipeBuilder
+                            .shapeless(BuiltInRegistries.ITEM, RecipeCategory.FOOD,
                                     MoreBerries.juices.get(i + 1))
-                            .input(MoreBerries.juicer)
-                            .input(Items.GLASS_BOTTLE).input(MoreBerries.berries.get(i))
+                            .requires(MoreBerries.juicer)
+                            .requires(Items.GLASS_BOTTLE).requires(MoreBerries.berries.get(i))
                             .group("juices")
-                            .criterion(RecipeGenerator
-                                    .hasItem(MoreBerries.berries.get(i)),
+                            .unlockedBy(RecipeProvider
+                                    .getHasName(MoreBerries.berries.get(i)),
                                     this
-                                            .conditionsFromItem(
+                                            .has(
                                                     MoreBerries.berries
                                                             .get(i)))
-                            .offerTo(exporter);
+                            .save(output);
                 }
 
                 // Pies
-                ShapelessRecipeJsonBuilder
-                        .create(Registries.ITEM, RecipeCategory.FOOD, MoreBerries.pies.get(0))
-                        .input(Items.SUGAR).input(Items.EGG)
-                        .input(Items.SWEET_BERRIES).group("pies")
-                        .criterion(RecipeGenerator.hasItem(Items.SWEET_BERRIES),
-                                this.conditionsFromItem(
+                ShapelessRecipeBuilder
+                        .shapeless(BuiltInRegistries.ITEM, RecipeCategory.FOOD, MoreBerries.pies.get(0))
+                        .requires(Items.SUGAR).requires(Items.EGG)
+                        .requires(Items.SWEET_BERRIES).group("pies")
+                        .unlockedBy(RecipeProvider.getHasName(Items.SWEET_BERRIES),
+                                this.has(
                                         Items.SWEET_BERRIES))
-                        .offerTo(exporter);
+                        .save(output);
 
                 for (int i = 0; i < MoreBerries.berries.size(); i++) {
-                    ShapelessRecipeJsonBuilder
-                            .create(Registries.ITEM, RecipeCategory.FOOD,
+                    ShapelessRecipeBuilder
+                            .shapeless(BuiltInRegistries.ITEM, RecipeCategory.FOOD,
                                     MoreBerries.pies.get(i + 1))
-                            .input(Items.SUGAR).input(Items.EGG)
-                            .input(MoreBerries.berries.get(i)).group("pies")
-                            .criterion(RecipeGenerator
-                                    .hasItem(MoreBerries.berries.get(i)),
+                            .requires(Items.SUGAR).requires(Items.EGG)
+                            .requires(MoreBerries.berries.get(i)).group("pies")
+                            .unlockedBy(RecipeProvider
+                                    .getHasName(MoreBerries.berries.get(i)),
                                     this
-                                            .conditionsFromItem(
+                                            .has(
                                                     MoreBerries.berries
                                                             .get(i)))
-                            .offerTo(exporter);
+                            .save(output);
                 }
 
                 // Cakes
                 for (int i = 0; i < MoreBerries.berries.size(); i++) {
-                    ShapedRecipeJsonBuilder
-                            .create(Registries.ITEM, RecipeCategory.FOOD,
+                    ShapedRecipeBuilder
+                            .shaped(BuiltInRegistries.ITEM, RecipeCategory.FOOD,
                                     MoreBerries.cakes.get(i))
                             .pattern("MBM")
                             .pattern("SES")
-                            .pattern("WWW").input('M', Items.MILK_BUCKET)
-                            .input('S', Items.SUGAR)
-                            .input('W', Items.WHEAT)
-                            .input('E', Items.EGG).input('B', MoreBerries.berries.get(i))
+                            .pattern("WWW").define('M', Items.MILK_BUCKET)
+                            .define('S', Items.SUGAR)
+                            .define('W', Items.WHEAT)
+                            .define('E', Items.EGG).define('B', MoreBerries.berries.get(i))
                             .group("cakes")
-                            .criterion(RecipeGenerator
-                                    .hasItem(MoreBerries.berries.get(i)),
+                            .unlockedBy(RecipeProvider
+                                    .getHasName(MoreBerries.berries.get(i)),
                                     this
-                                            .conditionsFromItem(
+                                            .has(
                                                     MoreBerries.berries
                                                             .get(i)))
-                            .offerTo(exporter);
+                            .save(output);
                 }
 
                 // Dyes
-                ShapelessRecipeJsonBuilder.create(Registries.ITEM, RecipeCategory.MISC, Items.RED_DYE)
-                        .input(Items.SWEET_BERRIES).group("dyes")
-                        .criterion(RecipeGenerator.hasItem(Items.SWEET_BERRIES),
-                                this.conditionsFromItem(
+                ShapelessRecipeBuilder.shapeless(BuiltInRegistries.ITEM, RecipeCategory.MISC, Items.RED_DYE)
+                        .requires(Items.SWEET_BERRIES).group("dyes")
+                        .unlockedBy(RecipeProvider.getHasName(Items.SWEET_BERRIES),
+                                this.has(
                                         Items.SWEET_BERRIES))
-                        .offerTo(exporter);
+                        .save(output);
 
                 List<Item> dyes = Arrays.asList(Items.BLUE_DYE, Items.YELLOW_DYE, Items.ORANGE_DYE,
                         Items.PURPLE_DYE,
                         Items.GREEN_DYE, Items.BLACK_DYE);
                 for (int i = 0; i < MoreBerries.berries.size(); i++) {
-                    ShapelessRecipeJsonBuilder
-                            .create(Registries.ITEM, RecipeCategory.MISC, dyes.get(i))
-                            .input(MoreBerries.berries.get(i)).group("dyes")
-                            .criterion(RecipeGenerator
-                                    .hasItem(MoreBerries.berries.get(i)),
+                    ShapelessRecipeBuilder
+                            .shapeless(BuiltInRegistries.ITEM, RecipeCategory.MISC, dyes.get(i))
+                            .requires(MoreBerries.berries.get(i)).group("dyes")
+                            .unlockedBy(RecipeProvider
+                                    .getHasName(MoreBerries.berries.get(i)),
                                     this
-                                            .conditionsFromItem(
+                                            .has(
                                                     MoreBerries.berries
                                                             .get(i)))
-                            .offerTo(exporter);
+                            .save(output);
                 }
 
                 // Optional berry bush recipes
                 for (int i = 0; i < MoreBerries.bushes.size(); i++) {
-                    ShapelessRecipeJsonBuilder.create(Registries.ITEM, RecipeCategory.FOOD, MoreBerries.bushes.get(i))
-                            .input(MoreBerries.berries.get(i)).input(Blocks.OAK_LEAVES).group("berry_bushes")
-                            .criterion(RecipeGenerator
-                                    .hasItem(MoreBerries.berries.get(i)),
+                    ShapelessRecipeBuilder.shapeless(BuiltInRegistries.ITEM, RecipeCategory.FOOD, MoreBerries.bushes.get(i))
+                            .requires(MoreBerries.berries.get(i)).requires(Blocks.OAK_LEAVES).group("berry_bushes")
+                            .unlockedBy(RecipeProvider
+                                    .getHasName(MoreBerries.berries.get(i)),
                                     this
-                                            .conditionsFromItem(
+                                            .has(
                                                     MoreBerries.berries
                                                             .get(i)))
-                            .offerTo(withConditions(exporter, new CraftableBerryBushesResourceCondition()));
+                            .save(withConditions(output, new CraftableBerryBushesResourceCondition()));
                 }
             }
         };

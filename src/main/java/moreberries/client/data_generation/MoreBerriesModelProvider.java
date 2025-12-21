@@ -9,125 +9,125 @@ import moreberries.block.CandleBerryCakeBlock;
 import moreberries.item.JuiceItem;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.CandleBlock;
-import net.minecraft.client.data.BlockStateModelGenerator;
-import net.minecraft.client.data.BlockStateVariantMap;
-import net.minecraft.client.data.BlockStateVariantMap.SingleProperty;
-import net.minecraft.client.data.ItemModelGenerator;
-import net.minecraft.client.data.Model;
-import net.minecraft.client.data.Models;
-import net.minecraft.client.data.TextureKey;
-import net.minecraft.client.data.TextureMap;
-import net.minecraft.client.data.VariantsBlockModelDefinitionCreator;
-import net.minecraft.client.render.item.tint.GrassTintSource;
-import net.minecraft.client.render.model.json.WeightedVariant;
-import net.minecraft.item.Item;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.color.item.GrassColorSource;
+import net.minecraft.client.data.models.BlockModelGenerators;
+import net.minecraft.client.data.models.ItemModelGenerators;
+import net.minecraft.client.data.models.MultiVariant;
+import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
+import net.minecraft.client.data.models.blockstates.PropertyDispatch;
+import net.minecraft.client.data.models.blockstates.PropertyDispatch.C1;
+import net.minecraft.client.data.models.model.ModelTemplate;
+import net.minecraft.client.data.models.model.ModelTemplates;
+import net.minecraft.client.data.models.model.TextureMapping;
+import net.minecraft.client.data.models.model.TextureSlot;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CandleBlock;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 public class MoreBerriesModelProvider extends FabricModelProvider {
 
-    public static final TextureKey BERRIES_KEY = TextureKey.of("berries");
+    public static final TextureSlot BERRIES_KEY = TextureSlot.create("berries");
 
     public MoreBerriesModelProvider(FabricDataOutput output) {
         super(output);
     }
 
     @Override
-    public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
+    public void generateBlockStateModels(BlockModelGenerators blockStateModelGenerator) {
         // Bushes
         for (BerryBushBlock bush : MoreBerries.bushes) {
-            SingleProperty<WeightedVariant, Integer> variantMap = BlockStateVariantMap.models(BerryBushBlock.AGE);
+            C1<MultiVariant, Integer> variantMap = PropertyDispatch.initial(BerryBushBlock.AGE);
             for (int i = 0; i < 4; i++) {
-                Model model = new Model(
+                ModelTemplate model = new ModelTemplate(
                         Optional.of(MoreBerries.getId(String.format("block/berry_bush_stage_%d",
                                 i < 1 ? 0 : 1))),
                         Optional.empty(),
                         BERRIES_KEY);
-                Identifier ageIdentifier = model.upload(bush, String.format("_stage_%d", i),
-                        new TextureMap().put(BERRIES_KEY,
+                Identifier ageIdentifier = model.createWithSuffix(bush, String.format("_stage_%d", i),
+                        new TextureMapping().put(BERRIES_KEY,
                                 i < 2 ? MoreBerries.getId(
                                         "block/empty")
-                                        : TextureMap.getSubId(bush, String
+                                        : TextureMapping.getBlockTexture(bush, String
                                                 .format("_stage_%d",
                                                         i))),
-                        blockStateModelGenerator.modelCollector);
-                variantMap = variantMap.register(i, BlockStateModelGenerator.createWeightedVariant(ageIdentifier));
+                        blockStateModelGenerator.modelOutput);
+                variantMap = variantMap.select(i, BlockModelGenerators.plainVariant(ageIdentifier));
             }
 
-            blockStateModelGenerator.blockStateCollector
-                    .accept(VariantsBlockModelDefinitionCreator.of(bush).with(variantMap));
-            blockStateModelGenerator.registerTintedItemModel(bush, TextureMap.getSubId(bush, "_stage_3"),
-                    new GrassTintSource());
+            blockStateModelGenerator.blockStateOutput
+                    .accept(MultiVariantGenerator.dispatch(bush).with(variantMap));
+            blockStateModelGenerator.registerSimpleTintedItemModel(bush, TextureMapping.getBlockTexture(bush, "_stage_3"),
+                    new GrassColorSource());
         }
 
         // Cakes
         for (BerryCakeBlock cake : MoreBerries.cakes) {
-            SingleProperty<WeightedVariant, Integer> variantMap = BlockStateVariantMap.models(BerryCakeBlock.BITES);
+            C1<MultiVariant, Integer> variantMap = PropertyDispatch.initial(BerryCakeBlock.BITES);
             for (int i = 0; i < 7; i++) {
-                Model model = new Model(
+                ModelTemplate model = new ModelTemplate(
                         Optional.of(MoreBerries.getId(
                                 String.format("block/berry_cake_slice_%d", i))),
                         Optional.empty(),
-                        TextureKey.TOP);
-                Identifier sliceIdentifier = model.upload(cake, String.format("_slice_%d", i),
-                        new TextureMap().put(TextureKey.TOP,
-                                TextureMap.getSubId(cake, "_top")),
-                        blockStateModelGenerator.modelCollector);
+                        TextureSlot.TOP);
+                Identifier sliceIdentifier = model.createWithSuffix(cake, String.format("_slice_%d", i),
+                        new TextureMapping().put(TextureSlot.TOP,
+                                TextureMapping.getBlockTexture(cake, "_top")),
+                        blockStateModelGenerator.modelOutput);
 
-                variantMap = variantMap.register(i, BlockStateModelGenerator.createWeightedVariant(sliceIdentifier));
+                variantMap = variantMap.select(i, BlockModelGenerators.plainVariant(sliceIdentifier));
             }
 
-            blockStateModelGenerator.blockStateCollector
-                    .accept(VariantsBlockModelDefinitionCreator.of(cake).with(variantMap));
+            blockStateModelGenerator.blockStateOutput
+                    .accept(MultiVariantGenerator.dispatch(cake).with(variantMap));
         }
 
         // Candle cakes
         for (CandleBerryCakeBlock cake : MoreBerries.candleCakes) {
-            Identifier unlitCandleCakeIdentifier = Models.TEMPLATE_CAKE_WITH_CANDLE.upload(cake,
+            Identifier unlitCandleCakeIdentifier = ModelTemplates.CANDLE_CAKE.create(cake,
                     getCandleCakeTextureMap(cake.cake, cake.candle, false),
-                    blockStateModelGenerator.modelCollector);
-            Identifier litCandleCakeIdentifier = Models.TEMPLATE_CAKE_WITH_CANDLE.upload(cake, "_lit",
+                    blockStateModelGenerator.modelOutput);
+            Identifier litCandleCakeIdentifier = ModelTemplates.CANDLE_CAKE.createWithSuffix(cake, "_lit",
                     getCandleCakeTextureMap(cake.cake, cake.candle, true),
-                    blockStateModelGenerator.modelCollector);
-            blockStateModelGenerator.blockStateCollector
-                    .accept(VariantsBlockModelDefinitionCreator.of(cake).with(
-                            BlockStateModelGenerator.createBooleanModelMap(Properties.LIT,
-                                    BlockStateModelGenerator.createWeightedVariant(litCandleCakeIdentifier),
-                                    BlockStateModelGenerator.createWeightedVariant(unlitCandleCakeIdentifier))));
+                    blockStateModelGenerator.modelOutput);
+            blockStateModelGenerator.blockStateOutput
+                    .accept(MultiVariantGenerator.dispatch(cake).with(
+                            BlockModelGenerators.createBooleanModelDispatch(BlockStateProperties.LIT,
+                                    BlockModelGenerators.plainVariant(litCandleCakeIdentifier),
+                                    BlockModelGenerators.plainVariant(unlitCandleCakeIdentifier))));
         }
     }
 
-    private TextureMap getCandleCakeTextureMap(BerryCakeBlock cakeBlock, CandleBlock candle, boolean lit) {
-        return new TextureMap().put(TextureKey.PARTICLE, TextureMap.getSubId(Blocks.CAKE, "_side"))
-                .put(TextureKey.BOTTOM, TextureMap.getSubId(Blocks.CAKE, "_bottom"))
-                .put(TextureKey.TOP, TextureMap.getSubId(cakeBlock, "_top"))
-                .put(TextureKey.SIDE, TextureMap.getSubId(Blocks.CAKE, "_side"))
-                .put(TextureKey.CANDLE, TextureMap.getSubId(candle, lit ? "_lit" : ""));
+    private TextureMapping getCandleCakeTextureMap(BerryCakeBlock cakeBlock, CandleBlock candle, boolean lit) {
+        return new TextureMapping().put(TextureSlot.PARTICLE, TextureMapping.getBlockTexture(Blocks.CAKE, "_side"))
+                .put(TextureSlot.BOTTOM, TextureMapping.getBlockTexture(Blocks.CAKE, "_bottom"))
+                .put(TextureSlot.TOP, TextureMapping.getBlockTexture(cakeBlock, "_top"))
+                .put(TextureSlot.SIDE, TextureMapping.getBlockTexture(Blocks.CAKE, "_side"))
+                .put(TextureSlot.CANDLE, TextureMapping.getBlockTexture(candle, lit ? "_lit" : ""));
     }
 
     @Override
-    public void generateItemModels(ItemModelGenerator itemModelGenerator) {
+    public void generateItemModels(ItemModelGenerators itemModelGenerator) {
         // Berries
         for (Item berry : MoreBerries.berries) {
-            itemModelGenerator.register(berry, Models.GENERATED);
+            itemModelGenerator.generateFlatItem(berry, ModelTemplates.FLAT_ITEM);
         }
 
         // Juices
-        itemModelGenerator.register(MoreBerries.juicer, Models.GENERATED);
+        itemModelGenerator.generateFlatItem(MoreBerries.juicer, ModelTemplates.FLAT_ITEM);
         for (JuiceItem juice : MoreBerries.juices) {
-            itemModelGenerator.register(juice, Models.GENERATED);
+            itemModelGenerator.generateFlatItem(juice, ModelTemplates.FLAT_ITEM);
         }
 
         // Pie
         for (Item pie : MoreBerries.pies) {
-            itemModelGenerator.register(pie, Models.GENERATED);
+            itemModelGenerator.generateFlatItem(pie, ModelTemplates.FLAT_ITEM);
         }
 
         // Cakes
         for (BerryCakeBlock cake : MoreBerries.cakes) {
-            itemModelGenerator.register(cake.asItem(), Models.GENERATED);
+            itemModelGenerator.generateFlatItem(cake.asItem(), ModelTemplates.FLAT_ITEM);
         }
     }
 

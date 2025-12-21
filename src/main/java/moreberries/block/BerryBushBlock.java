@@ -3,86 +3,85 @@ package moreberries.block;
 import moreberries.MoreBerries;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.block.SweetBerryBushBlock;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.loot.LootTables;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SweetBerryBushBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class BerryBushBlock extends SweetBerryBushBlock {
 
     public Item item;
-    private static final VoxelShape SMALL_SHAPE = Block.createCuboidShape(3.0D, 0.0D, 3.0D, 13.0D, 10.0D, 13.0D);
-    private static final VoxelShape LARGE_SHAPE = Block.createCuboidShape(1.0D, 0.0D, 1.0D, 15.0D, 14.0D, 15.0D);
+    private static final VoxelShape SMALL_SHAPE = Block.box(3.0D, 0.0D, 3.0D, 13.0D, 10.0D, 13.0D);
+    private static final VoxelShape LARGE_SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 14.0D, 15.0D);
 
-    public BerryBushBlock(Item item, AbstractBlock.Settings settings) {
+    public BerryBushBlock(Item item, BlockBehaviour.Properties settings) {
         super(settings);
         this.item = item;
     }
 
     @Environment(EnvType.CLIENT)
-    public ItemStack getPickStack(BlockView blockView, BlockPos blockPos, BlockState blockState) {
+    public ItemStack getPickStack(BlockGetter blockView, BlockPos blockPos, BlockState blockState) {
         return new ItemStack(this);
     }
 
     @Override
-    protected ActionResult onUseWithItem(ItemStack itemStack, BlockState blockState, World world, BlockPos blockPos,
-            PlayerEntity playerEntity, Hand hand, BlockHitResult blockHitResult) {
-        if (blockState.get(AGE) < 3 && itemStack.isOf(Items.BONE_MEAL)) {
-            return ActionResult.PASS_TO_DEFAULT_BLOCK_ACTION;
+    protected InteractionResult useItemOn(ItemStack itemStack, BlockState blockState, Level world, BlockPos blockPos,
+            Player playerEntity, InteractionHand hand, BlockHitResult blockHitResult) {
+        if (blockState.getValue(AGE) < 3 && itemStack.is(Items.BONE_MEAL)) {
+            return InteractionResult.TRY_WITH_EMPTY_HAND;
         }
-        return super.onUseWithItem(itemStack, blockState, world, blockPos, playerEntity, hand, blockHitResult);
+        return super.useItemOn(itemStack, blockState, world, blockPos, playerEntity, hand, blockHitResult);
     }
 
     @Override
-    public ActionResult onUse(BlockState blockState, World world, BlockPos blockPos, PlayerEntity playerEntity,
+    public InteractionResult useWithoutItem(BlockState blockState, Level world, BlockPos blockPos, Player playerEntity,
             BlockHitResult blockHitResult) {
-        if (blockState.get(AGE) > 1) {
-            if (world instanceof ServerWorld serverWorld) {
-                Block.generateBlockInteractLoot(
+        if (blockState.getValue(AGE) > 1) {
+            if (world instanceof ServerLevel serverWorld) {
+                Block.dropFromBlockInteractLootTable(
                         serverWorld,
-                        RegistryKey.of(RegistryKeys.LOOT_TABLE,
+                        ResourceKey.create(Registries.LOOT_TABLE,
                                 MoreBerries.getId("harvest/"
-                                        + this.getTranslationKey().replace("block." + MoreBerries.MOD_ID + ".",
+                                        + this.getDescriptionId().replace("block." + MoreBerries.MOD_ID + ".",
                                                 ""))),
                         blockState,
                         world.getBlockEntity(blockPos),
                         null,
                         playerEntity,
-                        (serverWorldx, itemStack) -> Block.dropStack(serverWorldx, blockPos, itemStack));
+                        (serverWorldx, itemStack) -> Block.popResource(serverWorldx, blockPos, itemStack));
 
-                world.playSound((PlayerEntity) null, blockPos, SoundEvents.BLOCK_SWEET_BERRY_BUSH_PICK_BERRIES,
-                        SoundCategory.BLOCKS, 1.0F, 0.8F + world.random.nextFloat() * 0.4F);
-                world.setBlockState(blockPos, (BlockState) blockState.with(AGE, 1), 2);
+                world.playSound((Player) null, blockPos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES,
+                        SoundSource.BLOCKS, 1.0F, 0.8F + world.random.nextFloat() * 0.4F);
+                world.setBlock(blockPos, (BlockState) blockState.setValue(AGE, 1), 2);
             }
-            return ActionResult.SUCCESS;
+            return InteractionResult.SUCCESS;
         } else {
-            return super.onUse(blockState, world, blockPos, playerEntity, blockHitResult);
+            return super.useWithoutItem(blockState, world, blockPos, playerEntity, blockHitResult);
         }
     }
 
     @Override
-    public VoxelShape getOutlineShape(BlockState blockState, BlockView blockView, BlockPos blockPos,
-            ShapeContext entityContext) {
-        if (blockState.get(AGE) == 0) {
+    public VoxelShape getShape(BlockState blockState, BlockGetter blockView, BlockPos blockPos,
+            CollisionContext entityContext) {
+        if (blockState.getValue(AGE) == 0) {
             return SMALL_SHAPE;
         } else {
             return LARGE_SHAPE;
@@ -90,7 +89,7 @@ public class BerryBushBlock extends SweetBerryBushBlock {
     }
 
     @Override
-    protected boolean canPlantOnTop(BlockState blockState, BlockView blockView, BlockPos blockPos) {
+    protected boolean mayPlaceOn(BlockState blockState, BlockGetter blockView, BlockPos blockPos) {
         Block block = blockState.getBlock();
         return block == Blocks.GRASS_BLOCK || block == Blocks.DIRT || block == Blocks.COARSE_DIRT
                 || block == Blocks.ROOTED_DIRT

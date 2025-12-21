@@ -7,10 +7,10 @@ import moreberries.block.BerryBushBlock;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.client.color.block.BlockColorProvider;
-import net.minecraft.client.render.BlockRenderLayer;
+import net.minecraft.client.color.block.BlockColor;
+import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 public class MoreBerriesClient implements ClientModInitializer {
 
@@ -24,13 +24,13 @@ public class MoreBerriesClient implements ClientModInitializer {
     public void registerBlocks(ArrayList<BerryBushBlock> blocks) {
         for (Block block : blocks) {
             registerBlockColour(block);
-            BlockRenderLayerMap.putBlock(block, BlockRenderLayer.CUTOUT);
+            BlockRenderLayerMap.putBlock(block, ChunkSectionLayer.CUTOUT);
         }
     }
 
     public void registerBlockColour(Block block) {
         ColorProviderRegistry.BLOCK.register((world_block, pos, world, layer) -> {
-            BlockColorProvider provider = ColorProviderRegistry.BLOCK.get(Blocks.OAK_LEAVES);
+            BlockColor provider = ColorProviderRegistry.BLOCK.get(Blocks.OAK_LEAVES);
             return provider == null ? -1 : provider.getColor(world_block, pos, world, layer);
         }, block);
     }
