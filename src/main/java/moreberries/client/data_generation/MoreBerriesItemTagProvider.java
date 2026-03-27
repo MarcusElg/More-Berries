@@ -5,8 +5,8 @@ import java.util.concurrent.CompletableFuture;
 import moreberries.MoreBerries;
 import moreberries.block.BerryCakeBlock;
 import moreberries.item.JuiceItem;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider.ItemTagProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider.ItemTagsProvider;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -15,9 +15,9 @@ import net.minecraft.tags.TagBuilder;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 
-public class MoreBerriesItemTagProvider extends ItemTagProvider {
+public class MoreBerriesItemTagProvider extends ItemTagsProvider {
 
-    public MoreBerriesItemTagProvider(FabricDataOutput output, CompletableFuture<Provider> completableFuture) {
+    public MoreBerriesItemTagProvider(FabricPackOutput output, CompletableFuture<Provider> completableFuture) {
         super(output, completableFuture);
     }
 
@@ -34,7 +34,8 @@ public class MoreBerriesItemTagProvider extends ItemTagProvider {
         }
 
         // Nourish
-        tagBuilder = getOrCreateRawBuilder(TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("nourish", "carbohydrates")));
+        tagBuilder = getOrCreateRawBuilder(
+                TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("nourish", "carbohydrates")));
         for (BerryCakeBlock cakeBlock : MoreBerries.cakes) {
             tagBuilder.addElement(BuiltInRegistries.ITEM.getKey(cakeBlock.asItem()));
         }
@@ -42,11 +43,13 @@ public class MoreBerriesItemTagProvider extends ItemTagProvider {
             tagBuilder.addElement(BuiltInRegistries.ITEM.getKey(pie));
         }
 
-        tagBuilder = getOrCreateRawBuilder(TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("nourish", "fats")));
+        tagBuilder = getOrCreateRawBuilder(
+                TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("nourish", "fats")));
         for (BerryCakeBlock cakeBlock : MoreBerries.cakes) {
             tagBuilder.addElement(BuiltInRegistries.ITEM.getKey(cakeBlock.asItem()));
         }
-        tagBuilder = getOrCreateRawBuilder(TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("nourish", "fruit")));
+        tagBuilder = getOrCreateRawBuilder(
+                TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("nourish", "fruit")));
         for (Item berry : MoreBerries.berries) {
             tagBuilder.addElement(BuiltInRegistries.ITEM.getKey(berry));
         }
@@ -60,7 +63,8 @@ public class MoreBerriesItemTagProvider extends ItemTagProvider {
             tagBuilder.addElement(BuiltInRegistries.ITEM.getKey(pie));
         }
 
-        tagBuilder = getOrCreateRawBuilder(TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("nourish", "sweets")));
+        tagBuilder = getOrCreateRawBuilder(
+                TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("nourish", "sweets")));
         for (BerryCakeBlock cakeBlock : MoreBerries.cakes) {
             tagBuilder.addElement(BuiltInRegistries.ITEM.getKey(cakeBlock.asItem()));
         }

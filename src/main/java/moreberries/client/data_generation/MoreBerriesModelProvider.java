@@ -8,7 +8,7 @@ import moreberries.block.BerryCakeBlock;
 import moreberries.block.CandleBerryCakeBlock;
 import moreberries.item.JuiceItem;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.client.color.item.GrassColorSource;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
@@ -20,6 +20,7 @@ import net.minecraft.client.data.models.model.ModelTemplate;
 import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Blocks;
@@ -30,7 +31,7 @@ public class MoreBerriesModelProvider extends FabricModelProvider {
 
     public static final TextureSlot BERRIES_KEY = TextureSlot.create("berries");
 
-    public MoreBerriesModelProvider(FabricDataOutput output) {
+    public MoreBerriesModelProvider(FabricPackOutput output) {
         super(output);
     }
 
@@ -45,20 +46,21 @@ public class MoreBerriesModelProvider extends FabricModelProvider {
                                 i < 1 ? 0 : 1))),
                         Optional.empty(),
                         BERRIES_KEY);
+                final Material material = i < 2 ? new Material(MoreBerries.getId(
+                        "block/empty"))
+                        : TextureMapping.getBlockTexture(bush, String
+                                .format("_stage_%d",
+                                        i));
                 Identifier ageIdentifier = model.createWithSuffix(bush, String.format("_stage_%d", i),
-                        new TextureMapping().put(BERRIES_KEY,
-                                i < 2 ? MoreBerries.getId(
-                                        "block/empty")
-                                        : TextureMapping.getBlockTexture(bush, String
-                                                .format("_stage_%d",
-                                                        i))),
+                        new TextureMapping().put(BERRIES_KEY, material),
                         blockStateModelGenerator.modelOutput);
                 variantMap = variantMap.select(i, BlockModelGenerators.plainVariant(ageIdentifier));
             }
 
             blockStateModelGenerator.blockStateOutput
                     .accept(MultiVariantGenerator.dispatch(bush).with(variantMap));
-            blockStateModelGenerator.registerSimpleTintedItemModel(bush, TextureMapping.getBlockTexture(bush, "_stage_3"),
+            blockStateModelGenerator.registerSimpleTintedItemModel(bush,
+                    TextureMapping.getBlockTexture(bush, "_stage_3").sprite(),
                     new GrassColorSource());
         }
 

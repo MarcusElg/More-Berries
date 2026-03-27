@@ -5,8 +5,8 @@ import java.util.function.BiConsumer;
 
 import moreberries.MoreBerries;
 import moreberries.block.BerryBushBlock;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.SimpleFabricLootTableProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.SimpleFabricLootTableSubProvider;
 import net.minecraft.advancements.criterion.StatePropertiesPredicate;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.core.registries.Registries;
@@ -21,9 +21,9 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePrope
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
-public class MoreBerriesBlockInteractLootTableProvider extends SimpleFabricLootTableProvider {
+public class MoreBerriesBlockInteractLootTableProvider extends SimpleFabricLootTableSubProvider {
 
-    public MoreBerriesBlockInteractLootTableProvider(FabricDataOutput output,
+    public MoreBerriesBlockInteractLootTableProvider(FabricPackOutput output,
             CompletableFuture<Provider> registryLookup) {
         super(output, registryLookup, LootContextParamSets.BLOCK_INTERACT);
     }

@@ -17,9 +17,9 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
-import net.fabricmc.fabric.api.registry.LandPathNodeTypesRegistry;
+import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
+import net.fabricmc.fabric.api.registry.CompostableRegistry;
+import net.fabricmc.fabric.api.registry.LandPathTypeRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditionType;
@@ -39,6 +39,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.Consumables;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -54,7 +55,7 @@ public class MoreBerries implements ModInitializer {
 
     public static final String MOD_ID = "moreberries";
 
-    public ArrayList<ItemStack> itemStacks = new ArrayList<>();
+    public ArrayList<ItemLike> creativeTabItems = new ArrayList<>();
 
     // Blocks
     public static BerryBushBlock blueBerryBush;
@@ -95,20 +96,20 @@ public class MoreBerries implements ModInitializer {
         // Sweet berry stuff
         juicer = new JuicerItem(new Item.Properties().setId(ResourceKey.create(Registries.ITEM, getId("juicer"))));
         Registry.register(BuiltInRegistries.ITEM, getId("juicer"), juicer);
-        itemStacks.add(new ItemStack(juicer));
+        creativeTabItems.add(juicer);
 
         JuiceItem sweetBerryJuice = new JuiceItem(
                 new Item.Properties().setId(ResourceKey.create(Registries.ITEM, getId("sweet_berry_juice")))
                         .food(new FoodProperties.Builder().nutrition(3).saturationModifier(0.1f).build(),
                                 Consumables.DEFAULT_DRINK));
         Registry.register(BuiltInRegistries.ITEM, getId("sweet_berry_juice"), sweetBerryJuice);
-        itemStacks.add(new ItemStack(sweetBerryJuice));
+        creativeTabItems.add(sweetBerryJuice);
         juices.add(sweetBerryJuice);
 
         Item sweetBerryPie = new Item(new Item.Properties().food(Foods.PUMPKIN_PIE)
                 .setId(ResourceKey.create(Registries.ITEM, getId("sweet_berry_pie"))));
         Registry.register(BuiltInRegistries.ITEM, getId("sweet_berry_pie"), sweetBerryPie);
-        itemStacks.add(new ItemStack(sweetBerryPie));
+        creativeTabItems.add(sweetBerryPie);
         pies.add(sweetBerryPie);
 
         // Berry stuff
@@ -121,7 +122,7 @@ public class MoreBerries implements ModInitializer {
 
         // Path node types (mobs should avoid berry bushes)
         for (BerryBushBlock bush : bushes) {
-            LandPathNodeTypesRegistry.register(bush, PathType.DAMAGE_OTHER, null);
+            LandPathTypeRegistry.register(bush, PathType.DAMAGING, null);
         }
 
         // Generation
@@ -132,13 +133,16 @@ public class MoreBerries implements ModInitializer {
         registerBiomeGeneration(config.purpleBerrySpawnBiomes, "purple_berry");
         registerBiomeGeneration(config.yellowBerrySpawnBiomes, "yellow_berry");
 
-        // Itemgroup
-        Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, getId("berries"), FabricItemGroup.builder()
+        // Creative tab
+        Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, getId("berries"), FabricCreativeModeTab.builder()
                 .icon(() -> new ItemStack(blueBerryBush))
                 .title(Component.translatable("itemGroup.moreberries.berries"))
                 .displayItems((context, entries) -> {
                     entries.accept(new ItemStack(Items.SWEET_BERRIES));
-                    entries.acceptAll(itemStacks);
+
+                    for (ItemLike item : creativeTabItems) {
+                        entries.accept(item);
+                    }
                 })
                 .build());
 
@@ -238,17 +242,17 @@ public class MoreBerries implements ModInitializer {
         cakes.add(cake);
 
         // Add to creativetab
-        itemStacks.add(new ItemStack(berryItem));
-        itemStacks.add(new ItemStack(juiceItem));
-        itemStacks.add(new ItemStack(pieItem));
-        itemStacks.add(new ItemStack(bushItem));
-        itemStacks.add(new ItemStack(cakeItem));
+        creativeTabItems.add(berryItem);
+        creativeTabItems.add(juiceItem);
+        creativeTabItems.add(pieItem);
+        creativeTabItems.add(bushItem);
+        creativeTabItems.add(cakeItem);
 
         // Candle cakes
         registerCandleCakes(name, cake);
 
         // Compost berries
-        CompostingChanceRegistry.INSTANCE.add(berryItem, 0.3f);
+        CompostableRegistry.INSTANCE.add(berryItem, 0.3f);
 
         return bush;
     }

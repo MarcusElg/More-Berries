@@ -69,7 +69,7 @@ public class BerryBushBlock extends SweetBerryBushBlock {
                         (serverWorldx, itemStack) -> Block.popResource(serverWorldx, blockPos, itemStack));
 
                 world.playSound((Player) null, blockPos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES,
-                        SoundSource.BLOCKS, 1.0F, 0.8F + world.random.nextFloat() * 0.4F);
+                        SoundSource.BLOCKS, 1.0F, 0.8F + world.getRandom().nextFloat() * 0.4F);
                 world.setBlock(blockPos, (BlockState) blockState.setValue(AGE, 1), 2);
             }
             return InteractionResult.SUCCESS;

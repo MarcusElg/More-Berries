@@ -5,8 +5,8 @@ import java.util.concurrent.CompletableFuture;
 import moreberries.MoreBerries;
 import moreberries.block.BerryBushBlock;
 import moreberries.block.CandleBerryCakeBlock;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootSubProvider;
 import net.minecraft.advancements.criterion.ItemPredicate;
 import net.minecraft.advancements.criterion.StatePropertiesPredicate;
 import net.minecraft.core.Holder.Reference;
@@ -27,11 +27,11 @@ import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
-public class MoreBerriesBlockLootTableProvider extends FabricBlockLootTableProvider {
+public class MoreBerriesBlockLootTableProvider extends FabricBlockLootSubProvider {
 
     HolderLookup.Provider lookup;
 
-    protected MoreBerriesBlockLootTableProvider(FabricDataOutput dataOutput,
+    protected MoreBerriesBlockLootTableProvider(FabricPackOutput dataOutput,
             CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(dataOutput, registriesFuture);
         this.lookup = registriesFuture.resultNow();

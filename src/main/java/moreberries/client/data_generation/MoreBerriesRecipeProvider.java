@@ -6,7 +6,7 @@ import java.util.concurrent.CompletableFuture;
 
 import moreberries.MoreBerries;
 import moreberries.config.CraftableBerryBushesResourceCondition;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -21,7 +21,7 @@ import net.minecraft.world.level.block.Blocks;
 
 public class MoreBerriesRecipeProvider extends FabricRecipeProvider {
 
-    public MoreBerriesRecipeProvider(FabricDataOutput output,
+    public MoreBerriesRecipeProvider(FabricPackOutput output,
             CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
@@ -141,7 +141,8 @@ public class MoreBerriesRecipeProvider extends FabricRecipeProvider {
 
                 // Optional berry bush recipes
                 for (int i = 0; i < MoreBerries.bushes.size(); i++) {
-                    ShapelessRecipeBuilder.shapeless(BuiltInRegistries.ITEM, RecipeCategory.FOOD, MoreBerries.bushes.get(i))
+                    ShapelessRecipeBuilder
+                            .shapeless(BuiltInRegistries.ITEM, RecipeCategory.FOOD, MoreBerries.bushes.get(i))
                             .requires(MoreBerries.berries.get(i)).requires(Blocks.OAK_LEAVES).group("berry_bushes")
                             .unlockedBy(RecipeProvider
                                     .getHasName(MoreBerries.berries.get(i)),
