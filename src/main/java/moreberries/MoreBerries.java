@@ -20,10 +20,10 @@ import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
 import net.fabricmc.fabric.api.registry.CompostableRegistry;
 import net.fabricmc.fabric.api.registry.LandPathTypeRegistry;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditionType;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
+import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
+import net.fabricmc.fabric.api.resource.v1.pack.PackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -148,11 +148,11 @@ public class MoreBerries implements ModInitializer {
 
         // Optional resource packs
         if (config.replaceSweetBerryBushModel) {
-            ResourceManagerHelper.registerBuiltinResourcePack(
+            ResourceLoader.registerBuiltinPack(
                     getId("modifiedsweetberrybushmodel"),
                     FabricLoader.getInstance().getModContainer(MOD_ID).get(),
                     Component.nullToEmpty("Modified Sweet Berry Bush Model"),
-                    ResourcePackActivationType.ALWAYS_ENABLED);
+                    PackActivationType.ALWAYS_ENABLED);
         }
 
         // Resource conditions
@@ -260,30 +260,30 @@ public class MoreBerries implements ModInitializer {
     // Register all 17 candle cakes for a specific berry
     private void registerCandleCakes(String berry, BerryCakeBlock cakeBlock) {
         registerCandleCake((CandleBlock) Blocks.CANDLE, cakeBlock, "", berry);
-        registerCandleCake((CandleBlock) Blocks.BLACK_CANDLE, cakeBlock, "black_", berry);
-        registerCandleCake((CandleBlock) Blocks.BLUE_CANDLE, cakeBlock, "blue_", berry);
-        registerCandleCake((CandleBlock) Blocks.BROWN_CANDLE, cakeBlock, "brown_", berry);
-        registerCandleCake((CandleBlock) Blocks.CYAN_CANDLE, cakeBlock, "cyan_", berry);
-        registerCandleCake((CandleBlock) Blocks.GRAY_CANDLE, cakeBlock, "gray_", berry);
-        registerCandleCake((CandleBlock) Blocks.GREEN_CANDLE, cakeBlock, "green_", berry);
-        registerCandleCake((CandleBlock) Blocks.LIME_CANDLE, cakeBlock, "lime_", berry);
-        registerCandleCake((CandleBlock) Blocks.MAGENTA_CANDLE, cakeBlock, "magenta_", berry);
-        registerCandleCake((CandleBlock) Blocks.ORANGE_CANDLE, cakeBlock, "orange_", berry);
-        registerCandleCake((CandleBlock) Blocks.PINK_CANDLE, cakeBlock, "pink_", berry);
-        registerCandleCake((CandleBlock) Blocks.PURPLE_CANDLE, cakeBlock, "purple_", berry);
-        registerCandleCake((CandleBlock) Blocks.RED_CANDLE, cakeBlock, "red_", berry);
-        registerCandleCake((CandleBlock) Blocks.WHITE_CANDLE, cakeBlock, "white_", berry);
-        registerCandleCake((CandleBlock) Blocks.YELLOW_CANDLE, cakeBlock, "yellow_", berry);
-        registerCandleCake((CandleBlock) Blocks.LIGHT_BLUE_CANDLE, cakeBlock, "light_blue_", berry);
-        registerCandleCake((CandleBlock) Blocks.LIGHT_GRAY_CANDLE, cakeBlock, "light_gray_", berry);
+        registerCandleCake((CandleBlock) Blocks.DYED_CANDLE.black(), cakeBlock, "black", berry);
+        registerCandleCake((CandleBlock) Blocks.DYED_CANDLE.blue(), cakeBlock, "blue", berry);
+        registerCandleCake((CandleBlock) Blocks.DYED_CANDLE.brown(), cakeBlock, "brown", berry);
+        registerCandleCake((CandleBlock) Blocks.DYED_CANDLE.cyan(), cakeBlock, "cyan", berry);
+        registerCandleCake((CandleBlock) Blocks.DYED_CANDLE.gray(), cakeBlock, "gray", berry);
+        registerCandleCake((CandleBlock) Blocks.DYED_CANDLE.green(), cakeBlock, "green", berry);
+        registerCandleCake((CandleBlock) Blocks.DYED_CANDLE.lime(), cakeBlock, "lime", berry);
+        registerCandleCake((CandleBlock) Blocks.DYED_CANDLE.magenta(), cakeBlock, "magenta", berry);
+        registerCandleCake((CandleBlock) Blocks.DYED_CANDLE.orange(), cakeBlock, "orange", berry);
+        registerCandleCake((CandleBlock) Blocks.DYED_CANDLE.pink(), cakeBlock, "pink", berry);
+        registerCandleCake((CandleBlock) Blocks.DYED_CANDLE.purple(), cakeBlock, "purple", berry);
+        registerCandleCake((CandleBlock) Blocks.DYED_CANDLE.red(), cakeBlock, "red", berry);
+        registerCandleCake((CandleBlock) Blocks.DYED_CANDLE.white(), cakeBlock, "white", berry);
+        registerCandleCake((CandleBlock) Blocks.DYED_CANDLE.yellow(), cakeBlock, "yellow", berry);
+        registerCandleCake((CandleBlock) Blocks.DYED_CANDLE.lightBlue(), cakeBlock, "light_blue", berry);
+        registerCandleCake((CandleBlock) Blocks.DYED_CANDLE.lightGray(), cakeBlock, "light_gray", berry);
     }
 
     // Register a single candle cake
     private void registerCandleCake(CandleBlock candle, BerryCakeBlock cake, String colour, String berry) {
         CandleBerryCakeBlock candleCake = new CandleBerryCakeBlock(candle, cake,
                 BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE).setId(ResourceKey.create(Registries.BLOCK,
-                        getId(String.format("%scandle_%s_berry_cake", colour, berry)))));
-        Identifier identifier = getId(String.format("%scandle_%s_berry_cake", colour, berry));
+                        getId(String.format("%s_candle_%s_berry_cake", colour, berry).replaceFirst("^_+", "")))));
+        Identifier identifier = getId(String.format("%s_candle_%s_berry_cake", colour, berry).replaceFirst("^_+", ""));
         Registry.register(BuiltInRegistries.BLOCK, identifier, candleCake);
         candleCakes.add(candleCake);
     }

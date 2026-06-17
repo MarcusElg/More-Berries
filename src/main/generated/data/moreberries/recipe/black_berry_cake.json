@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
   "group": "cakes",
   "key": {
     "B": "moreberries:black_berries",

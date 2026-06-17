@@ -5,7 +5,6 @@
     }
   ],
   "type": "minecraft:crafting_shapeless",
-  "category": "misc",
   "group": "berry_bushes",
   "ingredients": [
     "moreberries:yellow_berries",

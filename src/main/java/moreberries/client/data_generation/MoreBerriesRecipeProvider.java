@@ -116,16 +116,16 @@ public class MoreBerriesRecipeProvider extends FabricRecipeProvider {
                 }
 
                 // Dyes
-                ShapelessRecipeBuilder.shapeless(BuiltInRegistries.ITEM, RecipeCategory.MISC, Items.RED_DYE)
+                ShapelessRecipeBuilder.shapeless(BuiltInRegistries.ITEM, RecipeCategory.MISC, Items.DYE.red())
                         .requires(Items.SWEET_BERRIES).group("dyes")
                         .unlockedBy(RecipeProvider.getHasName(Items.SWEET_BERRIES),
                                 this.has(
                                         Items.SWEET_BERRIES))
                         .save(output);
 
-                List<Item> dyes = Arrays.asList(Items.BLUE_DYE, Items.YELLOW_DYE, Items.ORANGE_DYE,
-                        Items.PURPLE_DYE,
-                        Items.GREEN_DYE, Items.BLACK_DYE);
+                List<Item> dyes = Arrays.asList(Items.DYE.blue(), Items.DYE.yellow(), Items.DYE.orange(),
+                        Items.DYE.purple(),
+                        Items.DYE.green(), Items.DYE.black());
                 for (int i = 0; i < MoreBerries.berries.size(); i++) {
                     ShapelessRecipeBuilder
                             .shapeless(BuiltInRegistries.ITEM, RecipeCategory.MISC, dyes.get(i))
