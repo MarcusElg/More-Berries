@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "moreberries:yellow_berry_juice"
+        "recipes": "moreberries:yellow_berry_juice"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

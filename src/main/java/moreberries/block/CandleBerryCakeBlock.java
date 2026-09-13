@@ -1,7 +1,6 @@
 package moreberries.block;
 
 import com.google.common.collect.ImmutableList;
-import com.mojang.serialization.MapCodec;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -39,11 +38,6 @@ public class CandleBerryCakeBlock extends AbstractCandleBlock {
     private static final Iterable<Vec3> PARTICLE_OFFSETS = ImmutableList.of(new Vec3(0.5, 1.0, 0.5));
     public BerryCakeBlock cake;
     public CandleBlock candle;
-
-    @Override
-    public MapCodec<CandleCakeBlock> codec() {
-        return null;
-    }
 
     public CandleBerryCakeBlock(CandleBlock candle, BerryCakeBlock cake, Properties settings) {
         super(settings);

@@ -11,14 +11,12 @@ import moreberries.block.BerryCakeBlock;
 import moreberries.block.CandleBerryCakeBlock;
 import moreberries.config.CraftableBerryBushesResourceCondition;
 import moreberries.config.MoreBerriesConfig;
-import moreberries.item.JuiceItem;
 import moreberries.item.JuicerItem;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
-import net.fabricmc.fabric.api.registry.CompostableRegistry;
 import net.fabricmc.fabric.api.registry.LandPathTypeRegistry;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditionType;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
@@ -50,6 +48,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.pathfinder.PathType;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
 
 public class MoreBerries implements ModInitializer {
 
@@ -71,7 +70,7 @@ public class MoreBerries implements ModInitializer {
 
     // Items
     public static ArrayList<Item> berries = new ArrayList<>();
-    public static ArrayList<JuiceItem> juices = new ArrayList<>();
+    public static ArrayList<Item> juices = new ArrayList<>();
     public static ArrayList<Item> pies = new ArrayList<>();
     public static Item juicer;
 
@@ -98,10 +97,11 @@ public class MoreBerries implements ModInitializer {
         Registry.register(BuiltInRegistries.ITEM, getId("juicer"), juicer);
         creativeTabItems.add(juicer);
 
-        JuiceItem sweetBerryJuice = new JuiceItem(
+        Item sweetBerryJuice = new Item(
                 new Item.Properties().setId(ResourceKey.create(Registries.ITEM, getId("sweet_berry_juice")))
-                        .food(new FoodProperties.Builder().nutrition(3).saturationModifier(0.1f).build(),
-                                Consumables.DEFAULT_DRINK));
+                        .food(new FoodProperties.Builder().nutrition(3).saturationModifier(0.2F).build(),
+                                Consumables.DEFAULT_DRINK)
+                        .usingConvertsTo(Items.GLASS_BOTTLE));
         Registry.register(BuiltInRegistries.ITEM, getId("sweet_berry_juice"), sweetBerryJuice);
         creativeTabItems.add(sweetBerryJuice);
         juices.add(sweetBerryJuice);
@@ -196,11 +196,14 @@ public class MoreBerries implements ModInitializer {
         // Create items
         Item berryItem = new Item(new Item.Properties()
                 .setId(ResourceKey.create(Registries.ITEM, getId(String.format("%s_berries", name))))
+                .compostable(ContextIntProviders.COMPOSTABLE_LOW)
                 .food(new FoodProperties.Builder().nutrition(2).saturationModifier(0.1f).build()));
-        JuiceItem juiceItem = new JuiceItem(new Item.Properties()
+        Item juiceItem = new Item(new Item.Properties()
                 .setId(ResourceKey.create(Registries.ITEM, getId(String.format("%s_berry_juice", name))))
                 .stacksTo(16)
-                .food(new FoodProperties.Builder().nutrition(3).saturationModifier(0.2F).build()));
+                .food(new FoodProperties.Builder().nutrition(3).saturationModifier(0.2F).build(),
+                        Consumables.DEFAULT_DRINK)
+                .usingConvertsTo(Items.GLASS_BOTTLE));
         Item pieItem = new Item(new Item.Properties()
                 .setId(ResourceKey.create(Registries.ITEM, getId(String.format("%s_berry_pie", name))))
                 .food(Foods.PUMPKIN_PIE));
@@ -250,9 +253,6 @@ public class MoreBerries implements ModInitializer {
 
         // Candle cakes
         registerCandleCakes(name, cake);
-
-        // Compost berries
-        CompostableRegistry.INSTANCE.add(berryItem, 0.3f);
 
         return bush;
     }

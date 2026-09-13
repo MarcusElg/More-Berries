@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "moreberries:black_dye"
+        "recipes": "moreberries:black_dye"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

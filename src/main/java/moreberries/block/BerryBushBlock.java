@@ -62,6 +62,7 @@ public class BerryBushBlock extends SweetBerryBushBlock {
                                 MoreBerries.getId("harvest/"
                                         + this.getDescriptionId().replace("block." + MoreBerries.MOD_ID + ".",
                                                 ""))),
+                        blockPos,
                         blockState,
                         world.getBlockEntity(blockPos),
                         null,

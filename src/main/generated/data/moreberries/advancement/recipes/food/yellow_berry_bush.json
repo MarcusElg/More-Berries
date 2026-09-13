@@ -8,7 +8,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "moreberries:yellow_berry_bush"
+        "recipes": "moreberries:yellow_berry_bush"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "moreberries:purple_berry_juice"
+        "recipes": "moreberries:purple_berry_juice"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

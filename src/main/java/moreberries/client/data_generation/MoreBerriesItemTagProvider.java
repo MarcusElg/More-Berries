@@ -4,7 +4,6 @@ import java.util.concurrent.CompletableFuture;
 
 import moreberries.MoreBerries;
 import moreberries.block.BerryCakeBlock;
-import moreberries.item.JuiceItem;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider.ItemTagsProvider;
 import net.minecraft.core.HolderLookup.Provider;
@@ -25,7 +24,7 @@ public class MoreBerriesItemTagProvider extends ItemTagsProvider {
     protected void addTags(Provider arg) {
         TagBuilder tagBuilder = getOrCreateRawBuilder(
                 TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("dehydration", "hydrating_drinks")));
-        for (JuiceItem juice : MoreBerries.juices) {
+        for (Item juice : MoreBerries.juices) {
             tagBuilder.addElement(BuiltInRegistries.ITEM.getKey(juice));
         }
         tagBuilder = getOrCreateRawBuilder(TagKey.create(Registries.ITEM, Identifier.parse("fox_food")));
@@ -53,7 +52,7 @@ public class MoreBerriesItemTagProvider extends ItemTagsProvider {
         for (Item berry : MoreBerries.berries) {
             tagBuilder.addElement(BuiltInRegistries.ITEM.getKey(berry));
         }
-        for (JuiceItem juice : MoreBerries.juices) {
+        for (Item juice : MoreBerries.juices) {
             tagBuilder.addElement(BuiltInRegistries.ITEM.getKey(juice));
         }
         for (BerryCakeBlock cakeBlock : MoreBerries.cakes) {

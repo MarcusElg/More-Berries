@@ -18,7 +18,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "moreberries:blue_berry_bush"
+        "recipes": "moreberries:blue_berry_bush"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

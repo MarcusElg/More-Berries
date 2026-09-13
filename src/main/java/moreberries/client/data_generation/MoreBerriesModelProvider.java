@@ -6,7 +6,6 @@ import moreberries.MoreBerries;
 import moreberries.block.BerryBushBlock;
 import moreberries.block.BerryCakeBlock;
 import moreberries.block.CandleBerryCakeBlock;
-import moreberries.item.JuiceItem;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.client.color.item.GrassColorSource;
@@ -118,7 +117,7 @@ public class MoreBerriesModelProvider extends FabricModelProvider {
 
         // Juices
         itemModelGenerator.generateFlatItem(MoreBerries.juicer, ModelTemplates.FLAT_ITEM);
-        for (JuiceItem juice : MoreBerries.juices) {
+        for (Item juice : MoreBerries.juices) {
             itemModelGenerator.generateFlatItem(juice, ModelTemplates.FLAT_ITEM);
         }
 

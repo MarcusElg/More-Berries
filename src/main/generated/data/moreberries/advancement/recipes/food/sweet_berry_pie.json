@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "moreberries:sweet_berry_pie"
+        "recipes": "moreberries:sweet_berry_pie"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

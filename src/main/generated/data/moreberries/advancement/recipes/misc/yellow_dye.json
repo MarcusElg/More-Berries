@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "moreberries:yellow_dye"
+        "recipes": "moreberries:yellow_dye"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

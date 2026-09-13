@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "moreberries:juicer"
+        "recipes": "moreberries:juicer"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
